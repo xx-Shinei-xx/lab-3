@@ -16,7 +16,7 @@ def main():
     st.title("Poisson and Gaussian Distribution Adjustments")
 
     # GitHub repository URL
-    repo_url = "https://raw.githubusercontent.com/your_username/your_repo/main/"
+    repo_url = "https://github.com/xx-Shinei-xx/lab-3"
 
     # Load data from GitHub
     data1_url = repo_url + "data1.csv"
