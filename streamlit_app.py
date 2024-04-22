@@ -3,7 +3,7 @@ import numpy as np
 from scipy.stats import poisson, norm, chisquare
 import matplotlib.pyplot as plt
 
-# Step 1: Load the data
+# Step 1: Load the dataa
 data1 = pd.read_csv('data1.csv')
 
 # Step 2: Fit Poisson and Gaussian distributions to the data
