@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from scipy.stats import poisson, norm, chisquare
+from scipy.stats import poisson, norm, chi2
 import matplotlib.pyplot as plt
 
 
