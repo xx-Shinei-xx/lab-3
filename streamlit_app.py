@@ -57,3 +57,7 @@ print("Gaussian distribution - Chi2 =", chi2_statistic_normal1, "  p-value =", p
 print("\nChi-square test results for data2:")
 print("Poisson distribution - Chi2 =", chi2_statistic_poisson2, "  p-value =", p_value_poisson2)
 print("Gaussian distribution - Chi2 =", chi2_statistic_normal2, "  p-value =", p_value_normal2)
+
+# Run the main function when the script is executed
+if __name__ == '__main__':
+    main()
