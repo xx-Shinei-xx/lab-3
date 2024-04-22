@@ -6,8 +6,9 @@ def main():
     st.title("Poisson and Gaussian Distribution Adjustments")
 
     # Define file paths for CSV files
-    data1_file_path = 'data/data1.csv'  # Adjust the path according to your file location
-    data2_file_path = 'data/data2.csv'  # Adjust the path according to your file location
+    data1_file_path = pd.read_csv('data1.csv')  # Adjust the path according to your file location
+     
+    data2_file_path = pd.read_csv('data2.csv')  # Adjust the path according to your file location
 
     try:
         # Load data from CSV files
