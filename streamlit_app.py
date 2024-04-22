@@ -7,8 +7,8 @@ import requests
 def load_data(file_url):
     response = requests.get(file_url)
     if response.status_code == 200:
-        data = response.content.decode('utf-8').split('\n')
-        return [int(value) for value in data if value]
+        data = response.content.decode('utf-8')
+        return data
     else:
         return None
 
@@ -22,12 +22,12 @@ def main():
     data1_url = repo_url + "data1.csv"
     data2_url = repo_url + "data2.csv"
 
-    data1 = load_data(data1_url)
-    data2 = load_data(data2_url)
+    data1_content = load_data(data1_url)
+    data2_content = load_data(data2_url)
 
-    if data1 and data2:
-        data1 = pd.Series(data1)
-        data2 = pd.Series(data2)
+    if data1_content and data2_content:
+        data1 = pd.read_csv(pd.compat.StringIO(data1_content), header=None, squeeze=True)
+        data2 = pd.read_csv(pd.compat.StringIO(data2_content), header=None, squeeze=True)
 
         # Poisson distribution adjustment
         lambda_air = data1.mean()
