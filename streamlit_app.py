@@ -1,5 +1,8 @@
+import pandas as pd
 import numpy as np
-from scipy.stats import poisson, norm, chi2
+from scipy.stats import poisson, norm, chisquare
+import matplotlib.pyplot as plt
+
 
 # Sample data (replace with your actual data)
 data1 = np.array([10, 8, 12, 14, 9, 11, 13, 7, 10, 12])
@@ -20,8 +23,13 @@ normal_fit_data2 = norm(mean_data2, std_data2)
 
 # Define chi-square test function
 def chi_square_test(observed, expected):
+    # Ensure observed and expected have the same length
+    min_len = min(len(observed), len(expected))
+    observed = observed[:min_len]
+    expected = expected[:min_len]
+    
     chi2_statistic = np.sum((observed - expected)**2 / expected)
-    df = len(observed) - 1
+    df = min_len - 1
     p_value = 1 - chi2.cdf(chi2_statistic, df)
     return chi2_statistic, p_value
 
