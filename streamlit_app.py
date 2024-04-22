@@ -1,74 +1,51 @@
-import streamlit as st
-import pandas as pd
 import numpy as np
-from scipy.stats import poisson, norm, chisquare
-import matplotlib.pyplot as plt
+from scipy.stats import poisson, norm, chi2
 
-# Load data from CSV file
-@st.cache  # Cache data loading for improved performance
-def load_data(file_path):
-    return pd.read_csv(file_path)
+# Sample data (replace with your actual data)
+data1 = np.array([10, 8, 12, 14, 9, 11, 13, 7, 10, 12])
+data2 = np.array([25, 27, 30, 28, 26, 24, 29, 31, 27, 28])
 
-def main():
-    st.title('Distribution Fitting and Chi-Square Test')
+# Fit Poisson and Gaussian distributions to the data
+mu_poisson_data1 = np.mean(data1)
+poisson_fit_data1 = poisson(mu_poisson_data1)
 
-    # Sidebar for file upload and parameters
-    st.sidebar.header('Upload Data')
-    uploaded_file = st.sidebar.file_uploader("Upload CSV", type=['csv'])
+mean_data1, std_data1 = np.mean(data1), np.std(data1)
+normal_fit_data1 = norm(mean_data1, std_data1)
 
-    if uploaded_file is not None:
-        data = load_data(uploaded_file)
+mu_poisson_data2 = np.mean(data2)
+poisson_fit_data2 = poisson(mu_poisson_data2)
 
-        # Plot histogram
-        st.header('Histogram of Measurements')
-        plt.hist(data['measurement'], bins=20, alpha=0.75)
-        plt.xlabel('Measurement')
-        plt.ylabel('Frequency')
-        st.pyplot()
+mean_data2, std_data2 = np.mean(data2), np.std(data2)
+normal_fit_data2 = norm(mean_data2, std_data2)
 
-        # Fit Poisson distribution
-        mu_poisson = np.mean(data['measurement'])
-        poisson_vals = poisson.pmf(data['measurement'], mu_poisson)
+# Define chi-square test function
+def chi_square_test(observed, expected):
+    chi2_statistic = np.sum((observed - expected)**2 / expected)
+    df = len(observed) - 1
+    p_value = 1 - chi2.cdf(chi2_statistic, df)
+    return chi2_statistic, p_value
 
-        # Plot Poisson fit
-        st.header('Poisson Distribution Fit')
-        plt.hist(data['measurement'], bins=20, density=True, alpha=0.75, label='Data')
-        plt.plot(data['measurement'], poisson_vals, 'r-', lw=2, label='Poisson Fit')
-        plt.xlabel('Measurement')
-        plt.ylabel('Probability')
-        st.pyplot()
+# Perform chi-square tests for data1
+observed_counts1, _ = np.histogram(data1, bins=np.arange(0, np.max(data1)+2, 1))
+expected_counts_poisson1 = np.array([poisson_fit_data1.pmf(k) * len(data1) for k in range(np.max(data1)+1)])
+chi2_statistic_poisson1, p_value_poisson1 = chi_square_test(observed_counts1, expected_counts_poisson1)
 
-        # Fit Gaussian (Normal) distribution
-        mu_norm, sigma_norm = norm.fit(data['measurement'])
-        norm_vals = norm.pdf(data['measurement'], mu_norm, sigma_norm)
+expected_counts_normal1 = np.array([normal_fit_data1.pdf(x) * len(data1) for x in np.arange(np.min(data1), np.max(data1)+1, 1)])
+chi2_statistic_normal1, p_value_normal1 = chi_square_test(observed_counts1, expected_counts_normal1)
 
-        # Plot Normal fit
-        st.header('Normal Distribution Fit')
-        plt.hist(data['measurement'], bins=20, density=True, alpha=0.75, label='Data')
-        plt.plot(data['measurement'], norm_vals, 'r-', lw=2, label='Normal Fit')
-        plt.xlabel('Measurement')
-        plt.ylabel('Probability')
-        st.pyplot()
+# Perform chi-square tests for data2
+observed_counts2, _ = np.histogram(data2, bins=np.arange(0, np.max(data2)+2, 1))
+expected_counts_poisson2 = np.array([poisson_fit_data2.pmf(k) * len(data2) for k in range(np.max(data2)+1)])
+chi2_statistic_poisson2, p_value_poisson2 = chi_square_test(observed_counts2, expected_counts_poisson2)
 
-        # Perform Chi-Square Test
-        observed_counts, _ = np.histogram(data['measurement'], bins=20)
-        expected_counts_poisson = poisson_vals * len(data)
-        expected_counts_norm = norm_vals * len(data)
+expected_counts_normal2 = np.array([normal_fit_data2.pdf(x) * len(data2) for x in np.arange(np.min(data2), np.max(data2)+1, 1)])
+chi2_statistic_normal2, p_value_normal2 = chi_square_test(observed_counts2, expected_counts_normal2)
 
-        chi2_poisson, p_poisson = chisquare(observed_counts, expected_counts_poisson)
-        chi2_norm, p_norm = chisquare(observed_counts, expected_counts_norm)
+# Print results
+print("Chi-square test results for data1:")
+print("Poisson distribution - Chi2 =", chi2_statistic_poisson1, "  p-value =", p_value_poisson1)
+print("Gaussian distribution - Chi2 =", chi2_statistic_normal1, "  p-value =", p_value_normal1)
 
-        # Display Chi-Square Test Results
-        st.header('Chi-Square Test Results')
-        st.write(f'Poisson Fit: chi2 = {chi2_poisson:.2f}, p-value = {p_poisson:.4f}')
-        st.write(f'Normal Fit: chi2 = {chi2_norm:.2f}, p-value = {p_norm:.4f}')
-
-        # Compare p-values to determine the best fit
-        if p_poisson < p_norm:
-            st.write('Poisson distribution provides a better fit to the data.')
-        else:
-            st.write('Normal distribution provides a better fit to the data.')
-
-if __name__ == '__main__':
-    main()
-
+print("\nChi-square test results for data2:")
+print("Poisson distribution - Chi2 =", chi2_statistic_poisson2, "  p-value =", p_value_poisson2)
+print("Gaussian distribution - Chi2 =", chi2_statistic_normal2, "  p-value =", p_value_normal2)
