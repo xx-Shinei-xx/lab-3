@@ -19,7 +19,7 @@ def fit_and_test(data):
     # Fit Gaussian distribution
     gaussian_params = norm.fit(data) if len(data) > 0 else (0, 0)  # Fit Gaussian if data is not empty, otherwise use (0, 0)
 
-    return poisson_lambda, poisson_p_value, gaussian_params
+    return poisson_lambda, poisson_p_value, gaussian_params, bin_centers, expected_poisson
 
 def main():
     st.title("Distribution Fitting App")
@@ -36,12 +36,15 @@ def main():
 
     # Display histogram for Data 1
     fig1, ax1 = plt.subplots()
-    ax1.hist(data1['values'], bins='auto', alpha=0.75, color='blue', edgecolor='black')
-    ax1.set_title("Histogram for Data 1")
-    st.pyplot(fig1)
+    ax1.hist(data1['values'], bins='auto', alpha=0.75, color='blue', edgecolor='black', density=True)
 
     # Fit distributions and calculate goodness-of-fit for Data 1
-    poisson_lambda1, poisson_p_value1, gaussian_params1 = fit_and_test(data1['values'])
+    poisson_lambda1, poisson_p_value1, gaussian_params1, bin_centers1, expected_poisson1 = fit_and_test(data1['values'])
+    ax1.plot(bin_centers1, expected_poisson1, linestyle='-', color='red', label='Poisson Fit')
+    ax1.set_title("Histogram and Poisson Fit for Data 1")
+    ax1.legend()
+    st.pyplot(fig1)
+
     st.write(f"**Poisson Lambda (Data 1):** {poisson_lambda1:.4f}")
     st.write(f"**Poisson Chi-square p-value (Data 1):** {poisson_p_value1:.4f}")
     st.write("**Gaussian Fit Parameters (Data 1):**", gaussian_params1)
@@ -50,12 +53,15 @@ def main():
 
     # Display histogram for Data 2
     fig2, ax2 = plt.subplots()
-    ax2.hist(data2['values'], bins='auto', alpha=0.75, color='green', edgecolor='black')
-    ax2.set_title("Histogram for Data 2")
-    st.pyplot(fig2)
+    ax2.hist(data2['values'], bins='auto', alpha=0.75, color='green', edgecolor='black', density=True)
 
     # Fit distributions and calculate goodness-of-fit for Data 2
-    poisson_lambda2, poisson_p_value2, gaussian_params2 = fit_and_test(data2['values'])
+    poisson_lambda2, poisson_p_value2, gaussian_params2, bin_centers2, expected_poisson2 = fit_and_test(data2['values'])
+    ax2.plot(bin_centers2, expected_poisson2, linestyle='-', color='red', label='Poisson Fit')
+    ax2.set_title("Histogram and Poisson Fit for Data 2")
+    ax2.legend()
+    st.pyplot(fig2)
+
     st.write(f"**Poisson Lambda (Data 2):** {poisson_lambda2:.4f}")
     st.write(f"**Poisson Chi-square p-value (Data 2):** {poisson_p_value2:.4f}")
     st.write("**Gaussian Fit Parameters (Data 2):**", gaussian_params2)
