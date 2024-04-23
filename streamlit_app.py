@@ -1,53 +1,48 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from scipy.stats import poisson, norm
-from scipy.stats import chi2
+from scipy.stats import poisson, norm, chisquare
 
-# Streamlit app title
-st.title("Poisson and Gaussian Distribution Fitting")
+def fit_and_test(data, data_mean):
+    # Fit Poisson distribution
+    poisson_params = poisson.fit(data, floc=0)
+    poisson_pdf = poisson.pmf(data, *poisson_params[:-2])
+    _, poisson_p_value = chisquare(data, poisson_pdf)
 
-# File upload section
-data1_file = st.file_uploader("Upload data1.csv", type="csv")
-data2_file = st.file_uploader("Upload data2.csv", type="csv")
+    # Fit Gaussian distribution
+    gaussian_params = norm.fit(data)
+    gaussian_pdf = norm.pdf(data, *gaussian_params)
+    _, gaussian_p_value = chisquare(data, gaussian_pdf)
+    
+    return data_mean, poisson_p_value, gaussian_p_value
 
-if data1_file is not None and data2_file is not None:
-    # Read data from uploaded CSV files
-    data1 = pd.read_csv(data1_file, header=None, names=['values'])
-    data2 = pd.read_csv(data2_file, header=None, names=['values'])
+def main():
+    st.title("Distribution Fitting App")
 
-    # Poisson Fit for data1
-    data1_mean = data1['values'].mean()
-    poisson_params = poisson.fit(data1['values'].values, floc=0)
-    poisson_pdf = poisson.pmf(data1['values'], poisson_params[:-2])
-    poisson_chi2, poisson_p_value1 = chi2.cdft(poisson_pdf, data1['values'])
+    # Load data from CSV files
+    data1 = pd.read_csv('data1.csv', header=None, names=['values'])
+    data2 = pd.read_csv('data2.csv', header=None, names=['values'])
 
-    # Gaussian Fit for data1
-    gaussian_params = norm.fit(data1['values'].values)
-    gaussian_pdf = norm.pdf(data1['values'], gaussian_params[0], gaussian_params[1])
-    gaussian_chi2, gaussian_p_value1 = chi2.cdft(gaussian_pdf, data1['values'])
+    st.write("### Data 1 Preview")
+    st.write(data1.head())
+    st.write(f"**Mean of Data 1**: {data1['values'].mean():.2f}")
 
-    # Poisson Fit for data2
-    data2_mean = data2['values'].mean()
-    poisson_params = poisson.fit(data2['values'].values, floc=0)
-    poisson_pdf = poisson.pmf(data2['values'], poisson_params[:-2])
-    poisson_chi2, poisson_p_value2 = chi2.cdft(poisson_pdf, data2['values'])
+    st.write("### Data 2 Preview")
+    st.write(data2.head())
+    st.write(f"**Mean of Data 2**: {data2['values'].mean():.2f}")
 
-    # Gaussian Fit for data2
-    gaussian_params = norm.fit(data2['values'].values)
-    gaussian_pdf = norm.pdf(data2['values'], gaussian_params[0], gaussian_params[1])
-    gaussian_chi2, gaussian_p_value2 = chi2.cdft(gaussian_pdf, data2['values'])
+    if st.button("Fit Distributions"):
+        st.write("### Results for Data 1")
+        data1_values = data1['values'].values
+        mean1, poisson_p_value1, gaussian_p_value1 = fit_and_test(data1_values, data1['values'].mean())
+        st.write(f"**Poisson Fit**: chi2 p-value = {poisson_p_value1:.4f}")
+        st.write(f"**Gaussian Fit**: chi2 p-value = {gaussian_p_value1:.4f}")
 
-    # Display results
-    st.subheader("Results for data1.csv")
-    st.write(f"Poisson fit: mean = {data1_mean:.2f}, chi2 = {poisson_chi2:.2f}, p-value = {poisson_p_value1:.4f}")
-    st.write(f"Gaussian fit: mean = {gaussian_params[0]:.2f}, std = {gaussian_params[1]:.2f}, chi2 = {gaussian_chi2:.2f}, p-value = {gaussian_p_value1:.4f}")
+        st.write("### Results for Data 2")
+        data2_values = data2['values'].values
+        mean2, poisson_p_value2, gaussian_p_value2 = fit_and_test(data2_values, data2['values'].mean())
+        st.write(f"**Poisson Fit**: chi2 p-value = {poisson_p_value2:.4f}")
+        st.write(f"**Gaussian Fit**: chi2 p-value = {gaussian_p_value2:.4f}")
 
-    st.subheader("Results for data2.csv")
-    st.write(f"Poisson fit: mean = {data2_mean:.2f}, chi2 = {poisson_chi2:.2f}, p-value = {poisson_p_value2:.4f}")
-    st.write(f"Gaussian fit: mean = {gaussian_params[0]:.2f}, std = {gaussian_params[1]:.2f}, chi2 = {gaussian_chi2:.2f}, p-value = {gaussian_p_value2:.4f}")
-
-else:
-    st.warning("Please upload both data1.csv and data2.csv files.")
 if __name__ == "__main__":
     main()
