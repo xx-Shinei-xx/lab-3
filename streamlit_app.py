@@ -69,6 +69,8 @@ def main():
     # Mostrar resultado de la prueba χ² y la distribución que se adapta mejor
     st.subheader('Resultado de la Prueba χ² y Distribución Óptima')
     st.write(f'Valor p de la prueba χ²: {valor_p:.4f}')
+
+    # Determinar qué distribución se adapta mejor al caso experimental
     if valor_p < 0.05:
         st.write('La distribución Gaussiana se adapta mejor al caso experimental.')
     else:
