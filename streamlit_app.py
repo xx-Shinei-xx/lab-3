@@ -7,9 +7,6 @@ import matplotlib.pyplot as plt
 # Cargar datos desde el archivo CSV en el mismo directorio
 data1 = pd.read_csv('data1.csv')
 
-# Verificar los nombres de las columnas de data1
-st.write("Nombres de Columnas:", data1.columns)
-
 # Identificar el nombre correcto de la columna para las mediciones
 columna_mediciones = "decaimiento solo con el aire"  # Ajustar según el nombre real de la columna
 
@@ -19,10 +16,6 @@ mediciones = data1[columna_mediciones]
 # Definir la aplicación Streamlit
 def main():
     st.title('Ajuste de Distribución y Prueba χ²')
-
-    # Mostrar una porción de los datos cargados
-    st.subheader('Datos de Ejemplo')
-    st.write(data1.head())
 
     # Mostrar histograma de las mediciones
     st.subheader('Histograma de Mediciones')
@@ -56,4 +49,3 @@ def main():
 # Ejecutar la aplicación
 if __name__ == '__main__':
     main()
-    
