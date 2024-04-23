@@ -41,6 +41,11 @@ def main():
         y_fit = poisson.pmf(x_fit, lambda_poisson) * len(mediciones)
         plt.plot(x_fit, y_fit, color='red', label=f'Ajuste Poisson (λ={lambda_poisson})')
 
+        # Calcular la tabla de contingencia para Poisson
+        frecuencias_observadas, _ = np.histogram(mediciones, bins=num_bins, range=(range_min, range_max))
+        valores_esperados = y_fit
+        tabla_contingencia = np.vstack((frecuencias_observadas, valores_esperados)).T
+
     elif tipo_distribucion == 'Gaussiana':
         # Ajuste de distribución Gaussiana
         media = st.slider('Media:', min_value=0.0, max_value=10.0, value=5.0, step=0.1)
@@ -48,24 +53,26 @@ def main():
         y_fit = norm.pdf(x_fit, media, desviacion_estandar) * len(mediciones)
         plt.plot(x_fit, y_fit, color='red', label=f'Ajuste Gaussiano (Media={media}, Desv. Estándar={desviacion_estandar})')
 
+        # Calcular la tabla de contingencia para Gaussiana
+        frecuencias_observadas, _ = np.histogram(mediciones, bins=num_bins, range=(range_min, range_max))
+        valores_esperados = y_fit
+        tabla_contingencia = np.vstack((frecuencias_observadas, valores_esperados)).T
+
     # Mostrar leyenda y configurar diseño
     plt.legend()
     plt.grid(True)
     st.pyplot()
 
-    # Calcular la tabla de contingencia
-    frecuencias_observadas, _ = np.histogram(mediciones, bins=num_bins, range=(range_min, range_max))
-    valores_esperados = y_fit
-
-    # Corregir la estructura de la tabla de contingencia
-    tabla_contingencia = np.vstack((frecuencias_observadas, valores_esperados)).T
-
-    # Realizar la prueba χ² de contingencia
+    # Realizar la prueba χ² de contingencia y determinar la mejor distribución
     chi2, valor_p, _, _ = chi2_contingency(tabla_contingencia)
 
-    # Mostrar resultado de la prueba χ²
-    st.subheader('Resultado de la Prueba χ²')
+    # Mostrar resultado de la prueba χ² y la distribución que se adapta mejor
+    st.subheader('Resultado de la Prueba χ² y Distribución Óptima')
     st.write(f'Valor p de la prueba χ²: {valor_p:.4f}')
+    if valor_p < 0.05:
+        st.write('La distribución Gaussiana se adapta mejor al caso experimental.')
+    else:
+        st.write('La distribución Poisson se adapta mejor al caso experimental.')
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
