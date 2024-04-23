@@ -1,62 +1,59 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import poisson, norm, chisquare
+from scipy.stats import poisson, norm
+from scipy.stats import chi2
 
-def fit_and_test(data):
-    # Create a histogram to estimate observed frequencies
-    counts, bin_edges = np.histogram(data, bins='auto')
-    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+# Streamlit app title
+st.title("Poisson and Gaussian Distribution Fitting")
 
-    # Fit Poisson distribution
-    poisson_lambda = np.mean(data)  # Use sample mean as Poisson lambda parameter
-    expected_poisson = poisson.pmf(bin_centers, poisson_lambda) * len(data)
+# File upload section
+data1_file = st.file_uploader("Upload data1.csv", type="csv")
+data2_file = st.file_uploader("Upload data2.csv", type="csv")
 
-    # Compute chi-square goodness-of-fit statistic
-    _, poisson_p_value = chisquare(counts, f_exp=expected_poisson)
+if data1_file is not None and data2_file is not None:
+    # Read data from uploaded CSV files
+    data1 = pd.read_csv(data1_file, header=None, names=['values'])
+    data2 = pd.read_csv(data2_file, header=None, names=['values'])
 
-    # Fit Gaussian distribution
-    gaussian_params = norm.fit(data)
+    # Convert strings to numbers and handle non-convertible values
+    data1['values'] = pd.to_numeric(data1['values'], errors='coerce')
+    data2['values'] = pd.to_numeric(data2['values'], errors='coerce')
 
-    return poisson_lambda, poisson_p_value, gaussian_params
+    # Drop rows with non-numeric values
+    data1 = data1.dropna(subset=['values'])
+    data2 = data2.dropna(subset=['values'])
 
-def main():
-    st.title("Distribution Fitting App")
+    # Poisson Fit for data1
+    data1_mean = data1['values'].mean()
+    poisson_params = poisson.fit(data1['values'].values, floc=0)
+    poisson_pdf = poisson.pmf(data1['values'], poisson_params[:-2])
+    poisson_chi2, poisson_p_value1 = chi2.cdft(poisson_pdf, data1['values'])
 
-    # Load data from CSV files
-    data1 = pd.read_csv('data1.csv', header=None, names=['values'])
-    data2 = pd.read_csv('data2.csv', header=None, names=['values'])
+    # Gaussian Fit for data1
+    gaussian_params = norm.fit(data1['values'].values)
+    gaussian_pdf = norm.pdf(data1['values'], gaussian_params[0], gaussian_params[1])
+    gaussian_chi2, gaussian_p_value1 = chi2.cdft(gaussian_pdf, data1['values'])
 
-    st.header("Data 1")
+    # Poisson Fit for data2
+    data2_mean = data2['values'].mean()
+    poisson_params = poisson.fit(data2['values'].values, floc=0)
+    poisson_pdf = poisson.pmf(data2['values'], poisson_params[:-2])
+    poisson_chi2, poisson_p_value2 = chi2.cdft(poisson_pdf, data2['values'])
 
-    # Display histogram for Data 1
-    fig1, ax1 = plt.subplots()
-    ax1.hist(data1['values'], bins='auto', alpha=0.75, color='blue', edgecolor='black')
-    ax1.set_title("Histogram for Data 1")
-    st.pyplot(fig1)
+    # Gaussian Fit for data2
+    gaussian_params = norm.fit(data2['values'].values)
+    gaussian_pdf = norm.pdf(data2['values'], gaussian_params[0], gaussian_params[1])
+    gaussian_chi2, gaussian_p_value2 = chi2.cdft(gaussian_pdf, data2['values'])
 
-    # Fit distributions and calculate goodness-of-fit for Data 1
-    poisson_lambda1, poisson_p_value1, gaussian_params1 = fit_and_test(data1['values'])
+    # Display results
+    st.subheader("Results for data1.csv")
+    st.write(f"Poisson fit: mean = {data1_mean:.2f}, chi2 = {poisson_chi2:.2f}, p-value = {poisson_p_value1:.4f}")
+    st.write(f"Gaussian fit: mean = {gaussian_params[0]:.2f}, std = {gaussian_params[1]:.2f}, chi2 = {gaussian_chi2:.2f}, p-value = {gaussian_p_value1:.4f}")
 
-    st.write(f"**Poisson Lambda (Data 1):** {poisson_lambda1:.4f}")
-    st.write(f"**Poisson Chi-square p-value (Data 1):** {poisson_p_value1:.4f}")
-    st.write("**Gaussian Fit Parameters (Data 1):**", gaussian_params1)
+    st.subheader("Results for data2.csv")
+    st.write(f"Poisson fit: mean = {data2_mean:.2f}, chi2 = {poisson_chi2:.2f}, p-value = {poisson_p_value2:.4f}")
+    st.write(f"Gaussian fit: mean = {gaussian_params[0]:.2f}, std = {gaussian_params[1]:.2f}, chi2 = {gaussian_chi2:.2f}, p-value = {gaussian_p_value2:.4f}")
 
-    st.header("Data 2")
-
-    # Display histogram for Data 2
-    fig2, ax2 = plt.subplots()
-    ax2.hist(data2['values'], bins='auto', alpha=0.75, color='green', edgecolor='black')
-    ax2.set_title("Histogram for Data 2")
-    st.pyplot(fig2)
-
-    # Fit distributions and calculate goodness-of-fit for Data 2
-    poisson_lambda2, poisson_p_value2, gaussian_params2 = fit_and_test(data2['values'])
-
-    st.write(f"**Poisson Lambda (Data 2):** {poisson_lambda2:.4f}")
-    st.write(f"**Poisson Chi-square p-value (Data 2):** {poisson_p_value2:.4f}")
-    st.write("**Gaussian Fit Parameters (Data 2):**", gaussian_params2)
-
-if __name__ == "__main__":
-    main()
+else:
+    st.warning("Please upload both data1.csv and data2.csv files.")
