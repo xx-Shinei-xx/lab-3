@@ -58,4 +58,6 @@ def main():
     st.subheader('Resultado de la Prueba χ²')
     st.write(f'Valor p de la prueba χ²: {valor_p:.4f}')
 
-
+# Ejecutar la aplicación
+if __name__ == '__main__':
+    main()
