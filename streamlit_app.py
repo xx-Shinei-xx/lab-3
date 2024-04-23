@@ -53,10 +53,15 @@ def main():
     plt.grid(True)
     st.pyplot()
 
-    # Realizar la prueba χ² de contingencia
+    # Calcular la tabla de contingencia
     frecuencias_observadas, _ = np.histogram(mediciones, bins=num_bins, range=(range_min, range_max))
     valores_esperados = y_fit
-    chi2, valor_p = chi2_contingency(np.array([frecuencias_observadas, valores_esperados]).T)
+
+    # Corregir la estructura de la tabla de contingencia
+    tabla_contingencia = np.vstack((frecuencias_observadas, valores_esperados)).T
+
+    # Realizar la prueba χ² de contingencia
+    chi2, valor_p, _, _ = chi2_contingency(tabla_contingencia)
 
     # Mostrar resultado de la prueba χ²
     st.subheader('Resultado de la Prueba χ²')
