@@ -25,6 +25,11 @@ def fit_and_test(data):
     poisson_lambda = np.mean(data_clean)
     expected_poisson = poisson.pmf(bin_centers, poisson_lambda) * len(data_clean)
 
+    # Check shapes of counts and expected_poisson arrays
+    if counts.shape != expected_poisson.shape:
+        st.warning("Mismatch in shapes of observed counts and expected Poisson probabilities.")
+        return 0, 1, (0, 0), [], []
+
     # Compute chi-square goodness-of-fit statistic
     _, poisson_p_value = chisquare(counts, f_exp=expected_poisson)
 
