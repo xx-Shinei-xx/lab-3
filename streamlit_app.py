@@ -21,7 +21,7 @@ def main():
         # Poisson distribution fitting
         poisson_lambda = st.slider('λ (Poisson parameter):', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
         expected_values = [poisson.pmf(k, poisson_lambda) * len(data1) for k in range(len(data1))]
-        observed_values = data1['<column_name>'].values  # Replace '<column_name>' with your actual column name
+        observed_values = data1['measurements'].values
         _, p_value = chi2_contingency([observed_values, expected_values])
 
         st.subheader(f'Poisson Distribution (λ={poisson_lambda})')
@@ -32,8 +32,8 @@ def main():
         # Gaussian distribution fitting
         mean = st.slider('Mean:', min_value=0.0, max_value=10.0, value=5.0, step=0.1)
         std_dev = st.slider('Standard Deviation:', min_value=0.1, max_value=5.0, value=1.0, step=0.1)
-        expected_values = [norm.pdf(x, mean, std_dev) * len(data1) for x in data1['<column_name>']]
-        observed_values = data1['<column_name>'].values  # Replace '<column_name>' with your actual column name
+        expected_values = [norm.pdf(x, mean, std_dev) * len(data1) for x in data1['measurements']]
+        observed_values = data1['measurements'].values
         _, p_value = chi2_contingency([observed_values, expected_values])
 
         st.subheader(f'Gaussian Distribution (Mean={mean}, Std Dev={std_dev})')
@@ -43,3 +43,4 @@ def main():
 # Run the app
 if __name__ == '__main__':
     main()
+
