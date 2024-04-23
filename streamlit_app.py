@@ -4,6 +4,9 @@ import streamlit as st
 from scipy.stats import poisson, norm, chi2_contingency
 import matplotlib.pyplot as plt
 
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 # Load data from CSV file in the same directory
 data1 = pd.read_csv('data1.csv')
 
