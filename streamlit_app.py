@@ -1,40 +1,43 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
-from scipy.stats import poisson, norm
-from scipy.stats import chi2
+from scipy.stats import poisson, norm, chisquare
 
-# Read data from CSV files
-data1 = pd.read_csv('data1.csv', header=None, names=['values'])
-data2 = pd.read_csv('data2.csv', header=None, names=['values'])
+def fit_and_test(data, data_mean):
+    # Fit Poisson distribution
+    poisson_params = poisson.fit(data, floc=0)
+    poisson_pdf = poisson.pmf(data, *poisson_params[:-2])
+    _, poisson_p_value = chisquare(data, poisson_pdf)
 
-# Poisson Fit for data1
-data1_mean = data1['values'].mean()
-poisson_params = poisson.fit(data1['values'].values, floc=0)
-poisson_pdf = poisson.pmf(data1['values'], poisson_params[:-2])
-poisson_chi2, poisson_p_value1 = chi2.cdft(poisson_pdf, data1['values'])
+    # Fit Gaussian distribution
+    gaussian_params = norm.fit(data)
+    gaussian_pdf = norm.pdf(data, *gaussian_params)
+    _, gaussian_p_value = chisquare(data, gaussian_pdf)
+    
+    return data_mean, poisson_p_value, gaussian_p_value
 
-# Gaussian Fit for data1
-gaussian_params = norm.fit(data1['values'].values)
-gaussian_pdf = norm.pdf(data1['values'], gaussian_params[0], gaussian_params[1])
-gaussian_chi2, gaussian_p_value1 = chi2.cdft(gaussian_pdf, data1['values'])
+def main():
+    st.title("Distribution Fitting App")
+    st.write("Upload your CSV file")
 
-# Poisson Fit for data2
-data2_mean = data2['values'].mean()
-poisson_params = poisson.fit(data2['values'].values, floc=0)
-poisson_pdf = poisson.pmf(data2['values'], poisson_params[:-2])
-poisson_chi2, poisson_p_value2 = chi2.cdft(poisson_pdf, data2['values'])
+    uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
 
-# Gaussian Fit for data2
-gaussian_params = norm.fit(data2['values'].values)
-gaussian_pdf = norm.pdf(data2['values'], gaussian_params[0], gaussian_params[1])
-gaussian_chi2, gaussian_p_value2 = chi2.cdft(gaussian_pdf, data2['values'])
+    if uploaded_file is not None:
+        df = pd.read_csv(uploaded_file)
+        st.write("### Data Preview")
+        st.write(df.head())
 
-print(f"Poisson fit for data1: mean = {data1_mean:.2f}, chi2 = {poisson_chi2:.2f}, p-value = {poisson_p_value1:.4f}")
-print(f"Gaussian fit for data1: mean = {gaussian_params[0]:.2f}, std = {gaussian_params[1]:.2f}, chi2 = {gaussian_chi2:.2f}, p-value = {gaussian_p_value1:.4f}")
+        data_mean = df.mean().values[0]
+        st.write(f"**Mean of Data**: {data_mean:.2f}")
 
-print(f"\nPoisson fit for data2: mean = {data2_mean:.2f}, chi2 = {poisson_chi2:.2f}, p-value = {poisson_p_value2:.4f}")
-print(f"Gaussian fit for data2: mean = {gaussian_params[0]:.2f}, std = {gaussian_params[1]:.2f}, chi2 = {gaussian_chi2:.2f}, p-value = {gaussian_p_value2:.4f}")
+        if st.button("Fit Distributions"):
+            data_values = df.iloc[:, 0].values
 
+            mean, poisson_p_value, gaussian_p_value = fit_and_test(data_values, data_mean)
+
+            st.write("### Results")
+            st.write(f"**Poisson Fit**: chi2 p-value = {poisson_p_value:.4f}")
+            st.write(f"**Gaussian Fit**: chi2 p-value = {gaussian_p_value:.4f}")
 
 if __name__ == "__main__":
     main()
