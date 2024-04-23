@@ -1,14 +1,15 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-from scipy.stats import poisson, norm, chi2_contingency
+from scipy.stats import poisson, norm
+from scipy.stats import chi2_contingency
 import matplotlib.pyplot as plt
 
 # Cargar datos desde el archivo CSV en el mismo directorio
 data1 = pd.read_csv('data1.csv')
 
 # Identificar el nombre correcto de la columna para las mediciones
-columna_mediciones = "decaimiento solo con el aire"  # Ajustar según el nombre real de la columna
+columna_mediciones = "decaimiento solo con el aire" # Ajustar según el nombre real de la columna
 
 # Extraer las mediciones del DataFrame
 mediciones = data1[columna_mediciones]
@@ -19,7 +20,7 @@ def main():
 
     # Mostrar histograma de las mediciones con parámetros interactivos
     st.subheader('Histograma de Mediciones')
-    
+
     # Parámetros interactivos del histograma
     num_bins = st.slider('Número de Bins:', min_value=5, max_value=50, value=20)
     range_min = st.slider('Valor Mínimo:', min_value=int(mediciones.min()), max_value=int(mediciones.max()), value=int(mediciones.min()))
@@ -38,7 +39,7 @@ def main():
     if tipo_distribucion == 'Poisson':
         # Ajuste de distribución de Poisson
         lambda_poisson = st.slider('λ (parámetro Poisson):', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
-        valores_esperados = [poisson.pmf(k, lambda_poisson) * len(mediciones) for k in range(len(mediciones))]
+        valores_esperados = [poisson.pmf(k, lambda_poisson) * len(mediciones) for k in range(int(mediciones.max()) + 1)]
         frecuencias_observadas, _ = np.histogram(mediciones, bins=len(valores_esperados))
 
     elif tipo_distribucion == 'Gaussiana':
