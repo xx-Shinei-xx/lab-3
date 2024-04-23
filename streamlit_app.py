@@ -4,55 +4,56 @@ import streamlit as st
 from scipy.stats import poisson, norm, chi2_contingency
 import matplotlib.pyplot as plt
 
-# Load data from CSV file in the same directory
+# Cargar datos desde el archivo CSV en el mismo directorio
 data1 = pd.read_csv('data1.csv')
 
-# Check the column names of data1
-st.write("Column Names:", data1.columns)
+# Verificar los nombres de las columnas de data1
+st.write("Nombres de Columnas:", data1.columns)
 
-# Identify the correct column name for measurements
-measurements_column = "decaimiento solo con el aire"  # Adjust based on the actual column name
+# Identificar el nombre correcto de la columna para las mediciones
+columna_mediciones = "decaimiento solo con el aire"  # Ajustar según el nombre real de la columna
 
-# Extract measurements from the DataFrame
-measurements = data1[measurements_column]
+# Extraer las mediciones del DataFrame
+mediciones = data1[columna_mediciones]
 
-# Define the Streamlit app
+# Definir la aplicación Streamlit
 def main():
-    st.title('Distribution Fitting and χ² Test')
+    st.title('Ajuste de Distribución y Prueba χ²')
 
-    # Display a portion of the loaded data
-    st.subheader('Sample Data')
+    # Mostrar una porción de los datos cargados
+    st.subheader('Datos de Ejemplo')
     st.write(data1.head())
 
-    # Display histogram of measurements
-    st.subheader('Histogram of Measurements')
-    plt.hist(measurements, bins=20, color='skyblue', edgecolor='black')
+    # Mostrar histograma de las mediciones
+    st.subheader('Histograma de Mediciones')
+    plt.hist(mediciones, bins=20, color='skyblue', edgecolor='black')
     st.pyplot()
 
-    # Buttons to choose distribution type
-    distribution_type = st.radio("Select Distribution:", ('Poisson', 'Gaussian'))
+    # Botones para elegir el tipo de distribución
+    tipo_distribucion = st.radio("Seleccionar Distribución:", ('Poisson', 'Gaussiana'))
 
-    if distribution_type == 'Poisson':
-        # Poisson distribution fitting
-        poisson_lambda = st.slider('λ (Poisson parameter):', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
-        expected_values = [poisson.pmf(k, poisson_lambda) * len(measurements) for k in range(len(measurements))]
-        observed_counts, _ = np.histogram(measurements, bins=len(expected_values))
-        _, p_value, _, _ = chi2_contingency([observed_counts, expected_values])
+    if tipo_distribucion == 'Poisson':
+        # Ajuste de distribución de Poisson
+        lambda_poisson = st.slider('λ (parámetro Poisson):', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
+        valores_esperados = [poisson.pmf(k, lambda_poisson) * len(mediciones) for k in range(len(mediciones))]
+        frecuencias_observadas, _ = np.histogram(mediciones, bins=len(valores_esperados))
+        _, valor_p, _, _ = chi2_contingency([frecuencias_observadas, valores_esperados])
 
-        st.subheader(f'Poisson Distribution (λ={poisson_lambda})')
-        st.write(f'χ² Test p-value: {p_value:.4f}')
+        st.subheader(f'Distribución de Poisson (λ={lambda_poisson})')
+        st.write(f'Valor p de la prueba χ²: {valor_p:.4f}')
 
-    elif distribution_type == 'Gaussian':
-        # Gaussian distribution fitting
-        mean = st.slider('Mean:', min_value=0.0, max_value=10.0, value=5.0, step=0.1)
-        std_dev = st.slider('Standard Deviation:', min_value=0.1, max_value=5.0, value=1.0, step=0.1)
-        expected_values = [norm.pdf(x, mean, std_dev) * len(measurements) for x in measurements]
-        observed_counts, _ = np.histogram(measurements, bins=len(expected_values))
-        _, p_value, _, _ = chi2_contingency([observed_counts, expected_values])
+    elif tipo_distribucion == 'Gaussiana':
+        # Ajuste de distribución Gaussiana
+        media = st.slider('Media:', min_value=0.0, max_value=10.0, value=5.0, step=0.1)
+        desviacion_estandar = st.slider('Desviación Estándar:', min_value=0.1, max_value=5.0, value=1.0, step=0.1)
+        valores_esperados = [norm.pdf(x, media, desviacion_estandar) * len(mediciones) for x in mediciones]
+        frecuencias_observadas, _ = np.histogram(mediciones, bins=len(valores_esperados))
+        _, valor_p, _, _ = chi2_contingency([frecuencias_observadas, valores_esperados])
 
-        st.subheader(f'Gaussian Distribution (Mean={mean}, Std Dev={std_dev})')
-        st.write(f'χ² Test p-value: {p_value:.4f}')
+        st.subheader(f'Distribución Gaussiana (Media={media}, Desv. Estándar={desviacion_estandar})')
+        st.write(f'Valor p de la prueba χ²: {valor_p:.4f}')
 
-# Run the app
+# Ejecutar la aplicación
 if __name__ == '__main__':
     main()
+    
