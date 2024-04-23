@@ -7,8 +7,14 @@ import matplotlib.pyplot as plt
 # Load data from CSV file in the same directory
 data1 = pd.read_csv('data1.csv')
 
+# Check the column names of data1
+st.write("Column Names:", data1.columns)
+
+# Identify the correct column name for measurements
+measurements_column = "decaimiento solo con el aire"  # Adjust based on the actual column name
+
 # Extract measurements from the DataFrame
-measurements = data1['measurements']
+measurements = data1[measurements_column]
 
 # Define the Streamlit app
 def main():
@@ -48,3 +54,4 @@ def main():
 # Run the app
 if __name__ == '__main__':
     main()
+
