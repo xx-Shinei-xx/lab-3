@@ -36,5 +36,5 @@ print(f"\nPoisson fit for data2: mean = {data2_mean:.2f}, chi2 = {poisson_chi2:.
 print(f"Gaussian fit for data2: mean = {gaussian_params[0]:.2f}, std = {gaussian_params[1]:.2f}, chi2 = {gaussian_chi2:.2f}, p-value = {gaussian_p_value2:.4f}")
 
 
-#if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()
