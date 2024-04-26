@@ -1,40 +1,65 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
-from scipy.stats import norm, poisson
+from scipy.stats import poisson, norm
+from scipy.optimize import curve_fit
 
-# Función para graficar la distribución gaussiana
-def plot_gaussian_distribution(data):
-    mu, std = np.mean(data), np.std(data)
-    x = np.linspace(mu - 3*std, mu + 3*std, 100)
-    y = norm.pdf(x, mu, std)
-    fig = go.Figure(data=go.Scatter(x=x, y=y))
-    fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
+# Cargar datos
+data1 = pd.read_csv('data1.csv')
+data2 = pd.read_csv('data2.csv')
+
+# Definir funciones para ajustar distribuciones
+def ajustar_poisson(data_column):
+    # Ajustar distribución de Poisson
+    params = poisson.fit(data_column)
+    return params
+
+def ajustar_gaussiana(data):
+    # Ajustar distribución gaussiana
+    media, desviacion = norm.fit(data)
+    return media, desviacion
+
+# Aplicación Streamlit
+st.title('Histogramas de Distribuciones')
+
+# Controles del panel lateral
+distribucion = st.sidebar.selectbox(
+    'Seleccionar Distribución',
+    ('Poisson', 'Gaussiana')
+)
+
+# Botón para cambiar entre data1 y data2
+dataset = st.sidebar.radio("Seleccione el conjunto de datos:", ('data1', 'data2'))
+
+# Seleccionar el conjunto de datos apropiado
+if dataset == 'data1':
+    data = data1
+else:
+    data = data2
+
+# Trazar histogramas y ajustes
+if distribucion == 'Poisson':
+    st.header('Distribución de Poisson')
+
+    # Ajustar distribución de Poisson usando los datos seleccionados
+    params = ajustar_poisson(data['Decaimiento solo con el aire'])
+
+    # Crear histograma con Plotly
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(x=data['Decaimiento solo con el aire'], marker_color='blue', opacity=0.6))
+    fig.update_layout(title_text='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
 
-# Función para graficar la distribución de Poisson
-def plot_poisson_distribution(data):
-    mu = np.mean(data)
-    x = np.arange(0, max(data) + 1)
-    y = poisson.pmf(x, mu)
-    fig = go.Figure(data=go.Scatter(x=x, y=y, mode='markers+lines'))
-    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
+elif distribucion == 'Gaussiana':
+    st.header('Distribución Gaussiana')
+
+    # Ajustar distribución gaussiana usando los datos seleccionados
+    media, desviacion = ajustar_gaussiana(data['Decaimiento solo con el aire'].values)
+
+    # Crear histograma con Plotly
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(x=data['Decaimiento solo con el aire'], marker_color='blue', opacity=0.6))
+    fig.update_layout(title_text='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
-
-# Cargar los datos desde el archivo CSV
-data = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
-
-# Crear la aplicación Streamlit
-st.title('Distribuciones Estadísticas')
-
-# Agregar un botón para cambiar entre las distribuciones
-distribution = st.radio('Seleccionar distribución:', ('Gaussiana', 'Poisson'))
-
-# Mostrar la distribución seleccionada
-if distribution == 'Gaussiana':
-    plot_gaussian_distribution(data)
-elif distribution == 'Poisson':
-    plot_poisson_distribution(data)
-  
-    if __name__ == "__main__":
-    main()
+    
