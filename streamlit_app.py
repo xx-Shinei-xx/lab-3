@@ -6,7 +6,7 @@ from scipy.stats import poisson, norm
 
 # Load data from CSV file
 @st.cache  # Cache the data for improved performance
-def load_data('data10.csv'):
+def load_data(data10.csv):
     return pd.read_csv('data10.csv')
 
 # Function to generate plot based on distribution type and parameters
