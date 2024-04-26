@@ -1,11 +1,13 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from scipy.stats import poisson, norm
+from scipy.optimize import curve_fit
 
 # Cargar datos
 data1 = pd.read_csv('data1.csv')
+data2 = pd.read_csv('data2.csv')
 
 # Definir funciones para ajustar distribuciones
 def ajustar_poisson(data):
@@ -18,24 +20,6 @@ def ajustar_gaussiana(data):
     media, desviacion = norm.fit(data)
     return media, desviacion
 
-# Definir funciones para trazar histogramas
-def trazar_histograma(data, bins, titulo):
-    plt.hist(data, bins=bins, density=True, alpha=0.6, color='g')
-    plt.title(titulo)
-    plt.xlabel('Valor')
-    plt.ylabel('Probabilidad')
-    plt.grid(True)
-
-def trazar_ajuste_poisson(data, params):
-    x = np.arange(0, max(data) + 1)
-    y = poisson.pmf(x, *params)
-    plt.plot(x, y, 'r-', linewidth=2)
-
-def trazar_ajuste_gaussiana(media, desviacion):
-    x = np.linspace(-5, 5, 100)
-    y = norm.pdf(x, media, desviacion)
-    plt.plot(x, y, 'b-', linewidth=2)
-
 # Aplicación Streamlit
 st.title('Histogramas de Distribuciones')
 
@@ -45,21 +29,36 @@ distribucion = st.sidebar.selectbox(
     ('Poisson', 'Gaussiana')
 )
 
+# Botón para cambiar entre data1 y data2
+dataset = st.sidebar.radio("Seleccione el conjunto de datos:", ('data1', 'data2'))
+
+# Seleccionar el conjunto de datos apropiado
+if dataset == 'data1':
+    data = data1
+else:
+    data = data2
+
 # Trazar histogramas y ajustes
 if distribucion == 'Poisson':
     st.header('Distribución de Poisson')
-    # Ajustar distribución de Poisson usando los datos de "Decaimiento"
-    params = ajustar_poisson(data1['Decaimiento solo con el aire'])
-    # Trazar histograma
-    trazar_histograma(data1['Decaimiento solo con el aire'], bins=20, titulo='Distribución de Poisson')
-    trazar_ajuste_poisson(data1['Decaimiento solo con el aire'], params)
-    st.pyplot()
+
+    # Ajustar distribución de Poisson usando los datos seleccionados
+    params = ajustar_poisson(data['Decaimiento solo con el aire'])
+
+    # Crear histograma con Plotly
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(x=data['Decaimiento solo con el aire'], marker=dict(color=data['Decaimiento solo con el aire'], colorscale='Reds'), opacity=0.6))
+    fig.update_layout(title_text='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
+    st.plotly_chart(fig)
 
 elif distribucion == 'Gaussiana':
     st.header('Distribución Gaussiana')
-    # Ajustar distribución gaussiana usando los datos de "Decaimiento"
-    media, desviacion = ajustar_gaussiana(data1['Decaimiento solo con el aire'])
-    # Trazar histograma
-    trazar_histograma(data1['Decaimiento solo con el aire'], bins=20, titulo='Distribución Gaussiana')
-    trazar_ajuste_gaussiana(media, desviacion)
-    st.pyplot()
+
+    # Ajustar distribución gaussiana usando los datos seleccionados
+    media, desviacion = ajustar_gaussiana(data['Decaimiento solo con el aire'])
+
+    # Crear histograma con Plotly
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(x=data['Decaimiento solo con el aire'], marker=dict(color=data['Decaimiento solo con el aire'], colorscale='Reds'), opacity=0.6))
+    fig.update_layout(title_text='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Probabilidad')
+    st.plotly_chart(fig)
