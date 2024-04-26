@@ -58,5 +58,5 @@ def main():
     # Plot distribution based on selection
     plot_distribution(data['Value'], distribution_type, parameter_value)
 
- if __name__ == '__main__':
+ if __name__ == "__main__":
         main()
