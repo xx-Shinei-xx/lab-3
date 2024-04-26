@@ -38,6 +38,14 @@ if dataset == 'data1':
 else:
     data = data2
 
+# Imprimir el nombre de las columnas
+print("Nombre de las columnas del conjunto de datos:")
+print(data.columns)
+
+# Imprimir el conjunto de datos seleccionado
+print("Conjunto de datos seleccionado:")
+print(data)
+
 # Trazar histogramas y ajustes
 if distribucion == 'Poisson':
     st.header('Distribución de Poisson')
