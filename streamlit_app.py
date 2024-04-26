@@ -1,80 +1,65 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-from scipy.stats import poisson, norm
+import matplotlib.pyplot as plt
+from scipy.stats import poisson, chi2_contingency
 
-# Load data from CSV file
-   # Cache the data for improved performance
+# Función para cargar datos desde un archivo CSV
 def load_data(filename):
-    return pd.read_csv(filename)
+    data = pd.read_csv(filename)
+    return data
 
-# Function to generate plot based on distribution type and parameters
-def plot_distribution(data, dist_type, param_value):
-    if dist_type == 'Poisson':
-        dist = poisson(mu=param_value)
-        title = f'Poisson Distribution (λ={param_value})'
-    elif dist_type == 'Gaussian':
-        dist = norm(loc=param_value)
-        title = f'Gaussian Distribution (μ={param_value})'
+# Función para mostrar el histograma de datos
+def plot_histogram(data):
+    plt.hist(data, bins=20, alpha=0.75, edgecolor='black')
+    plt.xlabel('Valores')
+    plt.ylabel('Frecuencia')
+    st.pyplot()
+
+# Función para ajustar una distribución de Poisson y mostrarla
+def fit_and_plot_poisson(data):
+    # Ajustar la distribución de Poisson a los datos
+    mu = data.mean()  # Estimación del parámetro lambda (media de los datos)
+    x = range(min(data), max(data)+1)
+    y = poisson.pmf(x, mu)
+
+    # Calcular la frecuencia observada y esperada
+    observed_values, _ = np.histogram(data, bins=x)
+    expected_values = len(data) * y  # Frecuencia esperada basada en la distribución de Poisson
+
+    # Realizar la prueba de chi-cuadrado
+    chi2_stat, p_value = chi2_contingency([observed_values, expected_values])
+
+    # Graficar la distribución de Poisson ajustada
+    plt.plot(x, y, 'r-', label='Poisson')
+    plt.hist(data, bins=20, density=True, alpha=0.75, edgecolor='black', label='Datos')
+    plt.xlabel('Valores')
+    plt.ylabel('Densidad de probabilidad')
+    plt.legend()
+    st.pyplot()
+
+    # Mostrar los resultados de la prueba de chi-cuadrado
+    st.write(f'Estadístico Chi-cuadrado: {chi2_stat:.4f}')
+    st.write(f'Valor p: {p_value:.4f}')
+
+    # Evaluar el resultado de la prueba de chi-cuadrado
+    if p_value < 0.05:
+        st.write('La distribución de Poisson no es un buen ajuste para los datos.')
     else:
-        st.error('Invalid distribution type selected.')
-        return
-
-    # Calculate PDF values for a range of x values
-    x = np.linspace(min(data), max(data), 100)
-    pdf_values = dist.pdf(x)  # Calculate PDF values for the selected distribution
-
-    # Create a plotly figure
-    fig = go.Figure()
-
-    # Add histogram trace
-    fig.add_trace(go.Histogram(x=data, histnorm='density', name='Data Histogram'))
-
-    # Add PDF trace for the selected distribution
-    fig.add_trace(go.Scatter(x=x, y=pdf_values, mode='lines', name=f'{dist_type} PDF'))
-
-    # Update figure layout
-    fig.update_layout(
-        title=title,
-        xaxis_title='Value',
-        yaxis_title='Density',
-        showlegend=True
-    )
-
-    # Display the plotly figure
-    st.plotly_chart(fig)
+        st.write('La distribución de Poisson es un buen ajuste para los datos.')
 
 def main():
-    st.title('Distribution Selector App')
+    st.title('Distribución de Poisson con prueba de Chi-cuadrado')
 
-    # Load data
-    filename = 'data1.csv'
-    data = load_data(filename)
+    # Cargar datos desde archivo CSV
+    filename = st.file_uploader("Cargar archivo CSV", type=['csv'])
+    if filename is not None:
+        data = load_data(filename)
+        st.subheader('Visualización de datos')
+        plot_histogram(data)
 
-    # Display data in a table
-    st.write('### Data from CSV:')
-    st.write(data)
+        st.subheader('Ajuste de Distribución de Poisson y prueba de Chi-cuadrado')
+        fit_and_plot_poisson(data)
 
-    # Extract values from DataFrame column
-    values = data['Decaimiento solo con el aire']
-
-    # Distribution selector
-    distribution_type = st.selectbox('Select Distribution Type:', ['Poisson', 'Gaussian'])
-
-    if distribution_type == 'Poisson':
-        parameter_label = 'λ (Lambda, Mean)'
-    elif distribution_type == 'Gaussian':
-        parameter_label = 'μ (Mean)'
-    else:
-        st.error('Invalid distribution type selected.')
-        return
-
-    # Parameter slider
-    parameter_value = st.slider(f'Select {parameter_label}:', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
-
-    # Plot distribution based on selection
-    plot_distribution(values, distribution_type, parameter_value)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
