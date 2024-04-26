@@ -37,7 +37,7 @@ def show_histogram_and_distributions(df):
 
 # Cargar los datos desde el archivo CSV
 data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
-data2 = pd.read_csv('data2.csv')
+data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
 
 # Crear la aplicación Streamlit
 st.title('Análisis de Datos')
@@ -50,4 +50,4 @@ if selected_data == 'data1.csv':
     show_histogram_and_distributions(pd.DataFrame({'Value': data1}))
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones de data2.csv')
-    show_histogram_and_distributions(data2)
+    show_histogram_and_distributions(pd.DataFrame({'Value': data2}))
