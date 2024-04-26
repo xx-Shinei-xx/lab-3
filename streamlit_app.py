@@ -70,4 +70,3 @@ elif distribucion == 'Gaussiana':
     fig.add_trace(go.Histogram(x=data['Decaimiento solo con el aire'], marker=dict(color=data['Decaimiento solo con el aire'], colorscale='Reds'), opacity=0.6))
     fig.update_layout(title_text='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
-
