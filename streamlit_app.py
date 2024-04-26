@@ -35,4 +35,8 @@ if distribution == 'Gaussiana':
     plot_gaussian_distribution(data)
 elif distribution == 'Poisson':
     plot_poisson_distribution(data)
-    
+  
+    # Trazar histograma
+    trazar_histograma(data1['Decaimiento solo con el aire'], bins=20, titulo='Distribución Gaussiana')
+    trazar_ajuste_gaussiana(media, desviacion)
+    st.pyplot()
