@@ -4,6 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import poisson, norm
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
+
+
 # Load data from CSV file
   # Cache the data for improved performance
 def load_data(filename):
