@@ -16,8 +16,7 @@ def plot_gaussian_distribution(mu, sigma):
 # Función para ajustar la distribución de Poisson
 def fit_poisson_distribution(data):
     mu = np.mean(data)
-    lamb = poisson.fit(data)[0]
-    return lamb
+    return mu
 
 # Función para graficar la distribución de Poisson con el ajuste
 def plot_poisson_distribution(data):
@@ -26,8 +25,7 @@ def plot_poisson_distribution(data):
     y = poisson.pmf(x, mu)
     
     # Ajustar distribución de Poisson
-    lamb = fit_poisson_distribution(data)
-    fit_y = poisson.pmf(x, lamb)
+    fit_y = poisson.pmf(x, mu)
 
     fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
                           go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
