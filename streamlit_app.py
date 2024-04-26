@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import poisson, norm
-from scipy.optimize import curve_fit
 
 # Cargar datos
 data1 = pd.read_csv('data1.csv')
@@ -49,10 +48,8 @@ distribucion = st.sidebar.selectbox(
 # Trazar histogramas y ajustes
 if distribucion == 'Poisson':
     st.header('Distribución de Poisson')
-
-    # Ajustar distribución de Poisson usando los datos de "Decaimiento solo con el aire"
+    # Ajustar distribución de Poisson usando los datos de "Decaimiento"
     params = ajustar_poisson(data1['Decaimiento solo con el aire'])
-
     # Trazar histograma
     trazar_histograma(data1['Decaimiento solo con el aire'], bins=20, titulo='Distribución de Poisson')
     trazar_ajuste_poisson(data1['Decaimiento solo con el aire'], params)
@@ -60,10 +57,8 @@ if distribucion == 'Poisson':
 
 elif distribucion == 'Gaussiana':
     st.header('Distribución Gaussiana')
-
-    # Ajustar distribución gaussiana usando los datos de "Decaimiento solo con el aire"
+    # Ajustar distribución gaussiana usando los datos de "Decaimiento"
     media, desviacion = ajustar_gaussiana(data1['Decaimiento solo con el aire'])
-
     # Trazar histograma
     trazar_histograma(data1['Decaimiento solo con el aire'], bins=20, titulo='Distribución Gaussiana')
     trazar_ajuste_gaussiana(media, desviacion)
