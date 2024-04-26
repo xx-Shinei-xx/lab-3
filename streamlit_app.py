@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import poisson, norm
 
 # Load data from CSV file
-@st.cache  # Cache the data for improved performance
+  # Cache the data for improved performance
 def load_data(filename):
     return pd.read_csv(filename)
 
