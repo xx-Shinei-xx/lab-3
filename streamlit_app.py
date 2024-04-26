@@ -21,7 +21,7 @@ def plot_distribution(data, dist_type, param_value):
         title = f'Gaussian Distribution (μ={param_value})'
 
     # Extract values from the specified column
-    values = data['Values']  # Assuming 'Values' is the correct column name
+    values = data['N']  # Assuming 'Values' is the correct column name
 
     # Plot histogram of the data
     plt.hist(values, bins=30, alpha=0.7, density=True, label='Data Histogram')
