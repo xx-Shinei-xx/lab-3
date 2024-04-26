@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson
-from scipy.optimize import curve_fit
 
 # Función para graficar la distribución gaussiana
 def plot_gaussian_distribution(mu, sigma):
@@ -14,22 +13,11 @@ def plot_gaussian_distribution(mu, sigma):
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-# Función para realizar el ajuste de la distribución de Poisson
+# Función para ajustar la distribución de Poisson
 def fit_poisson_distribution(data):
     mu = np.mean(data)
-    x = np.arange(0, max(data) + 1)
-    y = poisson.pmf(x, mu)
-
-    # Redondear los datos a enteros
-    rounded_data = np.round(data).astype(int)
-
-    # Realizar ajuste de la distribución de Poisson
-    def poisson_function(k, lamb):
-        return poisson.pmf(k, lamb)
-
-    popt, _ = curve_fit(poisson_function, x, y)
-
-    return popt[0]
+    lamb = poisson.fit(data)[0]
+    return lamb
 
 # Función para graficar la distribución de Poisson con el ajuste
 def plot_poisson_distribution(data):
