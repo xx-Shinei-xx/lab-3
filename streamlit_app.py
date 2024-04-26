@@ -1,61 +1,46 @@
+# Importa las bibliotecas necesarias
 import streamlit as st
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import poisson, norm
+import pandas as pd
+import scipy.stats as stats
 
-# Load data from CSV file
-@st.cache  # Cache the data for improved performance
-def load_data(data10.csv):
-    return pd.read_csv('data10.csv')
+# Carga tus datos (reemplaza 'data1.csv' con el nombre de tu archivo)
+data1 = pd.read_csv('data1.csv')
 
-# Function to generate plot based on distribution type and parameters
-def plot_distribution(data, dist_type, param_value):
-    plt.figure(figsize=(8, 6))
-    
-    if dist_type == 'Poisson':
-        dist = poisson(mu=param_value)
-        title = f'Poisson Distribution (λ={param_value})'
-    elif dist_type == 'Gaussian':
-        dist = norm(loc=param_value)
-        title = f'Gaussian Distribution (μ={param_value})'
+# Agrega una barra lateral para seleccionar la distribución
+distribution_choice = st.sidebar.selectbox("Selecciona una distribución:", ["Gaussiana", "Poisson"])
 
-    # Plot histogram of the data
-    counts, bins, _ = plt.hist(data, bins=30, alpha=0.7, density=True, label='Data Histogram')
+# Genera datos de ejemplo (puedes reemplazar esto con tus datos reales)
+if distribution_choice == "Gaussiana":
+    mu = st.slider("Media (μ)", min_value=0.0, max_value=10.0, value=5.0)
+    sigma = st.slider("Desviación estándar (σ)", min_value=0.1, max_value=5.0, value=1.0)
+    sample_size = st.slider("Tamaño de la muestra", min_value=10, max_value=100, value=50)
+    sample_data = np.random.normal(mu, sigma, sample_size)
+else:
+    lambda_val = st.slider("Tasa (λ)", min_value=0.1, max_value=5.0, value=1.0)
+    sample_size = st.slider("Tamaño de la muestra", min_value=10, max_value=100, value=50)
+    sample_data = np.random.poisson(lambda_val, sample_size)
 
-    # Plot the probability density function (PDF) of the selected distribution
-    x = np.linspace(min(data), max(data), 100)
-    plt.plot(x, dist.pdf(x), 'r-', lw=2, label=f'{dist_type} PDF')
+# Visualiza los datos generados
+st.write("Datos generados:")
+st.write(sample_data)
 
-    plt.title(title)
-    plt.xlabel('Value')
-    plt.ylabel('Density')
-    plt.legend()
-    st.pyplot()
+# Realiza la prueba de chi-cuadrado
+observed_counts, bin_edges = np.histogram(sample_data, bins="auto")
+bin_middles = 0.5 * (bin_edges[1:] + bin_edges[:-1])
 
-def main():
-    st.title('Distribution Selector App')
+# Calcula los valores esperados para cada distribución
+if distribution_choice == "Gaussiana":
+    expected_counts = stats.norm.pdf(bin_middles, mu, sigma) * sample_size
+else:
+    expected_counts = stats.poisson.pmf(np.arange(len(observed_counts)), lambda_val) * sample_size
 
-    # Load data
-    data = load_data('data10.csv')
+# Asegúrate de que la suma de los valores esperados sea igual a la suma de los valores observados
+expected_counts *= np.sum(observed_counts) / np.sum(expected_counts)
 
-    # Display data in a table
-    st.write('### Data from CSV:')
-    st.write(data)
+# Realiza la prueba de chi-cuadrado
+chi2_statistic, p_value = stats.chisquare(observed_counts, expected_counts)
 
-    # Distribution selector
-    distribution_type = st.selectbox('Select Distribution Type:', ['Poisson', 'Gaussian'])
-
-    if distribution_type == 'Poisson':
-        parameter_label = 'λ (Lambda, Mean)'
-    elif distribution_type == 'Gaussian':
-        parameter_label = 'μ (Mean)'
-
-    # Parameter slider
-    parameter_value = st.slider(f'Select {parameter_label}:', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
-
-    # Plot distribution based on selection
-    plot_distribution(data['Value'], distribution_type, parameter_value)
-
-if __name__ == '__main__':
-   main()
+# Muestra los resultados de la prueba de chi-cuadrado
+st.write(f"Estadístico de chi-cuadrado: {chi2_statistic:.4f}")
+st.write(f"Valor
