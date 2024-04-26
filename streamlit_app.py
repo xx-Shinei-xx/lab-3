@@ -4,16 +4,11 @@ import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson
 
-# Función para graficar la distribución gaussiana con un fit visible
-def plot_gaussian_distribution(data):
-    mu, std = np.mean(data), np.std(data)
-    x = np.linspace(mu - 3*std, mu + 3*std, 100)
-    y = norm.pdf(x, mu, std)
-    # Fit visible
-    fit_x = np.linspace(min(data), max(data), 100)
-    fit_y = norm.pdf(fit_x, mu, std)
-    fig = go.Figure(data=[go.Scatter(x=x, y=y, mode='lines', name='Distribución Gaussiana'),
-                          go.Scatter(x=fit_x, y=fit_y, mode='lines', name='Fit Gaussiano', line=dict(color='red', width=2))])
+# Función para graficar la distribución gaussiana
+def plot_gaussian_distribution(mu, sigma):
+    x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+    y = norm.pdf(x, mu, sigma)
+    fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Distribución Gaussiana'))
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
@@ -32,7 +27,7 @@ def show_histogram_and_distributions(df):
     st.bar_chart(df)
 
     st.subheader('Distribuciones Estadísticas')
-    plot_gaussian_distribution(df['Value'])
+    plot_gaussian_distribution(df['Value'].mean(), df['Value'].std())
     plot_poisson_distribution(df['Value'])
 
 # Cargar los datos desde el archivo CSV
@@ -51,3 +46,4 @@ if selected_data == 'data1.csv':
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones de data2.csv')
     show_histogram_and_distributions(pd.DataFrame({'Value': data2}))
+    
