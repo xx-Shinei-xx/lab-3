@@ -21,7 +21,7 @@ def plot_distribution(data, dist_type, param_value):
         title = f'Gaussian Distribution (μ={param_value})'
 
     # Plot histogram of the data
-    counts, bins, _ = plt.hist(data, bins=30, alpha=0.7, density=True, label='Data Histogram')
+    plt.hist(data, bins=30, alpha=0.7, density=True, label='Data Histogram')
 
     # Plot the probability density function (PDF) of the selected distribution
     x = np.linspace(min(data), max(data), 100)
@@ -37,7 +37,7 @@ def main():
     st.title('Distribution Selector App')
 
     # Load data
-    filename = 'data10.csv'  # Adjust filename as needed
+    filename = 'data10.csv'  # Specify the filename here
     data = load_data(filename)
 
     # Display data in a table
