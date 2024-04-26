@@ -38,7 +38,7 @@ def chi_square_test(data, distribution):
 # Función para graficar la prueba de chi-cuadrado
 def plot_chi_square_test(p_value, observed_counts, expected_counts, distribution):
     fig = go.Figure(data=[go.Bar(x=np.arange(1, 11), y=observed_counts, name='Observado'),
-                          go.Bar(x=np.arange(1, 11), y=expected_counts, name='Esperado')])
+                          go.Scatter(x=np.arange(1, 11), y=expected_counts, mode='lines', name='Esperado')])
     fig.update_layout(title=f'Prueba de chi-cuadrado para distribución {distribution.capitalize()}', xaxis_title='Intervalo', yaxis_title='Frecuencia')
     fig.update_traces(marker_color=['blue', 'red'])
     st.plotly_chart(fig)
