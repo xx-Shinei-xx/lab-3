@@ -10,9 +10,9 @@ data1 = pd.read_csv('data1.csv')
 data2 = pd.read_csv('data2.csv')
 
 # Definir funciones para ajustar distribuciones
-def ajustar_poisson(data):
+def ajustar_poisson(data_column):
     # Ajustar distribución de Poisson
-    params = poisson.fit(data)
+    params = poisson.fit(data_column)
     return params
 
 def ajustar_gaussiana(data):
@@ -70,3 +70,4 @@ elif distribucion == 'Gaussiana':
     fig.add_trace(go.Histogram(x=data['Decaimiento solo con el aire'], marker=dict(color=data['Decaimiento solo con el aire'], colorscale='Reds'), opacity=0.6))
     fig.update_layout(title_text='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
+
