@@ -40,7 +40,7 @@ def main():
     st.title('Distribution Selector App')
 
     # Load data
-    filename = 'data1.csv'  # Specify the filename here
+    filename = 'data10.csv'  # Specify the filename here
     data = load_data(filename)
 
     # Display data in a table
