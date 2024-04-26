@@ -20,6 +20,9 @@ def fit_poisson_distribution(data):
     x = np.arange(0, max(data) + 1)
     y = poisson.pmf(x, mu)
 
+    # Redondear los datos a enteros
+    rounded_data = np.round(data).astype(int)
+
     # Realizar ajuste de la distribución de Poisson
     def poisson_function(k, lamb):
         return poisson.pmf(k, lamb)
