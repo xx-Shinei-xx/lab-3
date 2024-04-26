@@ -20,14 +20,11 @@ def plot_distribution(data, dist_type, param_value):
         dist = norm(loc=param_value)
         title = f'Gaussian Distribution (μ={param_value})'
 
-    # Extract values from the specified column
-    values = data['Values']  # Assuming 'Values' is the correct column name
-
     # Plot histogram of the data
-    plt.hist(values, bins=30, alpha=0.7, density=True, label='Data Histogram')
+    counts, bins, _ = plt.hist(data, bins=30, alpha=0.7, density=True, label='Data Histogram')
 
     # Plot the probability density function (PDF) of the selected distribution
-    x = np.linspace(min(values), max(values), 100)
+    x = np.linspace(min(data), max(data), 100)
     plt.plot(x, dist.pdf(x), 'r-', lw=2, label=f'{dist_type} PDF')
 
     plt.title(title)
@@ -40,12 +37,15 @@ def main():
     st.title('Distribution Selector App')
 
     # Load data
-    filename = 'data10.csv'  # Specify the filename here
+    filename = 'data10.csv'
     data = load_data(filename)
 
     # Display data in a table
     st.write('### Data from CSV:')
     st.write(data)
+
+    # Extract values from DataFrame column
+    values = data['Decaimiento solo con el aire']
 
     # Distribution selector
     distribution_type = st.selectbox('Select Distribution Type:', ['Poisson', 'Gaussian'])
@@ -59,7 +59,7 @@ def main():
     parameter_value = st.slider(f'Select {parameter_label}:', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
 
     # Plot distribution based on selection
-    plot_distribution(data, distribution_type, parameter_value)  # Pass the entire data DataFrame
+    plot_distribution(values, distribution_type, parameter_value)
 
 if __name__ == '__main__':
     main()
