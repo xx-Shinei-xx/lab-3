@@ -50,29 +50,21 @@ distribucion = st.sidebar.selectbox(
 if distribucion == 'Poisson':
     st.header('Distribución de Poisson')
 
-    # Ajustar distribución de Poisson
-    params = ajustar_poisson(data1)
+    # Ajustar distribución de Poisson usando los datos de "Decaimiento"
+    params = ajustar_poisson(data1['Decaimiento'])
 
     # Trazar histograma
-    trazar_histograma(data1, bins=20, titulo='Distribución de Poisson')
-    trazar_ajuste_poisson(data1, params)
+    trazar_histograma(data1['Decaimiento'], bins=20, titulo='Distribución de Poisson')
+    trazar_ajuste_poisson(data1['Decaimiento'], params)
     st.pyplot()
 
 elif distribucion == 'Gaussiana':
     st.header('Distribución Gaussiana')
 
-    # Ajustar distribución gaussiana
-    media, desviacion = ajustar_gaussiana(data1)
+    # Ajustar distribución gaussiana usando los datos de "Decaimiento"
+    media, desviacion = ajustar_gaussiana(data1['Decaimiento'])
 
     # Trazar histograma
-    trazar_histograma(data1, bins=20, titulo='Distribución Gaussiana')
+    trazar_histograma(data1['Decaimiento'], bins=20, titulo='Distribución Gaussiana')
     trazar_ajuste_gaussiana(media, desviacion)
     st.pyplot()
-
-
-
-
-if __name__ == "__main__":
-    main()
-
-
