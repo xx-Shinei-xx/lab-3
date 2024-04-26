@@ -37,7 +37,7 @@ def main():
     st.title('Distribution Selector App')
 
     # Load data
-    filename = 'data1.csv'
+    filename = 'data12.csv'
     data = load_data(filename)
 
     # Display data in a table
