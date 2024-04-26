@@ -1,9 +1,10 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
-from scipy.stats import norm, poisson, chisquare
+from scipy.stats import norm, poisson
 
-# Función para graficar la distribución gaussiana con un fit visible y realizar la prueba de chi cuadrado
+# Función para graficar la distribución gaussiana con un fit visible
 def plot_gaussian_distribution(data):
     mu, std = np.mean(data), np.std(data)
     x = np.linspace(mu - 3*std, mu + 3*std, 100)
@@ -15,12 +16,8 @@ def plot_gaussian_distribution(data):
                           go.Scatter(x=fit_x, y=fit_y, mode='lines', name='Fit Gaussiano', line=dict(color='red', width=2))])
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
-    # Realizar prueba de chi cuadrado
-    expected_freq = norm.pdf(data, mu, std) * len(data)
-    _, p_value = chisquare(data, f_exp=expected_freq)
-    st.write(f'Valor p para la prueba de chi cuadrado: {p_value}')
 
-# Función para graficar la distribución de Poisson con barras y realizar la prueba de chi cuadrado
+# Función para graficar la distribución de Poisson con barras
 def plot_poisson_distribution(data):
     mu = np.mean(data)
     x = np.arange(0, max(data) + 1)
@@ -28,23 +25,29 @@ def plot_poisson_distribution(data):
     fig = go.Figure(data=go.Bar(x=x, y=y))
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
-    # Realizar prueba de chi cuadrado
-    expected_freq = poisson.pmf(x, mu) * len(data)
-    _, p_value = chisquare(data, f_exp=expected_freq)
-    st.write(f'Valor p para la prueba de chi cuadrado: {p_value}')
+
+# Función para mostrar histograma y distribuciones
+def show_histogram_and_distributions(df):
+    st.subheader('Histograma de datos')
+    st.bar_chart(df)
+
+    st.subheader('Distribuciones Estadísticas')
+    plot_gaussian_distribution(df['Value'])
+    plot_poisson_distribution(df['Value'])
 
 # Cargar los datos desde el archivo CSV
 data = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
 
 # Crear la aplicación Streamlit
-st.title('Distribuciones Estadísticas')
+st.title('Análisis de Datos')
 
-# Agregar un botón para cambiar entre las distribuciones
-distribution = st.radio('Seleccionar distribución:', ('Gaussiana', 'Poisson'))
+# Agregar un botón para cargar y mostrar los histogramas de un nuevo archivo CSV
+if st.button('Mostrar Histogramas de data2.csv'):
+    st.subheader('Histogramas y Distribuciones de data2.csv')
+    data2 = pd.read_csv('data2.csv')
+    show_histogram_and_distributions(data2)
 
-# Mostrar la distribución seleccionada y realizar prueba de chi cuadrado
-if distribution == 'Gaussiana':
-    plot_gaussian_distribution(data)
-elif distribution == 'Poisson':
-    plot_poisson_distribution(data)
+# Mostrar las distribuciones para data1.csv por defecto
+st.subheader('Distribuciones de data1.csv')
+show_histogram_and_distributions(pd.DataFrame({'Value': data}))
     
