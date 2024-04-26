@@ -9,19 +9,18 @@ data = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
 # Función para el análisis de distribución de Poisson
 def poisson_analysis(data):
     # Calcular la media de los datos
-    mean = np.mean(data)
+    mu = np.mean(data)
 
-    # Ajustar la distribución de Poisson
-    poisson_params = poisson.fit(data, floc=0)
-    poisson_fitted = poisson.pdf(np.arange(np.max(data) + 1), *poisson_params)
+    # Generar la distribución de Poisson con la media calculada
+    poisson_pmf = poisson.pmf(np.arange(np.max(data) + 1), mu)
 
     # Calcular la prueba de chi-cuadrado
-    chi_square_poisson, p_value_poisson = poisson.chisquare(data, poisson_params)
+    chi_square_poisson, p_value_poisson = poisson.chisquare(data, mu)
 
     # Crear una figura para graficar los datos y el ajuste de Poisson
     fig, ax = plt.subplots()
     ax.hist(data, bins=np.arange(np.max(data) + 2) - 0.5, density=True, label='Datos')
-    ax.plot(np.arange(np.max(data) + 1), poisson_fitted, 'r-', lw=2, label='Ajuste Poisson')
+    ax.plot(np.arange(np.max(data) + 1), poisson_pmf, 'r-', lw=2, label='Ajuste Poisson')
     ax.set_title('Distribución de Poisson')
     ax.set_xlabel('Valor')
     ax.set_ylabel('Densidad')
