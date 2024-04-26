@@ -1,66 +1,70 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.stats import norm, chi2_contingency
+from scipy.stats import poisson, norm
+from scipy.optimize import curve_fit
 
-# Función para cargar datos desde un archivo CSV
-def load_data(filename):
-    data = pd.read_csv(filename)
-    return data
+# Cargar datos
+data1 = pd.read_csv('data1.csv')
 
-# Función para mostrar el histograma de datos
-def plot_histogram(data):
-    plt.hist(data, bins=20, alpha=0.75, edgecolor='black')
-    plt.xlabel('Valores')
-    plt.ylabel('Frecuencia')
+# Definir funciones para ajustar distribuciones
+def ajustar_poisson(data):
+    # Ajustar distribución de Poisson
+    params = poisson.fit(data)
+    return params
+
+def ajustar_gaussiana(data):
+    # Ajustar distribución gaussiana
+    media, desviacion = norm.fit(data)
+    return media, desviacion
+
+# Definir funciones para trazar histogramas
+def trazar_histograma(data, bins, titulo):
+    plt.hist(data, bins=bins, density=True, alpha=0.6, color='g')
+    plt.title(titulo)
+    plt.xlabel('Valor')
+    plt.ylabel('Probabilidad')
+    plt.grid(True)
+
+def trazar_ajuste_poisson(data, params):
+    x = np.arange(0, max(data) + 1)
+    y = poisson.pmf(x, *params)
+    plt.plot(x, y, 'r-', linewidth=2)
+
+def trazar_ajuste_gaussiana(media, desviacion):
+    x = np.linspace(-5, 5, 100)
+    y = norm.pdf(x, media, desviacion)
+    plt.plot(x, y, 'b-', linewidth=2)
+
+# Aplicación Streamlit
+st.title('Histogramas de Distribuciones')
+
+# Controles del panel lateral
+distribucion = st.sidebar.selectbox(
+    'Seleccionar Distribución',
+    ('Poisson', 'Gaussiana')
+)
+
+# Trazar histogramas y ajustes
+if distribucion == 'Poisson':
+    st.header('Distribución de Poisson')
+
+    # Ajustar distribución de Poisson
+    params = ajustar_poisson(data1)
+
+    # Trazar histograma
+    trazar_histograma(data1, bins=20, titulo='Distribución de Poisson')
+    trazar_ajuste_poisson(data1, params)
     st.pyplot()
 
-# Función para ajustar una distribución normal y mostrarla
-def fit_and_plot_normal(data):
-    # Ajustar la distribución normal a los datos
-    mu, std = norm.fit(data)
-    x = np.linspace(min(data), max(data), 100)
-    y = norm.pdf(x, mu, std)
+elif distribucion == 'Gaussiana':
+    st.header('Distribución Gaussiana')
 
-    # Calcular la frecuencia observada y esperada
-    observed_values, _ = np.histogram(data, bins=20)
-    expected_values = len(data) * norm.pdf((bins[1:] + bins[:-1]) / 2, mu, std) * (bins[1] - bins[0])
+    # Ajustar distribución gaussiana
+    media, desviacion = ajustar_gaussiana(data1)
 
-    # Realizar la prueba de chi-cuadrado
-    chi2_stat, p_value = chi2_contingency([observed_values, expected_values])
-
-    # Graficar la distribución normal ajustada
-    plt.plot(x, y, 'r-', label='Normal')
-    plt.hist(data, bins=20, density=True, alpha=0.75, edgecolor='black', label='Datos')
-    plt.xlabel('Valores')
-    plt.ylabel('Densidad de probabilidad')
-    plt.legend()
+    # Trazar histograma
+    trazar_histograma(data1, bins=20, titulo='Distribución Gaussiana')
+    trazar_ajuste_gaussiana(media, desviacion)
     st.pyplot()
-
-    # Mostrar los resultados de la prueba de chi-cuadrado
-    st.write(f'Estadístico Chi-cuadrado: {chi2_stat:.4f}')
-    st.write(f'Valor p: {p_value:.4f}')
-
-    # Evaluar el resultado de la prueba de chi-cuadrado
-    if p_value < 0.05:
-        st.write('La distribución normal no es un buen ajuste para los datos.')
-    else:
-        st.write('La distribución normal es un buen ajuste para los datos.')
-
-def main():
-    st.title('Distribución Normal con prueba de Chi-cuadrado')
-
-    # Cargar datos desde archivo CSV
-    filename = st.file_uploader("Cargar archivo CSV", type=['csv'])
-    if filename is not None:
-        data = load_data(filename)
-        st.subheader('Visualización de datos')
-        plot_histogram(data)
-
-        st.subheader('Ajuste de Distribución Normal y prueba de Chi-cuadrado')
-        fit_and_plot_normal(data)
-
-if __name__ == "__main__":
-    main()
-
