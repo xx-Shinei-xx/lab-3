@@ -68,3 +68,11 @@ elif distribucion == 'Gaussiana':
     trazar_histograma(data1, bins=20, titulo='Distribución Gaussiana')
     trazar_ajuste_gaussiana(media, desviacion)
     st.pyplot()
+
+
+
+
+if __name__ == "__main__":
+    main()
+
+
