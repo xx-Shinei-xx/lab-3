@@ -58,13 +58,9 @@ def show_histogram_and_distributions(df, selected_data):
         mu_gaussian = df['Value'].mean()
         sigma_gaussian = df['Value'].std()
         plot_gaussian_distribution(mu_gaussian, sigma_gaussian)
-        p_value_gaussian = chi_square_test(df['Value'], 'gaussian')
-        st.write(f"Valor p para distribución gaussiana: {p_value_gaussian}")
     elif selected_data == 'data2.csv':
         mu_poisson = df['Value'].mean()
         plot_poisson_distribution(df['Value'])
-        p_value_poisson = chi_square_test(df['Value'], 'poisson')
-        st.write(f"Valor p para distribución de Poisson: {p_value_poisson}")
 
 # Cargar los datos desde el archivo CSV
 data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
@@ -79,7 +75,13 @@ selected_data = st.radio('Seleccionar conjunto de datos:', ('data1.csv', 'data2.
 if selected_data == 'data1.csv':
     st.subheader('Distribuciones de data1.csv')
     show_histogram_and_distributions(pd.DataFrame({'Value': data1}), selected_data)
+    if st.button('Realizar ajuste de chi-cuadrado para distribución gaussiana'):
+        p_value_gaussian = chi_square_test(data1, 'gaussian')
+        st.write(f"Valor p para distribución gaussiana: {p_value_gaussian}")
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones de data2.csv')
     show_histogram_and_distributions(pd.DataFrame({'Value': data2}), selected_data)
-    
+    if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
+        p_value_poisson = chi_square_test(data2, 'poisson')
+        st.write(f"Valor p para distribución de Poisson: {p_value_poisson}")
+        
