@@ -1,22 +1,16 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from scipy.stats import poisson, norm
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
-
-
-
 # Load data from CSV file
-  # Cache the data for improved performance
+@st.cache  # Cache the data for improved performance
 def load_data(filename):
     return pd.read_csv(filename)
 
 # Function to generate plot based on distribution type and parameters
 def plot_distribution(data, dist_type, param_value):
-    plt.figure(figsize=(8, 6))
-    
     if dist_type == 'Poisson':
         dist = poisson(mu=param_value)
         title = f'Poisson Distribution (λ={param_value})'
@@ -24,24 +18,35 @@ def plot_distribution(data, dist_type, param_value):
         dist = norm(loc=param_value)
         title = f'Gaussian Distribution (μ={param_value})'
 
-    # Plot histogram of the data
-    counts, bins, _ = plt.hist(data, bins=30, alpha=0.7, density=True, label='Data Histogram')
-
-    # Plot the probability density function (PDF) of the selected distribution
+    # Calculate PDF values for a range of x values
     x = np.linspace(min(data), max(data), 100)
-    plt.plot(x, dist.pdf(x), 'r-', lw=2, label=f'{dist_type} PDF')
+    pdf_values = dist.pdf(x)  # Calculate PDF values for the selected distribution
 
-    plt.title(title)
-    plt.xlabel('Value')
-    plt.ylabel('Density')
-    plt.legend()
-    st.pyplot()
+    # Create a plotly figure
+    fig = go.Figure()
+
+    # Add histogram trace
+    fig.add_trace(go.Histogram(x=data, histnorm='density', name='Data Histogram'))
+
+    # Add PDF trace for the selected distribution
+    fig.add_trace(go.Scatter(x=x, y=pdf_values, mode='lines', name=f'{dist_type} PDF'))
+
+    # Update figure layout
+    fig.update_layout(
+        title=title,
+        xaxis_title='Value',
+        yaxis_title='Density',
+        showlegend=True
+    )
+
+    # Display the plotly figure
+    st.plotly_chart(fig)
 
 def main():
     st.title('Distribution Selector App')
 
     # Load data
-    filename = 'data1.csv'
+    filename = 'data10.csv'
     data = load_data(filename)
 
     # Display data in a table
