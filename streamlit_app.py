@@ -1,28 +1,25 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from scipy.stats import norm, poisson
 
 # Función para graficar la distribución gaussiana
 def plot_gaussian_distribution(data):
     mu, std = np.mean(data), np.std(data)
     x = np.linspace(mu - 3*std, mu + 3*std, 100)
-    plt.plot(x, norm.pdf(x, mu, std))
-    plt.title('Distribución Gaussiana')
-    plt.xlabel('Valor')
-    plt.ylabel('Densidad de probabilidad')
-    st.pyplot()
+    y = norm.pdf(x, mu, std)
+    fig = go.Figure(data=go.Scatter(x=x, y=y))
+    fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
+    st.plotly_chart(fig)
 
 # Función para graficar la distribución de Poisson
 def plot_poisson_distribution(data):
     mu = np.mean(data)
     x = np.arange(0, max(data) + 1)
-    plt.plot(x, poisson.pmf(x, mu), 'bo', ms=8)
-    plt.vlines(x, 0, poisson.pmf(x, mu), colors='b', lw=5, alpha=0.5)
-    plt.title('Distribución de Poisson')
-    plt.xlabel('Valor')
-    plt.ylabel('Probabilidad')
-    st.pyplot()
+    y = poisson.pmf(x, mu)
+    fig = go.Figure(data=go.Scatter(x=x, y=y, mode='markers+lines'))
+    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
+    st.plotly_chart(fig)
 
 # Cargar los datos desde el archivo CSV
 data = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
