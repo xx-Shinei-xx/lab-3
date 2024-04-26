@@ -38,14 +38,6 @@ if dataset == 'data1':
 else:
     data = data2
 
-# Imprimir el nombre de las columnas
-print("Nombre de las columnas del conjunto de datos:")
-print(data.columns)
-
-# Imprimir el conjunto de datos seleccionado
-print("Conjunto de datos seleccionado:")
-print(data)
-
 # Trazar histogramas y ajustes
 if distribucion == 'Poisson':
     st.header('Distribución de Poisson')
@@ -63,10 +55,11 @@ elif distribucion == 'Gaussiana':
     st.header('Distribución Gaussiana')
 
     # Ajustar distribución gaussiana usando los datos seleccionados
-    media, desviacion = ajustar_gaussiana(data['Decaimiento solo con el aire'])
+    media, desviacion = ajustar_gaussiana(data['Decaimiento solo con el aire'].values)
 
     # Crear histograma con Plotly
     fig = go.Figure()
     fig.add_trace(go.Histogram(x=data['Decaimiento solo con el aire'], marker=dict(color=data['Decaimiento solo con el aire'], colorscale='Reds'), opacity=0.6))
     fig.update_layout(title_text='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
+    
