@@ -20,11 +20,14 @@ def plot_distribution(data, dist_type, param_value):
         dist = norm(loc=param_value)
         title = f'Gaussian Distribution (μ={param_value})'
 
+    # Extract values from the specified column
+    values = data['Values']  # Assuming 'Values' is the correct column name
+
     # Plot histogram of the data
-    plt.hist(data, bins=30, alpha=0.7, density=True, label='Data Histogram')
+    plt.hist(values, bins=30, alpha=0.7, density=True, label='Data Histogram')
 
     # Plot the probability density function (PDF) of the selected distribution
-    x = np.linspace(min(data), max(data), 100)
+    x = np.linspace(min(values), max(values), 100)
     plt.plot(x, dist.pdf(x), 'r-', lw=2, label=f'{dist_type} PDF')
 
     plt.title(title)
@@ -56,8 +59,7 @@ def main():
     parameter_value = st.slider(f'Select {parameter_label}:', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
 
     # Plot distribution based on selection
-    plot_distribution(data['Value'], distribution_type, parameter_value)
+    plot_distribution(data, distribution_type, parameter_value)  # Pass the entire data DataFrame
 
 if __name__ == '__main__':
     main()
-
