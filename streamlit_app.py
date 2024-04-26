@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from scipy.stats import poisson, norm
 
 # Load data from CSV file
-  # Cache the data for improved performance
+   # Cache the data for improved performance
 def load_data(filename):
     return pd.read_csv(filename)
 
@@ -17,6 +17,9 @@ def plot_distribution(data, dist_type, param_value):
     elif dist_type == 'Gaussian':
         dist = norm(loc=param_value)
         title = f'Gaussian Distribution (μ={param_value})'
+    else:
+        st.error('Invalid distribution type selected.')
+        return
 
     # Calculate PDF values for a range of x values
     x = np.linspace(min(data), max(data), 100)
@@ -63,6 +66,9 @@ def main():
         parameter_label = 'λ (Lambda, Mean)'
     elif distribution_type == 'Gaussian':
         parameter_label = 'μ (Mean)'
+    else:
+        st.error('Invalid distribution type selected.')
+        return
 
     # Parameter slider
     parameter_value = st.slider(f'Select {parameter_label}:', min_value=0.1, max_value=10.0, value=1.0, step=0.1)
