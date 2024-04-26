@@ -50,7 +50,7 @@ distribucion = st.sidebar.selectbox(
 if distribucion == 'Poisson':
     st.header('Distribución de Poisson')
 
-    # Ajustar distribución de Poisson usando los datos de "Decaimiento"
+    # Ajustar distribución de Poisson usando los datos de "Decaimiento solo con el aire"
     params = ajustar_poisson(data1['Decaimiento solo con el aire'])
 
     # Trazar histograma
@@ -61,7 +61,7 @@ if distribucion == 'Poisson':
 elif distribucion == 'Gaussiana':
     st.header('Distribución Gaussiana')
 
-    # Ajustar distribución gaussiana usando los datos de "Decaimiento"
+    # Ajustar distribución gaussiana usando los datos de "Decaimiento solo con el aire"
     media, desviacion = ajustar_gaussiana(data1['Decaimiento solo con el aire'])
 
     # Trazar histograma
