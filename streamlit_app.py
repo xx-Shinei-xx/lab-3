@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson
+from scipy.optimize import curve_fit
 
 # Función para graficar la distribución gaussiana
 def plot_gaussian_distribution(mu, sigma):
@@ -13,12 +14,32 @@ def plot_gaussian_distribution(mu, sigma):
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-# Función para graficar la distribución de Poisson con barras
+# Función para realizar el ajuste de la distribución de Poisson
+def fit_poisson_distribution(data):
+    mu = np.mean(data)
+    x = np.arange(0, max(data) + 1)
+    y = poisson.pmf(x, mu)
+
+    # Realizar ajuste de la distribución de Poisson
+    def poisson_function(k, lamb):
+        return poisson.pmf(k, lamb)
+
+    popt, _ = curve_fit(poisson_function, x, y)
+
+    return popt[0]
+
+# Función para graficar la distribución de Poisson con el ajuste
 def plot_poisson_distribution(data):
     mu = np.mean(data)
     x = np.arange(0, max(data) + 1)
     y = poisson.pmf(x, mu)
-    fig = go.Figure(data=go.Bar(x=x, y=y))
+    
+    # Ajustar distribución de Poisson
+    lamb = fit_poisson_distribution(data)
+    fit_y = poisson.pmf(x, lamb)
+
+    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
+                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
 
