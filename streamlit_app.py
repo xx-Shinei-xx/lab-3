@@ -17,7 +17,7 @@ def plot_poisson_distribution(data):
     mu = np.mean(data)
     x = np.arange(0, max(data) + 1)
     y = poisson.pmf(x, mu)
-    fig = go.Figure(data=go.Scatter(x=x, y=y, mode='markers+lines'))
+    fig = go.Figure(data=go.Bar(x=x, y=y))
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
 
