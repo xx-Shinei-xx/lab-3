@@ -1,42 +1,74 @@
-# Importa las bibliotecas necesarias
-import streamlit as st
 import numpy as np
-import pandas as pd
-import scipy.stats as stats
+from scipy.stats import poisson, norm
+import matplotlib.pyplot as plt
+import streamlit as st
 
-# Agrega una barra lateral para seleccionar la distribución
-distribution_choice = st.sidebar.selectbox("Selecciona una distribución:", ["Gaussiana", "Poisson"])
+# Cargar los datos
+data = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
 
-# Genera datos de ejemplo según la distribución seleccionada
-if distribution_choice == "Gaussiana":
-    mu = st.slider("Media (μ)", min_value=0.0, max_value=10.0, value=5.0)
-    sigma = st.slider("Desviación estándar (σ)", min_value=0.1, max_value=5.0, value=1.0)
-    sample_size = st.slider("Tamaño de la muestra", min_value=10, max_value=100, value=50)
-    sample_data = np.random.normal(mu, sigma, sample_size)
+# Función para el análisis de distribución de Poisson
+def poisson_analysis(data):
+    # Calcular la media de los datos
+    mean = np.mean(data)
+
+    # Ajustar la distribución de Poisson
+    poisson_params = poisson.fit(data, floc=0)
+    poisson_fitted = poisson.pdf(np.arange(np.max(data) + 1), *poisson_params)
+
+    # Calcular la prueba de chi-cuadrado
+    chi_square_poisson, p_value_poisson = poisson.chisquare(data, poisson_params)
+
+    # Crear una figura para graficar los datos y el ajuste de Poisson
+    fig, ax = plt.subplots()
+    ax.hist(data, bins=np.arange(np.max(data) + 2) - 0.5, density=True, label='Datos')
+    ax.plot(np.arange(np.max(data) + 1), poisson_fitted, 'r-', lw=2, label='Ajuste Poisson')
+    ax.set_title('Distribución de Poisson')
+    ax.set_xlabel('Valor')
+    ax.set_ylabel('Densidad')
+    ax.legend()
+
+    return fig, chi_square_poisson, p_value_poisson
+
+# Función para el análisis de distribución Gaussiana
+def gaussian_analysis(data):
+    # Calcular la media y la desviación estándar de los datos
+    mean = np.mean(data)
+    std = np.std(data)
+
+    # Ajustar la distribución Gaussiana
+    gaussian_params = norm.fit(data)
+    gaussian_fitted = norm.pdf(np.linspace(np.min(data), np.max(data), 100), *gaussian_params)
+
+    # Calcular la prueba de chi-cuadrado
+    chi_square_gaussian, p_value_gaussian = norm.chisquare(data, gaussian_params)
+
+    # Crear una figura para graficar los datos y el ajuste Gaussiano
+    fig, ax = plt.subplots()
+    ax.hist(data, bins=20, density=True, label='Datos')
+    ax.plot(np.linspace(np.min(data), np.max(data), 100), gaussian_fitted, 'r-', lw=2, label='Ajuste Gaussiano')
+    ax.set_title('Distribución Gaussiana')
+    ax.set_xlabel('Valor')
+    ax.set_ylabel('Densidad')
+    ax.legend()
+
+    return fig, chi_square_gaussian, p_value_gaussian
+
+# Aplicación Streamlit
+st.title("Análisis de distribución de datos")
+
+# Radio button para seleccionar la distribución
+distribution = st.sidebar.radio("Seleccionar distribución", ("Poisson", "Gaussiana"))
+
+# Sección de análisis
+if distribution == "Poisson":
+    st.header("Análisis de distribución de Poisson")
+    fig, chi_square, p_value = poisson_analysis(data)
+    st.pyplot(fig)
+    st.write(f"Valor de chi-cuadrado: {chi_square:.2f}")
+    st.write(f"Valor p: {p_value:.4f}")
 else:
-    lambda_val = st.slider("Tasa (λ)", min_value=0.1, max_value=5.0, value=1.0)
-    sample_size = st.slider("Tamaño de la muestra", min_value=10, max_value=100, value=50)
-    sample_data = np.random.poisson(lambda_val, sample_size)
-
-# Visualiza los datos generados
-st.write("Datos generados:")
-st.write(sample_data)
-
-# Realiza la prueba de chi-cuadrado
-observed_counts, _ = np.histogram(sample_data, bins="auto")
-expected_counts = np.full_like(observed_counts, fill_value=sample_size / len(observed_counts))
-chi2_statistic, p_value = stats.chisquare(observed_counts, expected_counts)
-
-st.write(f"Estadístico de chi-cuadrado: {chi2_statistic:.4f}")
-st.write(f"Valor p: {p_value:.4f}")
-
-# Compara el valor p con un umbral (por ejemplo, 0.05) para determinar la significancia
-alpha = 0.05
-if p_value < alpha:
-    st.write("Los datos difieren significativamente de la distribución esperada.")
-else:
-    st.write("No hay suficiente evidencia para concluir que los datos difieren de la distribución esperada.")
-
-# Puedes agregar más visualizaciones y análisis según tus necesidades
-
-# Ejecuta la aplicación con 'streamlit run nombre_del_archivo.py'
+    st.header("Análisis de distribución Gaussiana")
+    fig, chi_square, p_value = gaussian_analysis(data)
+    st.pyplot(fig)
+    st.write(f"Valor de chi-cuadrado: {chi_square:.2f}")
+    st.write(f"Valor p: {p_value:.4f}")
