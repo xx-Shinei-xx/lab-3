@@ -81,7 +81,6 @@ if selected_data == 'data1.csv':
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones de data2.csv')
     show_histogram_and_distributions(pd.DataFrame({'Value': data2}), selected_data)
-    if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-        p_value_poisson = chi_square_test(data2, 'poisson')
-        st.write(f"Valor p para distribución de Poisson: {p_value_poisson}")
+    if st.button('Ver distribución de Poisson'):
+        plot_poisson_distribution(data2)
         
