@@ -36,18 +36,18 @@ def show_histogram_and_distributions(df):
     plot_poisson_distribution(df['Value'])
 
 # Cargar los datos desde el archivo CSV
-data = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
+data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
+data2 = pd.read_csv('data2.csv')
 
 # Crear la aplicación Streamlit
 st.title('Análisis de Datos')
 
-# Agregar un botón para cargar y mostrar los histogramas de un nuevo archivo CSV
-if st.button('Mostrar Histogramas de data2.csv'):
-    st.subheader('Histogramas y Distribuciones de data2.csv')
-    data2 = pd.read_csv('data2.csv')
-    show_histogram_and_distributions(data2)
+# Agregar un botón para cambiar entre las distribuciones de data1.csv y data2.csv
+selected_data = st.radio('Seleccionar conjunto de datos:', ('data1.csv', 'data2.csv'))
 
-# Mostrar las distribuciones para data1.csv por defecto
-st.subheader('Distribuciones de data1.csv')
-show_histogram_and_distributions(pd.DataFrame({'Value': data}))
-    
+if selected_data == 'data1.csv':
+    st.subheader('Distribuciones de data1.csv')
+    show_histogram_and_distributions(pd.DataFrame({'Value': data1}))
+elif selected_data == 'data2.csv':
+    st.subheader('Distribuciones de data2.csv')
+    show_histogram_and_distributions(data2)
