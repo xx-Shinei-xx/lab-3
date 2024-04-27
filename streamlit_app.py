@@ -28,7 +28,8 @@ def chi_square_test(data, distribution):
     if distribution == 'gaussian':
         mu = np.mean(data)
         sigma = np.std(data)
-        expected_counts, _ = np.histogram(np.random.normal(mu, sigma, len(data)), bins=10)
+        # Calcular las frecuencias esperadas utilizando la función de densidad de probabilidad de la distribución normal
+        expected_counts = norm.pdf(data, mu, sigma) * len(data)
     elif distribution == 'poisson':
         mu = np.mean(data)
         expected_counts = poisson.pmf(np.arange(10), mu) * len(data)
@@ -56,8 +57,8 @@ def plot_poisson_distribution(data):
     st.plotly_chart(fig)
 
 # Cargar los datos 1 y 2
-data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
-data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
+data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=2)
+data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=2)
 
 #  Streamlit
 st.title('Análisis de Datos')
