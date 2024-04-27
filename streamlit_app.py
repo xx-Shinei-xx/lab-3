@@ -4,26 +4,20 @@ import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson, chisquare
 
-# distribución gaussiana 
-def gaussian(x, A, u, r):
-    return A * np.exp(-((x - u) / r) ** 2 / 2)
-
 # distribución gaussiana
 def plot_gaussian_distribution(data):
     mu, sigma = np.mean(data), np.std(data)
     x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
-    y = gaussian(x, 1, mu, sigma)  # Utilizar la función de distribución gaussiana personalizada
+    y = norm.pdf(x, mu, sigma)
     fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Distribución Gaussiana'))
     fig.add_trace(go.Histogram(x=data, histnorm='probability density', name='Histograma Gaussiano'))
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
-    
+
     if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data, _, _ = chi_square_test(data, 'gaussian')
+        p_value_gaussian_data, observed_counts, expected_counts = chi_square_test(data, 'gaussian')
         st.write(f"Valor p para distribución Gaussiana: {p_value_gaussian_data}")
-
-
-      #  plot_chi_square_test(p_value_gaussian_data, observed_counts, expected_counts, 'gaussian')
+        plot_chi_square_test(p_value_gaussian_data, observed_counts, expected_counts, 'gaussian')
 
 # distribución de Poisson
 def fit_poisson_distribution(data):
