@@ -33,6 +33,8 @@ def chi_square_test(data, distribution):
     elif distribution == 'poisson':
         mu = np.mean(data)
         expected_counts = poisson.pmf(np.arange(10), mu) * len(data)
+        # Ajustar para asegurar que no hay ceros en las frecuencias esperadas
+        expected_counts += 0.1
     
     observed_counts, _ = np.histogram(data, bins=10)
     
@@ -74,7 +76,6 @@ if selected_data == 'data1.csv':
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data1)
     mu_gaussian, sigma_gaussian = fit_gaussian(data1)
-    #st.write(f"Parámetros ajustados para la distribución Gaussiana: mu={mu_gaussian}, sigma={sigma_gaussian}")
     
     if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
         p_value_gaussian_data1 = chi_square_test(data1, 'gaussian')
@@ -95,7 +96,7 @@ elif selected_data == 'data2.csv':
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data2)
     mu_gaussian, sigma_gaussian = fit_gaussian(data2)
-  #  st.write(f"Parámetros ajustados para la distribución Gaussiana: mu={mu_gaussian}, sigma={sigma_gaussian}")
+  
     if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
         p_value_gaussian_data2 = chi_square_test(data2, 'gaussian')
         plot_chi_square_test(p_value_gaussian_data2, 'gaussian')
