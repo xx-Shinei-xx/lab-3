@@ -75,11 +75,11 @@ if selected_data == 'data1.csv':
     plot_gaussian_distribution(data1)
     mu_gaussian, sigma_gaussian = fit_gaussian(data1)
     #st.write(f"Parámetros ajustados para la distribución Gaussiana: mu={mu_gaussian}, sigma={sigma_gaussian}")
- if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
+    
+    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
         p_value_gaussian_data1 = chi_square_test(data1, 'gaussian')
         plot_chi_square_test(p_value_gaussian_data1, 'gaussian')
 
-    
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
 
@@ -96,7 +96,7 @@ elif selected_data == 'data2.csv':
     plot_gaussian_distribution(data2)
     mu_gaussian, sigma_gaussian = fit_gaussian(data2)
   #  st.write(f"Parámetros ajustados para la distribución Gaussiana: mu={mu_gaussian}, sigma={sigma_gaussian}")
-if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
+    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
         p_value_gaussian_data2 = chi_square_test(data2, 'gaussian')
         plot_chi_square_test(p_value_gaussian_data2, 'gaussian')
 
@@ -107,5 +107,3 @@ if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
         p_value_poisson_data2 = chi_square_test(data2, 'poisson')
         plot_chi_square_test(p_value_poisson_data2, 'poisson')
-        
-    
