@@ -28,6 +28,7 @@ def chi_square_test(data, distribution):
     if distribution == 'gaussian':
         mu = np.mean(data)
         sigma = np.std(data)
+        # Calcular las frecuencias esperadas utilizando la función de densidad de probabilidad de la distribución normal
         expected_counts = norm.pdf(data, mu, sigma) * len(data)
     elif distribution == 'poisson':
         mu = np.mean(data)
@@ -41,6 +42,7 @@ def chi_square_test(data, distribution):
 
 # Función para graficar la prueba de chi-cuadrado
 def plot_chi_square_test(p_value, observed_counts, expected_counts, distribution):
+    # No mostramos las gráficas de la prueba de chi-cuadrado
     pass
 
 #fit de la distribución de poisson 
@@ -71,6 +73,9 @@ if selected_data == 'data1.csv':
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data1)
 
+    st.subheader('Distribución de Poisson:')
+    plot_poisson_distribution(data1)
+
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
         p_value_poisson_data1, _, _ = chi_square_test(data1, 'poisson')
         st.write(f"Valor p para distribución de Poisson en el decaimiento solo con el aire: {p_value_poisson_data1}")
@@ -80,6 +85,9 @@ elif selected_data == 'data2.csv':
 
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data2)
+
+    st.subheader('Distribución de Poisson:')
+    plot_poisson_distribution(data2)
 
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
         p_value_poisson_data2, _, _ = chi_square_test(data2, 'poisson')
