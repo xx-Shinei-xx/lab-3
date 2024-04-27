@@ -45,13 +45,9 @@ def chi_square_test(data, distribution='gaussian'):
     
     observed_counts, _ = np.histogram(data, bins=10)
     
-    _, p_value = chisquare(observed_counts, expected_counts)
+    _, chi_value = chisquare(observed_counts, expected_counts)
     
-    return p_value
-
-# Función para graficar la prueba de chi-cuadrado
-def plot_chi_square_test(p_value):
-    st.write(f"P-valor para ajuste de chi-cuadrado: {p_value}")
+    return chi_value
 
 # Cargar los datos desde los archivos CSV
 data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
@@ -71,15 +67,15 @@ if selected_data == 'data1.csv':
     mu_gaussian, sigma_gaussian = fit_gaussian(data1)
     
     if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data1 = chi_square_test(data1, distribution='gaussian')
-        plot_chi_square_test(p_value_gaussian_data1)
+        chi_value_gaussian_data1 = chi_square_test(data1, distribution='gaussian')
+        st.write(f"Valor de la prueba de chi-cuadrado para distribución Gaussiana: {chi_value_gaussian_data1}")
     
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
     
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-        p_value_poisson_data1 = chi_square_test(data1, distribution='poisson')
-        plot_chi_square_test(p_value_poisson_data1)
+        chi_value_poisson_data1 = chi_square_test(data1, distribution='poisson')
+        st.write(f"Valor de la prueba de chi-cuadrado para distribución de Poisson: {chi_value_poisson_data1}")
 
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones de data2.csv')
@@ -89,12 +85,12 @@ elif selected_data == 'data2.csv':
     mu_gaussian, sigma_gaussian = fit_gaussian(data2)
   
     if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data2 = chi_square_test(data2, distribution='gaussian')
-        plot_chi_square_test(p_value_gaussian_data2)
+        chi_value_gaussian_data2 = chi_square_test(data2, distribution='gaussian')
+        st.write(f"Valor de la prueba de chi-cuadrado para distribución Gaussiana: {chi_value_gaussian_data2}")
     
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data2)
     
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-        p_value_poisson_data2 = chi_square_test(data2, distribution='poisson')
-        plot_chi_square_test(p_value_poisson_data2)
+        chi_value_poisson_data2 = chi_square_test(data2, distribution='poisson')
+        st.write(f"Valor de la prueba de chi-cuadrado para distribución de Poisson: {chi_value_poisson_data2}")
