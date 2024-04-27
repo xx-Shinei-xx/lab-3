@@ -15,7 +15,7 @@ def poisson_analysis(data):
     poisson_pmf = poisson.pmf(np.arange(np.max(data) + 1), mu)
 
     # Calcular la prueba de chi-cuadrado
-    chi_square_poisson, p_value_poisson = poisson.chisquare(data, mu)
+    chi_square_poisson, p_value_poisson = poisson.chisquare(data, (mu,))  # Envolver mu en una tupla
 
     # Crear una figura para graficar los datos y el ajuste de Poisson
     fig, ax = plt.subplots()
