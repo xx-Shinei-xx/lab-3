@@ -10,7 +10,7 @@ def plot_gaussian_distribution(data):
     x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
     y = norm.pdf(x, mu, sigma)
     fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Distribución Gaussiana'))
-    fig.add_trace(go.Histogram(x=np.random.normal(mu, sigma, 1000), histnorm='probability density', name='Histograma Gaussiano'))
+    fig.add_trace(go.Histogram(x=data, histnorm='probability density', name='Histograma Gaussiano'))
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
