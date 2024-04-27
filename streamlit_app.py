@@ -13,10 +13,6 @@ def plot_gaussian_distribution(data):
     fig.add_trace(go.Histogram(x=np.random.normal(mu, sigma, 1000), histnorm='probability density', name='Histograma Gaussiano'))
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
-    
-    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data, _, _ = chi_square_test(data, 'gaussian')
-        st.write(f"Valor p para distribución Gaussiana: {p_value_gaussian_data}")
 
 #distribución de Poisson
 def fit_poisson_distribution(data):
@@ -28,8 +24,7 @@ def chi_square_test(data, distribution):
     if distribution == 'gaussian':
         mu = np.mean(data)
         sigma = np.std(data)
-        # Calcular las frecuencias esperadas utilizando la función de densidad de probabilidad de la distribución normal
-        expected_counts = norm.pdf(data, mu, sigma) * len(data)
+        expected_counts, _ = np.histogram(np.random.normal(mu, sigma, len(data)), bins=10)
     elif distribution == 'poisson':
         mu = np.mean(data)
         expected_counts = poisson.pmf(np.arange(10), mu) * len(data)
@@ -42,7 +37,11 @@ def chi_square_test(data, distribution):
 
 # Función para graficar la prueba de chi-cuadrado
 def plot_chi_square_test(p_value, observed_counts, expected_counts, distribution):
-    pass
+    fig = go.Figure(data=[go.Bar(x=np.arange(1, 11), y=observed_counts, name='Observado'),
+                          go.Scatter(x=np.arange(1, 11), y=expected_counts, mode='lines', name='Esperado')])
+    fig.update_layout(title=f'Prueba de chi-cuadrado para distribución {distribution.capitalize()}', xaxis_title='Intervalo', yaxis_title='Frecuencia')
+    fig.update_traces(marker_color=['blue', 'red'])
+    st.plotly_chart(fig)
 
 #fit de la distribución de poisson 
 def plot_poisson_distribution(data):
@@ -60,7 +59,6 @@ def plot_poisson_distribution(data):
 data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
 data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
 
-
 #  Streamlit
 st.title('Análisis de Datos')
 
@@ -76,9 +74,15 @@ if selected_data == 'data1.csv':
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
 
+    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
+        p_value_gaussian_data1, observed_counts_gaussian_data1, expected_counts_gaussian_data1 = chi_square_test(data1, 'gaussian')
+        st.write(f"Valor p para distribución Gaussiana en el decaimiento solo con el aire: {p_value_gaussian_data1}")
+        plot_chi_square_test(p_value_gaussian_data1, observed_counts_gaussian_data1, expected_counts_gaussian_data1, 'gaussian')
+
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-        p_value_poisson_data1, _, _ = chi_square_test(data1, 'poisson')
+        p_value_poisson_data1, observed_counts_poisson_data1, expected_counts_poisson_data1 = chi_square_test(data1, 'poisson')
         st.write(f"Valor p para distribución de Poisson en el decaimiento solo con el aire: {p_value_poisson_data1}")
+        plot_chi_square_test(p_value_poisson_data1, observed_counts_poisson_data1, expected_counts_poisson_data1, 'poisson')
 
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
@@ -89,6 +93,13 @@ elif selected_data == 'data2.csv':
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data2)
 
+    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
+        p_value_gaussian_data2, observed_counts_gaussian_data2, expected_counts_gaussian_data2 = chi_square_test(data2, 'gaussian')
+        st.write(f"Valor p para distribución Gaussiana en el decaimiento del cesio-137: {p_value_gaussian_data2}")
+        plot_chi_square_test(p_value_gaussian_data2, observed_counts_gaussian_data2, expected_counts_gaussian_data2, 'gaussian')
+
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-        p_value_poisson_data2, _, _ = chi_square_test(data2, 'poisson')
+        p_value_poisson_data2, observed_counts_poisson_data2, expected_counts_poisson_data2 = chi_square_test(data2, 'poisson')
         st.write(f"Valor p para distribución de Poisson en el decaimiento del cesio-137: {p_value_poisson_data2}")
+        plot_chi_square_test(p_value_poisson_data2, observed_counts_poisson_data2, expected_counts_poisson_data2, 'poisson')
+    
