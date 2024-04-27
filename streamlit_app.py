@@ -28,8 +28,11 @@ def chi_square_test(data, distribution):
     if distribution == 'gaussian':
         mu = np.mean(data)
         sigma = np.std(data)
-        # Calcular las frecuencias esperadas utilizando la función de densidad de probabilidad de la distribución normal
-        expected_counts = norm.pdf(data, mu, sigma) * len(data)
+        # Calcular las probabilidades acumulativas en los límites de los bins
+        bin_edges = np.linspace(np.min(data), np.max(data), num=11)
+        cdf_values = norm.cdf(bin_edges, mu, sigma)
+        # Calcular las frecuencias esperadas restando las probabilidades acumulativas
+        expected_counts = np.diff(cdf_values) * len(data)
     elif distribution == 'poisson':
         mu = np.mean(data)
         expected_counts = poisson.pmf(np.arange(10), mu) * len(data)
