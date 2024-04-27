@@ -37,7 +37,6 @@ def chi_square_test(data, distribution):
 
 # Función para graficar la prueba de chi-cuadrado
 def plot_chi_square_test(p_value, observed_counts, expected_counts, distribution):
-    # No mostramos las gráficas de la prueba de chi-cuadrado
     pass
 
 #fit de la distribución de poisson 
