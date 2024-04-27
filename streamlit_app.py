@@ -102,4 +102,3 @@ elif selected_data == 'data2.csv':
         p_value_poisson_data2, observed_counts_poisson_data2, expected_counts_poisson_data2 = chi_square_test(data2, 'poisson')
         st.write(f"Valor p para distribución de Poisson en el decaimiento del cesio-137: {p_value_poisson_data2}")
         plot_chi_square_test(p_value_poisson_data2, observed_counts_poisson_data2, expected_counts_poisson_data2, 'poisson')
-    
