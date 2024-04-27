@@ -57,8 +57,9 @@ def plot_poisson_distribution(data):
     st.plotly_chart(fig)
 
 # Cargar los datos 1 y 2
-data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=2)
-data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=2)
+data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
+data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
+
 
 #  Streamlit
 st.title('Análisis de Datos')
