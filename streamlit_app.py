@@ -13,6 +13,10 @@ def plot_gaussian_distribution(data):
     fig.add_trace(go.Histogram(x=np.random.normal(mu, sigma, 1000), histnorm='probability density', name='Histograma Gaussiano'))
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
+    
+    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
+        p_value_gaussian_data, _, _ = chi_square_test(data, 'gaussian')
+        st.write(f"Valor p para distribución Gaussiana: {p_value_gaussian_data}")
 
 #distribución de Poisson
 def fit_poisson_distribution(data):
@@ -70,10 +74,6 @@ if selected_data == 'data1.csv':
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
 
-    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data1, _, _ = chi_square_test(data1, 'gaussian')
-        st.write(f"Valor p para distribución Gaussiana en el decaimiento solo con el aire: {p_value_gaussian_data1}")
-
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
         p_value_poisson_data1, _, _ = chi_square_test(data1, 'poisson')
         st.write(f"Valor p para distribución de Poisson en el decaimiento solo con el aire: {p_value_poisson_data1}")
@@ -86,10 +86,6 @@ elif selected_data == 'data2.csv':
 
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data2)
-
-    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data2, _, _ = chi_square_test(data2, 'gaussian')
-        st.write(f"Valor p para distribución Gaussiana en el decaimiento del cesio-137: {p_value_gaussian_data2}")
 
     if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
         p_value_poisson_data2, _, _ = chi_square_test(data2, 'poisson')
