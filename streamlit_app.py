@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
-from scipy.stats import norm, chisquare
+from scipy.stats import norm, chisquare, poisson
 from scipy.optimize import curve_fit
 
 # Función para graficar la distribución gaussiana
@@ -23,11 +23,25 @@ def fit_gaussian(data):
     
     return popt
 
+# Función para graficar la distribución de Poisson
+def plot_poisson_distribution(data):
+    lambda_poisson = np.mean(data)
+    x = np.arange(0, np.max(data) + 1)
+    y = poisson.pmf(x, lambda_poisson)
+    fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Distribución de Poisson'))
+    fig.add_trace(go.Histogram(x=data, histnorm='probability density', name='Histograma de Poisson'))
+    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
+    st.plotly_chart(fig)
+
 # Función para realizar la prueba de chi-cuadrado y determinar el ajuste que se adapta mejor
-def chi_square_test(data):
-    mu = np.mean(data)
-    sigma = np.std(data)
-    expected_counts, _ = np.histogram(np.random.normal(mu, sigma, len(data)), bins=10)
+def chi_square_test(data, distribution='gaussian'):
+    if distribution == 'gaussian':
+        mu = np.mean(data)
+        sigma = np.std(data)
+        expected_counts, _ = np.histogram(np.random.normal(mu, sigma, len(data)), bins=10)
+    elif distribution == 'poisson':
+        lambda_poisson = np.mean(data)
+        expected_counts = poisson.pmf(np.arange(0, np.max(data) + 1), lambda_poisson) * len(data)
     
     observed_counts, _ = np.histogram(data, bins=10)
     
@@ -57,8 +71,15 @@ if selected_data == 'data1.csv':
     mu_gaussian, sigma_gaussian = fit_gaussian(data1)
     
     if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data1 = chi_square_test(data1)
+        p_value_gaussian_data1 = chi_square_test(data1, distribution='gaussian')
         plot_chi_square_test(p_value_gaussian_data1)
+    
+    st.subheader('Distribución de Poisson:')
+    plot_poisson_distribution(data1)
+    
+    if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
+        p_value_poisson_data1 = chi_square_test(data1, distribution='poisson')
+        plot_chi_square_test(p_value_poisson_data1)
 
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones de data2.csv')
@@ -68,5 +89,12 @@ elif selected_data == 'data2.csv':
     mu_gaussian, sigma_gaussian = fit_gaussian(data2)
   
     if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data2 = chi_square_test(data2)
+        p_value_gaussian_data2 = chi_square_test(data2, distribution='gaussian')
         plot_chi_square_test(p_value_gaussian_data2)
+    
+    st.subheader('Distribución de Poisson:')
+    plot_poisson_distribution(data2)
+    
+    if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
+        p_value_poisson_data2 = chi_square_test(data2, distribution='poisson')
+        plot_chi_square_test(p_value_poisson_data2)
