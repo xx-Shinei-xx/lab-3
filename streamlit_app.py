@@ -54,7 +54,7 @@ st.write("Bienvenido al análisis estadístico de los conjuntos de datos.")
 st.markdown("---")
 
 # Sidebar
-st.sidebar.title("Opciones")
+st.sidebar.title("Navegación")
 st.sidebar.markdown("Utiliza los botones a continuación para navegar por la página:")
 selected_data = st.sidebar.radio('Seleccionar conjunto de datos:', ('data1', 'data2'))
 
