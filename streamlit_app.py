@@ -96,7 +96,8 @@ if selected_option == 'Reporte':
         """
     )
     st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
-      st.subheader('Diseño Experimental')
+    
+    st.subheader('Diseño Experimental')
     st.markdown(
         """
         Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
