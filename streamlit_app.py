@@ -56,7 +56,6 @@ st.markdown("<h1 style='text-align: center;'>Laboratorio 3</h1>", unsafe_allow_h
 st.write("<p style='text-align: center;'>José Guillermo Monterroso Marroquín, 202005689 y Shawn César Alejandro García Fernández, 201906567.</p>", unsafe_allow_html=True)
 st.markdown("---")
 
-        
 # Sidebar
 st.sidebar.title("Navegación")
 selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 'Data2'))
@@ -66,8 +65,6 @@ if selected_option == 'Reporte':
     col1, col2 = st.columns(2)
 
     with col1:
-        
-        
         st.write("<div class='big-title'>Resumen</div>", unsafe_allow_html=True)
         st.markdown(
             """
@@ -90,38 +87,6 @@ if selected_option == 'Reporte':
             """
         )
        
-      
-        st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
-            """
-        )
-        st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
-
-        st.write("<div class='big-title'>Distribución de Poisson</div>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
-            """
-        )
-        st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
-
-    with col2:
-        st.write("<div class='big-title'>Cesio-137</div>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            El Cesio-137 es un elemento que experimenta desintegración radioactiva, un proceso que produce radiación. Esta radiación consiste en partículas que se mueven a altas velocidades y poseen altas energías.
-            """
-        )
-        
-        st.write("<div class='big-title'>Contador Geiger</div>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            Un contador Geiger es un dispositivo electrónico diseñado para detectar y medir radiaciones ionizantes en su entorno. Esto hace posible cuantificar las partículas con altas energías.
-            """
-        )
-        
         st.write("<div class='big-title'>Diseño Experimental</div>", unsafe_allow_html=True)
         st.markdown(
             """
@@ -135,6 +100,7 @@ if selected_option == 'Reporte':
             """
         )
 
+    with col2:
         st.write("<div class='big-title'>Discusión de Resultados</div>", unsafe_allow_html=True)
         st.markdown(
             """
@@ -156,11 +122,13 @@ if selected_option == 'Reporte':
             - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
             - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
             - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
-            - https://en.wikipedia.org/wiki/Chi-squared_test
-            - https://en.wikipedia.org/wiki/Poisson_distribution
-            - https://en.wikipedia.org/wiki/Normal_distribution
+            - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
+            - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
+            - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
             """
         )
+
+
 
 elif selected_option == 'Data1':
     st.subheader('Decaimiento solo con el aire')
