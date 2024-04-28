@@ -90,9 +90,8 @@ if selected_option == 'Reporte':
             - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
             """
         )
-        st.subheader('Marco Teórico')
-       st.markdown(
-           ""
+       
+      
         st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
         st.markdown(
             """
@@ -123,11 +122,7 @@ if selected_option == 'Reporte':
             Un contador Geiger es un dispositivo electrónico diseñado para detectar y medir radiaciones ionizantes en su entorno. Esto hace posible cuantificar las partículas con altas energías.
             """
         )
-        # aqui
         
-           """
-        )
-
         st.write("<div class='big-title'>Diseño Experimental</div>", unsafe_allow_html=True)
         st.markdown(
             """
