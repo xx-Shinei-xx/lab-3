@@ -71,27 +71,7 @@ def plot_poisson_distribution(data):
      #   p_value_poisson_data, observed_counts, expected_counts = chi_square_test(data, 'poisson')
      #   st.write(f"Valor p para distribución de Poisson: {p_value_poisson_data}")
       #  plot_chi_square_test(p_value_poisson_data, observed_counts, expected_counts, 'poisson')
-def calcular_frecuencias(data):
-    # Calcular frecuencia observada
-    valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
 
-    # Calcular tasa promedio de eventos (lambda)
-    tasa_promedio = np.mean(data)
-
-    # Calcular frecuencia esperada utilizando distribución de Poisson
-    frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
-    
-    return valores_unicos, frecuencia_observada, frecuencia_esperada
-
-def main():
-    # Leer datos desde el archivo CSV
-    data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
-
-    # Calcular frecuencias
-    valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
-
-    # Mostrar tabla cuando se presione el botón
-   
 
 
 
@@ -119,10 +99,49 @@ if selected_data == 'data1.csv':
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
 
+
+
+def calcular_frecuencias(data):
+    # Calcular frecuencia observada
+    valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
+
+    # Calcular tasa promedio de eventos (lambda)
+    tasa_promedio = np.mean(data)
+
+    # Calcular frecuencia esperada utilizando distribución de Poisson
+    frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
+    
+    return valores_unicos, frecuencia_observada, frecuencia_esperada
+
+def main():
+    # Leer datos desde el archivo CSV
+    data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
+
+    # Calcular frecuencias
+    valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
+
+    # Mostrar tabla cuando se presione el botón
+   
  if st.button("Mostrar Tabla"):
         # Crear tabla
         tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
         tabla = st.table(tabla_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
