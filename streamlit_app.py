@@ -53,7 +53,8 @@ st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", lay
 
 # Título y subtítulo
 st.title('Análisis de Datos')
-st.write("Bienvenido al análisis estadístico de los conjuntos de datos.")
+st.markdown("<h1 style='text-align: center;'>Análisis de Datos</h1>", unsafe_allow_html=True)
+st.write("<p style='text-align: center;'>Bienvenido al análisis estadístico de los conjuntos de datos.</p>", unsafe_allow_html=True)
 st.markdown("---")
 
 # Sidebar
