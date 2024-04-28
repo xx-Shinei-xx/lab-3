@@ -30,7 +30,7 @@ def plot_gaussian_distribution(data, title):
     x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
     y = norm.pdf(x, mu, sigma)
     fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Ajuste de Gauss'))
-    fig.add_trace(go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiano', marker=dict(color='blue')))
+    fig.add_trace(go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(color='blue')))
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     return fig
 
@@ -41,7 +41,7 @@ def plot_poisson_distribution(data, title):
     y = poisson.pmf(x, mu)
     fit_y = poisson.pmf(x, mu)
     fig = go.Figure(data=[ go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2)),
-        go.Bar(x=x, y=y, name='Distribución de Poisson') ])
+    go.Bar(x=x, y=y, name='Distribución de Poisson', marker=dict(color='blue')) ])
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Probabilidad')
     return fig
 
