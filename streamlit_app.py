@@ -26,12 +26,15 @@ def mostrar_tabla_y_chi(data):
 
 # Streamlit
 st.title('Análisis de Datos')
+st.markdown('---')
 
 # Botón para seleccionar el conjunto de datos
 selected_data = st.radio('Seleccionar conjunto de datos:', ('data1', 'data2'))
+st.markdown('---')
 
 if selected_data == 'data1':
     st.subheader('Distribuciones en el decaimiento solo con el aire')
+    st.markdown('---')
     
     st.subheader('Distribución de Gauss:')
     # Cargar datos
@@ -43,9 +46,11 @@ if selected_data == 'data1':
     fig.add_trace(go.Histogram(x=data1, histnorm='probability density', name='Histograma Gaussiano'))
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
+    st.markdown('---')
 
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
         mostrar_tabla_y_chi(data1)
+        st.markdown('---')
 
     st.subheader('Distribución de Poisson:')
     mu = np.mean(data1)
@@ -56,12 +61,15 @@ if selected_data == 'data1':
                           go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
+    st.markdown('---')
 
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         mostrar_tabla_y_chi(data1)
+        st.markdown('---')
 
 elif selected_data == 'data2':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
+    st.markdown('---')
     
     st.subheader('Distribución de Gauss:')
     # Cargar datos
@@ -73,9 +81,11 @@ elif selected_data == 'data2':
     fig.add_trace(go.Histogram(x=data2, histnorm='probability density', name='Histograma Gaussiano'))
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
+    st.markdown('---')
 
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
         mostrar_tabla_y_chi(data2)
+        st.markdown('---')
 
     st.subheader('Distribución de Poisson:')
     mu = np.mean(data2)
@@ -86,6 +96,8 @@ elif selected_data == 'data2':
                           go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
+    st.markdown('---')
 
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         mostrar_tabla_y_chi(data2)
+        st.markdown('---')
