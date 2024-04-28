@@ -36,7 +36,7 @@ def calcular_frecuencias(data):
     frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
     return valores_unicos, frecuencia_observada, frecuencia_esperada
 
-# la tabla de frecuencias
+# función para mostrar la tabla de frecuencias
 def mostrar_tabla(data):
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data)
     tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
@@ -45,8 +45,8 @@ def mostrar_tabla(data):
 # Streamlit
 st.title('Análisis de Datos')
 
-# Boton para los datos
-selected_data = st.radio('Seleccionar conjunto de datos:', ('data1', 'data2'))
+# Botón 
+selected_data = st.radio('Seleccionar conjunto de datos:', ('data1.csv', 'data2.csv'))
 
 if selected_data == 'data1.csv':
     st.subheader('Distribuciones en el decaimiento solo con el aire')
