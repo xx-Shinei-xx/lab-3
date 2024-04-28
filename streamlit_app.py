@@ -62,7 +62,7 @@ selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 
 
 # Contenido principal
 if selected_option == 'Reporte':
- col1, col2 = st.columns([1, 2])
+ col1, col2 = st.columns(2)
 
     with col1:
         st.write("<div class='big-title'>Marco Teórico</div>", unsafe_allow_html=True)
