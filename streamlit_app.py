@@ -7,7 +7,7 @@ from scipy.stats import norm, poisson, chisquare
 
 
 # URL de la imagen en tu repositorio
-cursor_image_url = "URL_DE_TU_REPOSITORIO/cursor.png"
+cursor_image_url = "Pokemon-Pokeball-PNG-Download-Image.png"
 
 # Agregar CSS personalizado para usar la imagen como cursor del mouse
 cursor_css = f"""
