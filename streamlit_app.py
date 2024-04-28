@@ -63,27 +63,34 @@ def plot_poisson_distribution(data):
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
 
-   # if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-     #   p_value_poisson_data, observed_counts, expected_counts = chi_square_test(data, 'poisson')
-     #   st.write(f"Valor p para distribución de Poisson: {p_value_poisson_data}")
-      #  plot_chi_square_test(p_value_poisson_data, observed_counts, expected_counts, 'poisson')
 
 
 
 
+def calcular_frecuencias(data):
+    # Calcular frecuencia observada
+    valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
 
-    # Datos de entrada (puedes cambiarlos según sea necesario)
-    data1 = [10, 3, 1, 2, 4, 2, 2, 1, 3, 4, 4, 2, 1, 3, 1, 4, 3, 4, 3, 0, 3, 2, 1, 6, 2, 3, 4, 1, 2, 3, 1, 0, 6, 3, 1, 2, 3, 4, 3, 2, 1, 2, 0, 3, 2, 1, 3, 1, 2, 2, 4, 1, 5, 0, 1, 3, 4, 2, 0, 2, 6, 1, 5, 4, 3, 8, 3, 0, 0, 0, 2, 2, 5, 2, 2, 3, 1, 5, 2, 3, 4, 1, 3, 1, 2, 3, 1, 3, 2, 0, 3, 1, 2, 2, 3, 3, 4, 1, 1, 2, 4, 2, 4, 4, 3, 2, 1, 3, 4, 3, 3, 3, 11, 5, 3, 2, 1, 4, 6, 25, 3, 1, 6, 1, 1, 1, 4, 1, 1, 1, 1, 8, 4, 2, 2, 1, 3, 2, 0, 3, 1, 1, 2, 5, 3, 5, 4, 1, 4, 2, 1, 2, 4, 1, 3, 3, 2, 3, 4, 1, 1, 2, 4, 2, 4, 4, 3, 3, 2, 0, 4, 3, 1, 0, 0, 1, 4, 3, 2, 2, 0, 2, 1, 3, 1, 2, 4, 3, 3, 3, 11, 5, 3, 2, 1, 4, 6, 3, 1, 1, 2, 3, 1, 2, 1, 2, 2, 5, 2, 2, 3, 1, 5, 2, 3, 4, 1, 3, 1, 2, 3, 1, 3, 2, 0, 3, 1, 2, 2, 3, 3, 4, 1, 1, 2, 4, 2, 4, 4, 3, 2, 1, 3, 4, 3, 3, 3]
+    # Calcular tasa promedio de eventos (lambda)
+    tasa_promedio = np.mean(data)
+
+    # Calcular frecuencia esperada utilizando distribución de Poisson
+    frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
+    
+    return valores_unicos, frecuencia_observada, frecuencia_esperada
+
+def main():
+    # Leer datos desde el archivo CSV
+    data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
 
     # Calcular frecuencias
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
 
-    # Mostrar resultados
-    st.write("## Frecuencias Observadas y Esperadas")
-    st.write("Valor\tFrecuencia Observada\tFrecuencia Esperada")
-    for valor, fo, fe in zip(valores_unicos, frecuencia_observada, frecuencia_esperada):
-        st.write(f"{valor}\t{fo}\t\t\t{fe}")
-
+    # Mostrar tabla cuando se presione el botón
+    if st.button("Mostrar Tabla"):
+        # Crear tabla
+        tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
+        tabla = st.table(tabla_data)
 
 
 
