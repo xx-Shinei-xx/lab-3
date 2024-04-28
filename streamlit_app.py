@@ -40,8 +40,8 @@ def plot_poisson_distribution(data, title):
     x = np.arange(0, max(data) + 1)
     y = poisson.pmf(x, mu)
     fit_y = poisson.pmf(x, mu)
-    fig = go.Figure(data=[ go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2)),
-    go.Bar(x=x, y=y, name='Distribución de Poisson', marker=dict(color='orange')) ])
+    fig = go.Figure(data=[go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2)),
+                          go.Bar(x=x, y=y, name='Distribución de Poisson', marker=dict(color='orange'))])
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Probabilidad')
     return fig
 
@@ -80,61 +80,62 @@ if selected_option == 'Reporte':
         """
     )
 
-   st.subheader('Marco Teórico')
-st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
-st.markdown(
-    """
-    La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
-    """
-)
-st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
+    st.subheader('Marco Teórico')
+    st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
+        """
+    )
+    st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
 
-st.write("<div class='big-title'>Distribución de Poisson</div>", unsafe_allow_html=True)
-st.markdown(
-    """
-    La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
-    """
-)
-st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
+    st.write("<div class='big-title'>Distribución de Poisson</div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
+        """
+    )
+    st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
 
-st.subheader('Diseño Experimental')
-st.markdown(
-    """
-    Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
-    """
-)
-st.markdown(
-    """
-    - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
-    - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
-    """
+    st.subheader('Diseño Experimental')
+    st.markdown(
+        """
+        Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
+        """
+    )
+    st.markdown(
+        """
+        - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
+        - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
+        """
+    )
 
-st.subheader('Discusión de Resultados')
-st.markdown(
-    """
-    - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
-    - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
-    """
-)
+    st.subheader('Discusión de Resultados')
+    st.markdown(
+        """
+        - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
+        - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
+        """
+    )
 
-st.subheader('Conclusiones')
-st.markdown(
-    """
-    - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
-    """
-)
+    st.subheader('Conclusiones')
+    st.markdown(
+        """
+        - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
+        """
+    )
 
-st.subheader('Referencias')
-st.markdown(
-    """
-    - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
-    - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
-    - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
-    - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
-    - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
-    - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
-    """
-)
+    st.subheader('Referencias')
+    st.markdown(
+        """
+        - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
+        - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
+        - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
+        - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
+        - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
+        - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+        """
+    )
 
 
 elif selected_option == 'Data1':
