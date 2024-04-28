@@ -89,7 +89,7 @@ if selected_option == 'Reporte':
             - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
             """
         )
-        st.write("<div class='big-title'>Marco Teórico</div>", unsafe_allow_html=True)
+         st.subheader('Marco Teórico')
         st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
         st.markdown(
             """
