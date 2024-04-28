@@ -65,7 +65,7 @@ if selected_option == 'Reporte':
     col1, col2 = st.columns(2)
 
     with col1:
-        st.write("<div class='big-title'>Marco Teórico</div>", unsafe_allow_html=True)
+        
         st.write("José Guillermo Monterroso Marroquín, 202005689 y Shawn César Alejandro García Fernández, 201906567")
         
         st.write("<div class='big-title'>Resumen</div>", unsafe_allow_html=True)
@@ -89,7 +89,7 @@ if selected_option == 'Reporte':
             - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
             """
         )
-
+        st.write("<div class='big-title'>Marco Teórico</div>", unsafe_allow_html=True)
         st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
         st.markdown(
             """
