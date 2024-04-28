@@ -50,8 +50,12 @@ def plot_gaussian_distribution(data, title):
     mu, sigma = np.mean(data), np.std(data)
     x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
     y = norm.pdf(x, mu, sigma)
+    rainbow_colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF']  # Red, Orange, Yellow, Green, Blue, Indigo, Violet
+    cmap = go.colors.ListedColormap(rainbow_colors)
+    hist = go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(color='color'))
     fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Ajuste de Gauss'))
-    fig.add_trace(go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(color='green')))
+    fig.add_trace(hist)
+    fig.update_traces(marker=dict(color=data, colorscale=cmap))
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     return fig
 
