@@ -58,6 +58,8 @@ st.sidebar.title("Navegación")
 selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 'Data2'))
 
 # Contenido principal
+
+# Contenido principal
 if selected_option == 'Reporte':
     col1, col2 = st.columns(2)
 
@@ -82,9 +84,10 @@ if selected_option == 'Reporte':
             - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
             """
         )
-
-    
+        
         st.subheader('Marco Teórico')
+        # Contenido del Marco Teórico
+        # ...
         st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
         st.markdown(
             """
@@ -100,19 +103,20 @@ if selected_option == 'Reporte':
             """
         )
         st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
+
     with col2:
-    st.subheader('Diseño Experimental')
-    st.markdown(
-        """
-        Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
-        """
-    )
-    st.markdown(
-        """
-        - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
-        - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
-        """
-    )
+        st.subheader('Diseño Experimental')
+        st.markdown(
+            """
+            Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
+            """
+        )
+        st.markdown(
+            """
+            - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
+            - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
+            """
+        )
     st.subheader('Discusión de Resultados')
     st.markdown(
         """
