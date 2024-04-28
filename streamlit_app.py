@@ -104,17 +104,16 @@ if selected_option == 'Reporte':
         st.subheader('Diseño Experimental')
         st.markdown(
             """
-            Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
-            """
-        )
+            Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que med
+        """)
         st.markdown(
             """
-            - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
-            - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
-            """
-        )
-        st.markdown("---")
+            Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
+            Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
+        """)
 
+    # Contenido de la segunda columna
+    with col2:
         st.subheader('Conclusiones')
         st.markdown(
             """
@@ -134,9 +133,6 @@ if selected_option == 'Reporte':
             """
         )
 
-    # Contenido de la segunda columna
-    with col2:
-        pass
 
 elif selected_option == 'Data1':
     # Contenido para Data1
