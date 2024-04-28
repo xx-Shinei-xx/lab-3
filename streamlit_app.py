@@ -8,7 +8,7 @@ from scipy.stats import norm, poisson, chisquare
 def calcular_chi_cuadrado(f_obs, f_exp):
     return np.sum((f_obs - f_exp)**2 / f_exp)
 
-# Función para calcular frecuencias observadas y esperadas
+#  frecuencias observadas y esperadas
 def calcular_frecuencias(data):
     valores_unicos, counts = np.unique(data, return_counts=True)
     frecuencia_observada = counts
@@ -16,7 +16,7 @@ def calcular_frecuencias(data):
     frecuencia_esperada = poisson.pmf(valores_unicos, mu) * len(data)
     return valores_unicos, frecuencia_observada, frecuencia_esperada
 
-# Función para mostrar la tabla de frecuencias y el valor de chi cuadrado
+# mostrar la tabla de frecuencias y el valor de chi cuadrado
 def mostrar_tabla_y_chi(data):
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data)
     tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
@@ -24,7 +24,7 @@ def mostrar_tabla_y_chi(data):
     chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
     st.write(f"Valor de chi cuadrado: {chi_cuadrado:.2f}")
 
-# Función para plotear la distribución de Gauss
+# plotear la distribución de Gauss
 def plot_gaussian_distribution(data, title):
     mu, sigma = np.mean(data), np.std(data)
     x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
@@ -34,7 +34,7 @@ def plot_gaussian_distribution(data, title):
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     return fig
 
-# Función para plotear la distribución de Poisson
+#  plotear la distribución de Poisson
 def plot_poisson_distribution(data, title):
     mu = np.mean(data)
     x = np.arange(0, max(data) + 1)
@@ -48,16 +48,16 @@ def plot_poisson_distribution(data, title):
 # Streamlit
 st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", layout="wide")
 
-# Título y subtítulo
+# Títulos
 st.title('Análisis de Datos')
 st.write("Bienvenido al análisis estadístico de los conjuntos de datos.")
 st.markdown("---")
 
-# Sidebar
+# para el indice o como se llame
 st.sidebar.title("Navegación")
 selected_option = st.sidebar.radio('Seleccionar opción:', ('Marco Teórico', 'Data1', 'Data2'))
 
-# Contenido principal
+# Contenido 
 if selected_option == 'Marco Teórico':
     st.write("  Marco Teórico.")
 elif selected_option == 'Data1':
