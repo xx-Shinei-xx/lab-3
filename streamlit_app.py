@@ -4,6 +4,26 @@ import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson, chisquare
 
+
+
+# URL de la imagen en tu repositorio
+cursor_image_url = "URL_DE_TU_REPOSITORIO/cursor.png"
+
+# Agregar CSS personalizado para usar la imagen como cursor del mouse
+cursor_css = f"""
+    <style>
+        body {{
+            cursor: url('{cursor_image_url}'), auto;
+        }}
+    </style>
+"""
+
+# Renderizar la imagen y aplicar el cursor personalizado
+st.markdown(cursor_css, unsafe_allow_html=True)
+
+
+
+
 # Función para calcular chi cuadrado
 def calcular_chi_cuadrado(f_obs, f_exp):
     return np.sum((f_obs - f_exp)**2 / f_exp)
