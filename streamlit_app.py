@@ -143,7 +143,7 @@ st.markdown(
     """
 )
 
-elif selected_option == 'Data1':
+elif selected_option == 'data1':
     st.subheader('Decaimiento solo con el aire')
     st.markdown("---")
 
@@ -165,7 +165,7 @@ elif selected_option == 'Data1':
         mostrar_tabla_y_chi(data1)
         st.markdown("---")
 
-elif selected_option == 'Data2':
+elif selected_option == 'data2':
     st.subheader('Decaimiento del cesio-137')
     st.markdown("---")
 
