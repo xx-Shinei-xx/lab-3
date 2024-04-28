@@ -72,7 +72,8 @@ if selected_option == 'Reporte':
             """
         )
 
-        st.write("<div class='big-title'>Objetivos</div>", unsafe_allow_html=True)
+        st.write("<div class='big-title'></div>", unsafe_allow_html=True)
+        st.subheader('Objetivos')
         st.subheader('Generales')
         st.markdown(
             """
