@@ -205,6 +205,18 @@ if st.button("Mostrar Algo Especial"):
     url = 'https://raw.githubusercontent.com/xx-Shinei-xx/lab-3/main/anime.json'
     response = requests.get(url)
 
+# Botón para mostrar el gif "anime.json" desde GitHub
+st.subheader("Algo Especial")
+st.write("Presiona el botón para ver algo especial:")
+if st.button("Mostrar Algo Especial"):
+    # URL del gif en tu repositorio de GitHub
+    gif_url = 'https://raw.githubusercontent.com/xx-Shinei-xx/lab-3/main/anime.json'
+    
+    # Mostrar el gif
+    st.image(gif_url, use_column_width=True)
+
+    
+
     # Verificar si la descarga fue exitosa (código de estado 200)
     if response.status_code == 200:
         anime_gif = json.loads(response.text)
