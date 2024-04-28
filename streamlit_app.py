@@ -14,10 +14,10 @@ def plot_gaussian_distribution(data):
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-    if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-        p_value_gaussian_data, observed_counts, expected_counts = chi_square_test(data, 'gaussian')
-        st.write(f"Valor p para distribución Gaussiana: {p_value_gaussian_data}")
-        plot_chi_square_test(p_value_gaussian_data, observed_counts, expected_counts, 'gaussian')
+   # if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
+     #   p_value_gaussian_data, observed_counts, expected_counts = chi_square_test(data, 'gaussian')
+     #   st.write(f"Valor p para distribución Gaussiana: {p_value_gaussian_data}")
+    #    plot_chi_square_test(p_value_gaussian_data, observed_counts, expected_counts, 'gaussian')
 
 # distribución de Poisson
 def fit_poisson_distribution(data):
@@ -67,6 +67,34 @@ def plot_poisson_distribution(data):
      #   p_value_poisson_data, observed_counts, expected_counts = chi_square_test(data, 'poisson')
      #   st.write(f"Valor p para distribución de Poisson: {p_value_poisson_data}")
       #  plot_chi_square_test(p_value_poisson_data, observed_counts, expected_counts, 'poisson')
+
+
+
+
+
+    # Datos de entrada (puedes cambiarlos según sea necesario)
+    data1 = [10, 3, 1, 2, 4, 2, 2, 1, 3, 4, 4, 2, 1, 3, 1, 4, 3, 4, 3, 0, 3, 2, 1, 6, 2, 3, 4, 1, 2, 3, 1, 0, 6, 3, 1, 2, 3, 4, 3, 2, 1, 2, 0, 3, 2, 1, 3, 1, 2, 2, 4, 1, 5, 0, 1, 3, 4, 2, 0, 2, 6, 1, 5, 4, 3, 8, 3, 0, 0, 0, 2, 2, 5, 2, 2, 3, 1, 5, 2, 3, 4, 1, 3, 1, 2, 3, 1, 3, 2, 0, 3, 1, 2, 2, 3, 3, 4, 1, 1, 2, 4, 2, 4, 4, 3, 2, 1, 3, 4, 3, 3, 3, 11, 5, 3, 2, 1, 4, 6, 25, 3, 1, 6, 1, 1, 1, 4, 1, 1, 1, 1, 8, 4, 2, 2, 1, 3, 2, 0, 3, 1, 1, 2, 5, 3, 5, 4, 1, 4, 2, 1, 2, 4, 1, 3, 3, 2, 3, 4, 1, 1, 2, 4, 2, 4, 4, 3, 3, 2, 0, 4, 3, 1, 0, 0, 1, 4, 3, 2, 2, 0, 2, 1, 3, 1, 2, 4, 3, 3, 3, 11, 5, 3, 2, 1, 4, 6, 3, 1, 1, 2, 3, 1, 2, 1, 2, 2, 5, 2, 2, 3, 1, 5, 2, 3, 4, 1, 3, 1, 2, 3, 1, 3, 2, 0, 3, 1, 2, 2, 3, 3, 4, 1, 1, 2, 4, 2, 4, 4, 3, 2, 1, 3, 4, 3, 3, 3]
+
+    # Calcular frecuencias
+    valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
+
+    # Mostrar resultados
+    st.write("## Frecuencias Observadas y Esperadas")
+    st.write("Valor\tFrecuencia Observada\tFrecuencia Esperada")
+    for valor, fo, fe in zip(valores_unicos, frecuencia_observada, frecuencia_esperada):
+        st.write(f"{valor}\t{fo}\t\t\t{fe}")
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Cargar los datos 1 y 2
 data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
