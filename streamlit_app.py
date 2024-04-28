@@ -63,10 +63,10 @@ def plot_poisson_distribution(data):
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
 
-    if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-        p_value_poisson_data, observed_counts, expected_counts = chi_square_test(data, 'poisson')
-        st.write(f"Valor p para distribución de Poisson: {p_value_poisson_data}")
-        plot_chi_square_test(p_value_poisson_data, observed_counts, expected_counts, 'poisson')
+   # if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
+     #   p_value_poisson_data, observed_counts, expected_counts = chi_square_test(data, 'poisson')
+     #   st.write(f"Valor p para distribución de Poisson: {p_value_poisson_data}")
+      #  plot_chi_square_test(p_value_poisson_data, observed_counts, expected_counts, 'poisson')
 
 # Cargar los datos 1 y 2
 data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
