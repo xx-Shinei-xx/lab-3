@@ -137,6 +137,7 @@ st.markdown(
     """
 )
 
+
 elif selected_option == 'Data1':
     # Contenido para Data1
     st.subheader('Decaimiento solo con el aire')
