@@ -57,7 +57,7 @@ def plot_gaussian_distribution(data, title):
     colorscale = [[i / (len(rainbow_colors) - 1), color] for i, color in enumerate(rainbow_colors)]
     
     # Crear el histograma con colores basados en el valor
-    hist = go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(color=data, colorscale=colorscale))
+    hist = go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(colorscale=colorscale, showscale=True))
     
     # Crear la figura con el ajuste de Gauss
     fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Ajuste de Gauss'))
@@ -67,7 +67,6 @@ def plot_gaussian_distribution(data, title):
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     
     return fig
-
 
 # Función para plotear la distribución de Poisson
 def plot_poisson_distribution(data, title):
