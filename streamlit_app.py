@@ -63,7 +63,7 @@ selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 
 if selected_option == 'Reporte':
     col1, col2 = st.columns(2)
 
-    with col1:
+  with col1:
         st.subheader('Resumen')
         st.markdown(
             """
@@ -102,7 +102,7 @@ if selected_option == 'Reporte':
         )
         st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
 
-   with col2:
+    with col2:
         st.subheader('Diseño Experimental')
         st.markdown(
             """
