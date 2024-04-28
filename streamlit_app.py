@@ -18,6 +18,47 @@ def plot_gaussian_distribution(data):
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
+
+def chi_square_test(data):
+    num_bins = 10
+    hist, bins = np.histogram(data, bins=num_bins)
+
+    mu, std = norm.fit(data)
+    expected = len(data) * np.diff(bins) * norm.pdf(bins[:-1], mu, std)
+    chi2 = np.sum((hist - expected)**2 / expected)
+    df = num_bins - 1
+    p_value = 1 - stats.chi2.cdf(chi2, df)
+    return chi2, df, p_value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # distribución de Poisson
 def plot_poisson_distribution(data):
     mu = np.mean(data)
@@ -74,6 +115,14 @@ if selected_data == 'data1.csv':
     st.subheader('Distribuciones en el decaimiento solo con el aire')
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data1)
+    if st.button('Mostrar Tabla'):
+        chi2, df, p_value = chi_square_test(data1)
+         st.write("Estadístico de chi-cuadrado:", chi2)
+         st.write("Grados de libertad:", df)
+         st.write("Valor p:", p_value)
+
+    
+        
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
     if st.button('Mostrar Tabla'):
@@ -89,6 +138,13 @@ elif selected_data == 'data2.csv':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data2)
+     if st.button('Mostrar Tabla'):
+        chi2, df, p_value = chi_square_test(data1)
+         st.write("Estadístico de chi-cuadrado:", chi2)
+         st.write("Grados de libertad:", df)
+         st.write("Valor p:", p_value)
+
+    
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data2)
     if st.button('Mostrar Tabla'):
@@ -98,7 +154,15 @@ elif selected_data == 'data2.csv':
         st.write(f"Valor de chi cuadrado: {chi_cuadrado}")
 
 
- 
+
+
+
+        
+        # Realizar la prueba de chi-cuadrado
+        
+
+       
+
 
 
 
