@@ -30,12 +30,11 @@ st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", lay
 # Título y subtítulo
 st.title('Análisis de Datos')
 st.write("Bienvenido al análisis estadístico de los conjuntos de datos.")
-
-# Línea divisoria
 st.markdown("---")
 
 # Sidebar
 st.sidebar.title("Opciones")
+st.sidebar.markdown("Utiliza los botones a continuación para navegar por la página:")
 selected_data = st.sidebar.radio('Seleccionar conjunto de datos:', ('data1', 'data2'))
 
 # Contenido principal
@@ -100,3 +99,13 @@ elif selected_data == 'data2':
         data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
         mostrar_tabla_y_chi(data2)
         st.markdown("---")
+
+# Botones de navegación
+st.sidebar.markdown("---")
+st.sidebar.markdown("### Navegación")
+if st.sidebar.button("Ir al Marco Teórico"):
+    st.write("Aquí va el contenido del Marco Teórico.")
+if st.sidebar.button("Ver Gráficas y Tablas de Data1"):
+    st.write("Aquí van las gráficas y tablas del conjunto de datos 1.")
+if st.sidebar.button("Ver Gráficas y Tablas de Data2"):
+    st.write("Aquí van las gráficas y tablas del conjunto de datos 2.")
