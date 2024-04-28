@@ -40,8 +40,8 @@ def plot_poisson_distribution(data, title):
     x = np.arange(0, max(data) + 1)
     y = poisson.pmf(x, mu)
     fit_y = poisson.pmf(x, mu)
-    fig = go.Figure(data=[go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2)),
-                          go.Bar(x=x, y=y, name='Distribución de Poisson', marker=dict(color='orange'))])
+    fig = go.Figure(data=[ go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2)),
+    go.Bar(x=x, y=y, name='Distribución de Poisson', marker=dict(color='orange')) ])
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Probabilidad')
     return fig
 
@@ -56,60 +56,69 @@ selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 
 
 # Contenido principal
 if selected_option == 'Reporte':
-    # Contenido del reporte
-    st.subheader('Resumen')
-    st.markdown(
-        """
-        En los procesos atómicos, se generan partículas con altas velocidades. El Cesio-137, un isótopo radioactivo, emite una cantidad de estas partículas de alta velocidad y energía, conocidas como 'partículas beta'. La medición de estas partículas es factible mediante un instrumento llamado contador Geiger, el cual cuantifica la cantidad de partículas que atraviesan el detector. Al realizar mediciones experimentales de la desintegración de un número determinado de partículas, podemos prever la cantidad de partículas que se desintegran mediante un ajuste de nuestros datos experimentales.
-        """
-    )
+    # Dividir el contenido del reporte en dos columnas
+    col1, col2 = st.columns(2)
+    
+    # Contenido de la primera columna
+    with col1:
+        st.subheader('Resumen')
+        st.markdown(
+            """
+            En los procesos atómicos, se generan partículas con altas velocidades. El Cesio-137, un isótopo radioactivo, emite una cantidad de estas partículas de alta velocidad y energía, conocidas como 'partículas beta'. La medición de estas partículas es factible mediante un instrumento llamado contador Geiger, el cual cuantifica la cantidad de partículas que atraviesan el detector. Al realizar mediciones experimentales de la desintegración de un número determinado de partículas, podemos prever la cantidad de partículas que se desintegran mediante un ajuste de nuestros datos experimentales.
+            """
+        )
 
-    st.subheader('Objetivos')
-    st.subheader('Generales')
-    st.markdown(
-        """
-        - Llevar a cabo el análisis para cuantificar las partículas de alta velocidad generadas por el Cesio-137, así como realizar mediciones en condiciones ambientales normales.
-        """
-    )
+        st.subheader('Objetivos')
+        st.subheader('Generales')
+        st.markdown(
+            """
+            - Llevar a cabo el análisis para cuantificar las partículas de alta velocidad generadas por el Cesio-137, así como realizar mediciones en condiciones ambientales normales.
+            """
+        )
 
-    st.subheader('Específicos')
-    st.markdown(
-        """
-        - Verificar qué tipo de distribución se ajusta de mejor manera a los datos tomados.
-        - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
-        """
-    )
+        st.subheader('Específicos')
+        st.markdown(
+            """
+            - Verificar qué tipo de distribución se ajusta de mejor manera a los datos tomados.
+            - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
+            """
+        )
 
-    st.subheader('Marco Teórico')
-    st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
-        """
-    )
-    st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
+    # Contenido de la segunda columna
+    with col2:
+        st.subheader('Marco Teórico')
+        st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+            La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
+            """
+        )
+        st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
 
-    st.write("<div class='big-title'>Distribución de Poisson</div>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
-        """
-    )
-    st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
+        st.write("<div class='big-title'>Distribución de Poisson</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+            La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
+            """
+        )
+        st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
 
-    st.subheader('Diseño Experimental')
-    st.markdown(
-        """
-        Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
-        """
-    )
-    st.markdown(
-        """
-        - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
-        - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
-        """
-    )
+        st.subheader('Diseño Experimental')
+        st.markdown(
+            """
+            Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
+            """
+        )
+        st.markdown(
+            """
+            - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
+            - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
+            """
+        )
 
+    # Contenido adicional debajo de las columnas
+    st.markdown("---")
+    
     st.subheader('Discusión de Resultados')
     st.markdown(
         """
@@ -136,7 +145,6 @@ if selected_option == 'Reporte':
         - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
         """
     )
-
 
 elif selected_option == 'Data1':
     # Contenido para Data1
