@@ -49,14 +49,15 @@ def plot_poisson_distribution(data, title):
 
 
 # Streamlit
-st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", layout="wide")
+#st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", layout="wide")
 
 # Título y subtítulo
 st.title('Análisis de Datos')
 st.markdown("<h1 style='text-align: center;'>Análisis de Datos</h1>", unsafe_allow_html=True)
-st.write("<p style='text-align: center;'>Bienvenido al análisis estadístico de los conjuntos de datos.</p>", unsafe_allow_html=True)
+st.write("<p style='text-align: center;'>José Guillermo Monterroso Marroquín, 202005689 y Shawn César Alejandro García Fernández, 201906567.</p>", unsafe_allow_html=True)
 st.markdown("---")
 
+        
 # Sidebar
 st.sidebar.title("Navegación")
 selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 'Data2'))
@@ -67,7 +68,6 @@ if selected_option == 'Reporte':
 
     with col1:
         
-        st.write("José Guillermo Monterroso Marroquín, 202005689 y Shawn César Alejandro García Fernández, 201906567")
         
         st.write("<div class='big-title'>Resumen</div>", unsafe_allow_html=True)
         st.markdown(
