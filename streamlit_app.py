@@ -52,8 +52,7 @@ def plot_poisson_distribution(data, title):
 #st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", layout="wide")
 
 # Título y subtítulo
-st.title('Análisis de Datos')
-st.markdown("<h1 style='text-align: center;'>Análisis de Datos</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Laboratorio 3</h1>", unsafe_allow_html=True)
 st.write("<p style='text-align: center;'>José Guillermo Monterroso Marroquín, 202005689 y Shawn César Alejandro García Fernández, 201906567.</p>", unsafe_allow_html=True)
 st.markdown("---")
 
