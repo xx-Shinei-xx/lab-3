@@ -32,11 +32,11 @@ def plot_poisson_distribution(data):
 # función para calcular las frecuencias observadas y esperadas
 def calcular_frecuencias(data):
     valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
-    tasa_promedio = np.mean(data)
-    frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
+    mu, sigma = np.mean(data), np.std(data)
+    frecuencia_esperada = [len(data) * norm.pdf(valor, mu, sigma) for valor in valores_unicos]
     return valores_unicos, frecuencia_observada, frecuencia_esperada
 
-# función para mostrar la tabla de frecuencias
+# función para mostrar la tabla de frecuencias y estadístico chi-cuadrado
 def mostrar_tabla(data):
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data)
     tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
