@@ -16,8 +16,8 @@ def calcular_frecuencias(data):
     frecuencia_esperada = poisson.pmf(valores_unicos, mu) * len(data)
     return valores_unicos, frecuencia_observada, frecuencia_esperada
 
-# Función para mostrar la tabla de frecuencias
-def mostrar_tabla(data):
+# Función para mostrar la tabla de frecuencias y el valor de chi cuadrado
+def mostrar_tabla_y_chi(data):
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data)
     tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
     tabla = st.table(tabla_data)
@@ -32,6 +32,7 @@ selected_data = st.radio('Seleccionar conjunto de datos:', ('data1', 'data2'))
 
 if selected_data == 'data1':
     st.subheader('Distribuciones en el decaimiento solo con el aire')
+    
     st.subheader('Distribución de Gauss:')
     # Cargar datos
     data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
@@ -43,21 +44,12 @@ if selected_data == 'data1':
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-    st.subheader('Distribución de Poisson:')
-    mu = np.mean(data1)
-    x = np.arange(0, max(data1) + 1)
-    y = poisson.pmf(x, mu)
-    fit_y = poisson.pmf(x, mu)
-    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
-                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
-    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
-    st.plotly_chart(fig)
-
-    if st.button('Mostrar Tabla'):
-        mostrar_tabla(data1)
+    if st.button('Mostrar Tabla y Valor de Chi Cuadrado'):
+        mostrar_tabla_y_chi(data1)
 
 elif selected_data == 'data2':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
+    
     st.subheader('Distribución de Gauss:')
     # Cargar datos
     data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
@@ -69,15 +61,5 @@ elif selected_data == 'data2':
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-    st.subheader('Distribución de Poisson:')
-    mu = np.mean(data2)
-    x = np.arange(0, max(data2) + 1)
-    y = poisson.pmf(x, mu)
-    fit_y = poisson.pmf(x, mu)
-    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
-                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
-    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
-    st.plotly_chart(fig)
-
-    if st.button('Mostrar Tabla'):
-        mostrar_tabla(data2)
+    if st.button('Mostrar Tabla y Valor de Chi Cuadrado'):
+        mostrar_tabla_y_chi(data2)
