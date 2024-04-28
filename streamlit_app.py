@@ -46,7 +46,7 @@ def mostrar_tabla(data):
 st.title('Análisis de Datos')
 
 # Boton para los datos
-selected_data = st.radio('Seleccionar conjunto de datos:', ('Distribuciones en el decaimiento solo con el aire', 'Distribuciones en el decaimiento del cesio-137'))
+selected_data = st.radio('Seleccionar conjunto de datos:', ('data1', 'data2'))
 
 if selected_data == 'data1.csv':
     st.subheader('Distribuciones en el decaimiento solo con el aire')
