@@ -45,10 +45,7 @@ def mostrar_tabla_y_chi(data):
     chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
     st.write(f"Valor de chi cuadrado: {chi_cuadrado:.2f}")
 
-# Función para plotear la distribución de Gauss
-import numpy as np
-import plotly.graph_objects as go
-from scipy.stats import norm
+#ssssssssssss
 
 def plot_gaussian_distribution(data, title):
     mu, sigma = np.mean(data), np.std(data)
