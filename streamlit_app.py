@@ -4,30 +4,6 @@ import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson, chisquare
 
-
-
-
-# URL de la imagen en tu repositorio
-cursor_image_url = "https://github.com/xx-Shinei-xx/lab-3/blob/main/Pokemon-Pokeball-PNG-Download-Image.png"
-
-# Agregar CSS personalizado para usar la imagen como cursor del mouse
-cursor_css = f"""
-    <style>
-        body {{
-            cursor: url('{cursor_image_url}'), auto;
-        }}
-    </style>
-"""
-
-# Renderizar la imagen y aplicar el cursor personalizado
-st.markdown(cursor_css, unsafe_allow_html=True)
- 
-
-
-
-
-
-
 # Función para calcular chi cuadrado
 def calcular_chi_cuadrado(f_obs, f_exp):
     return np.sum((f_obs - f_exp)**2 / f_exp)
@@ -108,6 +84,14 @@ if selected_option == 'Reporte':
             """
         )
 
+        st.subheader('Discusión de Resultados')
+        st.markdown(
+            """
+            - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
+            - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
+            """
+        )
+
     # Contenido de la segunda columna
     with col2:
         st.subheader('Marco Teórico')
@@ -139,36 +123,26 @@ if selected_option == 'Reporte':
             - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
             """
         )
+        st.markdown("---")
 
-    # Contenido adicional debajo de las columnas
-    st.markdown("---")
-    
-    st.subheader('Discusión de Resultados')
-    st.markdown(
-        """
-        - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
-        - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
-        """
-    )
+        st.subheader('Conclusiones')
+        st.markdown(
+            """
+            - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
+            """
+        )
 
-    st.subheader('Conclusiones')
-    st.markdown(
-        """
-        - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
-        """
-    )
-
-    st.subheader('Referencias')
-    st.markdown(
-        """
-        - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
-        - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
-        - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
-        - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
-        - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
-        - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
-        """
-    )
+        st.subheader('Referencias')
+        st.markdown(
+            """
+            - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
+            - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
+            - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
+            - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
+            - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
+            - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+            """
+        )
 
 elif selected_option == 'Data1':
     # Contenido para Data1
