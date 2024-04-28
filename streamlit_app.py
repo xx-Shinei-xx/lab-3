@@ -8,7 +8,7 @@ from scipy.stats import norm, poisson, chisquare
 
 
 # URL de la imagen en tu repositorio
-cursor_image_url = "URL_DE_TU_REPOSITORIO/cursor.png"
+cursor_image_url = "https://github.com/xx-Shinei-xx/lab-3/blob/main/Pokemon-Pokeball-PNG-Download-Image.png"
 
 # Agregar CSS personalizado para usar la imagen como cursor del mouse
 cursor_css = f"""
@@ -21,11 +21,6 @@ cursor_css = f"""
 
 # Renderizar la imagen y aplicar el cursor personalizado
 st.markdown(cursor_css, unsafe_allow_html=True)
-
-# Contenido de la aplicación
-st.title("Cursor Personalizado")
-
-st.write("Mueve el cursor del mouse para ver el cambio.")
 
 
 
