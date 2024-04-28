@@ -55,27 +55,12 @@ st.markdown("---")
 
 # Sidebar
 st.sidebar.title("Navegación")
-st.sidebar.markdown("Utiliza los botones a continuación para navegar por la página:")
-selected_data = st.sidebar.radio('Seleccionar conjunto de datos:', ('data1', 'data2'))
+selected_option = st.sidebar.radio('Seleccionar opción:', ('Marco Teórico', 'Data1', 'Data2'))
 
 # Contenido principal
-col1, col2 = st.columns(2)
-
-with col1:
-    st.subheader('Distribución de Gauss:')
-    st.write("En esta sección se muestra la distribución de Gauss para el conjunto de datos seleccionado.")
-    st.write("Utiliza el botón para mostrar la tabla de frecuencias y el valor de chi cuadrado.")
-
-with col2:
-    st.subheader('Distribución de Poisson:')
-    st.write("Aquí se muestra la distribución de Poisson correspondiente al conjunto de datos seleccionado.")
-    st.write("Utiliza el botón para mostrar la tabla de frecuencias y el valor de chi cuadrado.")
-
-# Línea divisoria
-st.markdown("---")
-
-# Contenido principal
-if selected_data == 'data1':
+if selected_option == 'Marco Teórico':
+    st.write("Aquí va el contenido del Marco Teórico.")
+elif selected_option == 'Data1':
     st.subheader('Decaimiento solo con el aire')
     st.markdown("---")
     
@@ -102,7 +87,7 @@ if selected_data == 'data1':
         mostrar_tabla_y_chi(data1)
         st.markdown("---")
 
-elif selected_data == 'data2':
+elif selected_option == 'Data2':
     st.subheader('Decaimiento del cesio-137')
     st.markdown("---")
     
