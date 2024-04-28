@@ -36,16 +36,23 @@ def calcular_frecuencias(data):
     frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
     return valores_unicos, frecuencia_observada, frecuencia_esperada
 
-# función para mostrar la tabla de frecuencias
+# función para mostrar la tabla de frecuencias y estadístico chi-cuadrado
 def mostrar_tabla(data):
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data)
     tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
     tabla = st.table(tabla_data)
+    
+    # Calcular el estadístico de chi-cuadrado
+    chi_square_statistic = chisquare(frecuencia_observada, frecuencia_esperada)[0]
+    
+    # Mostrar el cálculo del estadístico de chi-cuadrado
+    st.write("Después de calcular el estadístico de chi-cuadrado, obtenemos:")
+    st.latex(r"\chi^2 = " + str(chi_square_statistic))
 
 # Streamlit
 st.title('Análisis de Datos')
 
-# Botón 
+# Botón para seleccionar el conjunto de datos
 selected_data = st.radio('Seleccionar conjunto de datos:', ('data1.csv', 'data2.csv'))
 
 if selected_data == 'data1.csv':
