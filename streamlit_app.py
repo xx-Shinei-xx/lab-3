@@ -59,15 +59,12 @@ selected_option = st.sidebar.radio('Seleccionar opción:', ('Marco Teórico', 'D
 
 # Contenido principal
 if selected_option == 'Marco Teórico':
-    st.write("Aquí va el contenido del Marco Teórico.")
+    st.write("Marco Teórico y otras cosas")
 elif selected_option == 'Data1':
     st.subheader('Decaimiento solo con el aire')
     st.markdown("---")
-
     st.subheader('Distribución de Gauss:')
-    st.write("Aquí se muestra la distribución de Gauss para el conjunto de datos 'data1.csv'.")
-    st.markdown("---")
-    st.write("Opciones:")
+    st.write("Distribución de Gauss para el conjunto de datos 'data1.csv'.")
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
         data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
         fig = plot_gaussian_distribution(data1, 'Distribución de Gauss - Data1')
@@ -76,9 +73,7 @@ elif selected_option == 'Data1':
         st.markdown("---")
 
     st.subheader('Distribución de Poisson:')
-    st.write("Aquí se muestra la distribución de Poisson para el conjunto de datos 'data1.csv'.")
-    st.markdown("---")
-    st.write("Opciones:")
+    st.write("Distribución de Poisson para el conjunto de datos 'data1.csv'.")
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
         fig = plot_poisson_distribution(data1, 'Distribución de Poisson - Data1')
@@ -91,9 +86,7 @@ elif selected_option == 'Data2':
     st.markdown("---")
 
     st.subheader('Distribución de Gauss:')
-    st.write("Aquí se muestra la distribución de Gauss para el conjunto de datos 'data2.csv'.")
-    st.markdown("---")
-    st.write("Opciones:")
+    st.write("Distribución de Gauss para el conjunto de datos 'data2.csv'.")
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
         data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
         fig = plot_gaussian_distribution(data2, 'Distribución de Gauss - Data2')
@@ -102,9 +95,7 @@ elif selected_option == 'Data2':
         st.markdown("---")
 
     st.subheader('Distribución de Poisson:')
-    st.write("Aquí se muestra la distribución de Poisson para el conjunto de datos 'data2.csv'.")
-    st.markdown("---")
-    st.write("Opciones:")
+    st.write("Distribución de Poisson para el conjunto de datos 'data2.csv'.")
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
         fig = plot_poisson_distribution(data2, 'Distribución de Poisson - Data2')
