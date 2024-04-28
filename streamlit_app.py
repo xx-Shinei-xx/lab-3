@@ -78,6 +78,12 @@ if selected_data == 'data1.csv':
     plot_poisson_distribution(data1)
     if st.button('Mostrar Tabla'):
         mostrar_tabla(data1)
+        valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
+        chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
+        st.write(f"Valor de chi cuadrado: {chi_cuadrado}")
+
+
+
 
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
@@ -87,20 +93,12 @@ elif selected_data == 'data2.csv':
     plot_poisson_distribution(data2)
     if st.button('Mostrar Tabla'):
         mostrar_tabla(data2)
+        valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data2)
+        chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
+        st.write(f"Valor de chi cuadrado: {chi_cuadrado}")
 
 
-# Mostrar tabla de frecuencias
-st.header('Tabla de Frecuencias Data1')
-mostrar_tabla(data1)
-
-# Calcular y mostrar distribución de Poisson
-st.header('Distribución de Poisson Data1')
-plot_poisson_distribution(data1)
-
-# Calcular chi cuadrado y mostrar resultado
-valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
-chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
-st.write(f"Valor de chi cuadrado: {chi_cuadrado}")
+ 
 
 
 
