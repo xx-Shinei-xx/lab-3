@@ -44,7 +44,20 @@ if selected_data == 'data1':
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-    if st.button('Mostrar Tabla y Valor de Chi Cuadrado'):
+    if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
+        mostrar_tabla_y_chi(data1)
+
+    st.subheader('Distribución de Poisson:')
+    mu = np.mean(data1)
+    x = np.arange(0, max(data1) + 1)
+    y = poisson.pmf(x, mu)
+    fit_y = poisson.pmf(x, mu)
+    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
+                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
+    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
+    st.plotly_chart(fig)
+
+    if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         mostrar_tabla_y_chi(data1)
 
 elif selected_data == 'data2':
@@ -61,5 +74,18 @@ elif selected_data == 'data2':
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-    if st.button('Mostrar Tabla y Valor de Chi Cuadrado'):
+    if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
+        mostrar_tabla_y_chi(data2)
+
+    st.subheader('Distribución de Poisson:')
+    mu = np.mean(data2)
+    x = np.arange(0, max(data2) + 1)
+    y = poisson.pmf(x, mu)
+    fit_y = poisson.pmf(x, mu)
+    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
+                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
+    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
+    st.plotly_chart(fig)
+
+    if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         mostrar_tabla_y_chi(data2)
