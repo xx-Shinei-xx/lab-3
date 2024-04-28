@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson, chisquare
+import requests
 import json
 
 # URL de la imagen en tu repositorio
@@ -19,10 +20,6 @@ cursor_css = f"""
 
 # Renderizar la imagen y aplicar el cursor personalizado
 st.markdown(cursor_css, unsafe_allow_html=True)
-
-# Cargar el gif
-with open('https://github.com/xx-Shinei-xx/lab-3/blob/main/anime.json', 'r') as f:
-    anime_gif = json.load(f)
 
 # Función para calcular chi cuadrado
 def calcular_chi_cuadrado(f_obs, f_exp):
@@ -200,6 +197,17 @@ elif selected_option == 'Data2':
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         mostrar_tabla_y_chi(data2)
 
-# Botón para mostrar el gif "anime.json"
-if st.button("algo especial"):
-    st.json(anime_gif)
+# Botón para mostrar el gif "anime.json" desde GitHub
+st.subheader("Algo Especial")
+st.write("Presiona el botón para ver algo especial:")
+if st.button("Mostrar Algo Especial"):
+    # Descargar el contenido del archivo JSON desde GitHub
+    url = 'https://raw.githubusercontent.com/xx-Shinei-xx/lab-3/main/anime.json'
+    response = requests.get(url)
+
+    # Verificar si la descarga fue exitosa (código de estado 200)
+    if response.status_code == 200:
+        anime_gif = json.loads(response.text)
+        st.json(anime_gif)
+    else:
+        st.error("Error al descargar el archivo JSON desde GitHub. Verifica la URL o inténtalo de nuevo más tarde.")
