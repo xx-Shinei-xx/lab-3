@@ -68,10 +68,9 @@ if selected_option == 'Reporte':
          st.subheader('Resumen')
         st.markdown(
             """
-            En los procesos atómicos, se generan partículas con altas velocidades. El Cesio-137, un isótopo radioactivo, emite una cantidad de estas partículas de alta velocidad y energía, conocidas como 'partículas beta'. La medición de estas partículas es factible mediante un instrumento llamado contador Geiger, el cual cuantifica la cantidad de partículas que atraviesan el detector. Al realizar mediciones experimentales de la desintegración de un número determinado de partículas, podemos prever la cantidad de partículas que se desintegran mediante un ajuste de nuestros datos experimentales.
+            - En los procesos atómicos, se generan partículas con altas velocidades. El Cesio-137, un isótopo radioactivo, emite una cantidad de estas partículas de alta velocidad y energía, conocidas como 'partículas beta'. La medición de estas partículas es factible mediante un instrumento llamado contador Geiger, el cual cuantifica la cantidad de partículas que atraviesan el detector. Al realizar mediciones experimentales de la desintegración de un número determinado de partículas, podemos prever la cantidad de partículas que se desintegran mediante un ajuste de nuestros datos experimentales.
             """
         )
-
         st.subheader('Objetivos')
             st.subheader('Generales')
         st.markdown(
