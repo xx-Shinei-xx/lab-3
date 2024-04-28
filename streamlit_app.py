@@ -4,6 +4,10 @@ import pandas as pd
 import plotly.graph_objects as go
 from scipy.stats import norm, poisson, chisquare
 
+# Cargar los datos 1 y 2
+data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
+data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
+
 # distribución gaussiana
 def plot_gaussian_distribution(data):
     mu, sigma = np.mean(data), np.std(data)
