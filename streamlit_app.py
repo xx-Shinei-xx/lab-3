@@ -102,7 +102,7 @@ if selected_option == 'Reporte':
         )
         st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
 
-    with col2:
+   with col2:
         st.subheader('Diseño Experimental')
         st.markdown(
             """
@@ -115,6 +115,7 @@ if selected_option == 'Reporte':
             - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
             """
         )
+
     st.subheader('Discusión de Resultados')
     st.markdown(
         """
@@ -122,12 +123,14 @@ if selected_option == 'Reporte':
         - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
         """
     )
+    
     st.subheader('Conclusiones')
     st.markdown(
         """
         - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
         """
     )
+    
     st.subheader('Referencias')
     st.markdown(
         """
