@@ -58,11 +58,116 @@ st.markdown("---")
 
 # Sidebar
 st.sidebar.title("Navegación")
-selected_option = st.sidebar.radio('Seleccionar opción:', ('Marco Teórico', 'Data1', 'Data2'))
+selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 'Data2'))
 
 # Contenido principal
-if selected_option == 'Marco Teórico':
-    st.write("  Marco Teórico.")
+if selected_option == 'Reporte':
+    st.write("  Reporte.")
+    st.write("José Guillermo Monterroso Marroquín, 202005689 y Shawn César Alejandro García Fernández, 201906567")
+    st.markdown(
+        """
+        <div class="big-title">Resumen</div>
+        En los procesos atómicos, se generan partículas con altas velocidades. El Cesio-137, un isótopo radioactivo, emite una cantidad de estas partículas de alta velocidad y energía, conocidas como 'partículas beta'. La medición de estas partículas es factible 
+        mediante un instrumento llamado contador Geiger, el cual cuantifica la cantidad de partículas que atraviesan el detector. Al realizar mediciones experimentales de la desintegración de un número determinado de partículas, podemos prever la cantidad de partículas que se desintegran mediante un ajuste de nuestros datos experimentales.
+        """
+    )
+
+    st.write("<div class='big-title'>Objetivos</div>", unsafe_allow_html=True)
+    st.subheader('Generales')
+    st.markdown(
+        """
+        - Llevar a cabo el análisis para cuantificar las partículas de alta velocidad generadas por el Cesio-137, así como realizar mediciones en condiciones ambientales normales.
+        """
+    )
+    st.subheader('Específicos')
+    st.markdown(
+        """
+        - Verificar qué tipo de distribución se ajusta de mejor manera a los datos tomados.
+        - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
+        """
+    )
+
+    st.write("<div class='big-title'>Marco teórico</div>", unsafe_allow_html=True)
+    st.subheader('Distribución Gaussiana')
+    st.markdown(
+        """
+        La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
+        """
+    )
+    st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
+
+    st.subheader('Distribución de Poisson')
+    st.markdown(
+        """
+        La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
+        """
+    )
+    st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
+
+    st.subheader('Cesio-137')
+    st.markdown(
+        """
+        El Cesio-137 es un elemento que experimenta desintegración radioactiva, un proceso que produce radiación. Esta radiación consiste en partículas que se mueven a altas velocidades y poseen altas energías.
+        """
+    )
+    
+    st.subheader('Contador Geiger')
+    st.markdown(
+        """
+        Un contador Geiger es un dispositivo electrónico diseñado para detectar y medir radiaciones ionizantes en su entorno. Esto hace posible cuantificar las partículas con altas energías.
+        """
+    )
+
+    st.write("<div class='big-title'>Diseño Experimental</div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
+        """
+    )
+    st.markdown(
+        """
+        - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
+        - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
+        """
+    )
+
+    st.write("<div class='big-title'>Discusión de Resultados</div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
+        - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
+        """
+    )
+
+    st.write("<div class='big-title'>Conclusiones</div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
+        """
+    )
+
+    st.write("<div class='big-title'>Referencias</div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
+        - https://www.linode.com/docs/guides/how-to-choose-python-api-framework/
+        - https://es.wikipedia.org/wiki/Coeficiente_binomial
+        - https://tecnonovax.wordpress.com/reproducir-musica-en-spotify-con-python/
+        - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
+        - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
+        """
+    )
+
+
+
+
+
+
+
+
+
+
+
 elif selected_option == 'Data1':
     st.subheader('Decaimiento solo con el aire')
     st.markdown("---")
