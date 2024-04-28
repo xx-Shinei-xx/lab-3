@@ -154,11 +154,11 @@ if selected_option == 'Reporte':
         st.markdown(
             """
             - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
-            - https://www.linode.com/docs/guides/how-to-choose-python-api-framework/
-            - https://es.wikipedia.org/wiki/Coeficiente_binomial
-            - https://tecnonovax.wordpress.com/reproducir-musica-en-spotify-con-python/
             - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
             - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
+            - https://en.wikipedia.org/wiki/Chi-squared_test
+            - https://en.wikipedia.org/wiki/Poisson_distribution
+            - https://en.wikipedia.org/wiki/Normal_distribution
             """
         )
 
