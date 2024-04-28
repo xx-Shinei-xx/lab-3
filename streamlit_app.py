@@ -14,45 +14,7 @@ def plot_gaussian_distribution(data):
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
-   # if st.button('Realizar ajuste de chi-cuadrado para distribución Gaussiana'):
-     #   p_value_gaussian_data, observed_counts, expected_counts = chi_square_test(data, 'gaussian')
-     #   st.write(f"Valor p para distribución Gaussiana: {p_value_gaussian_data}")
-    #    plot_chi_square_test(p_value_gaussian_data, observed_counts, expected_counts, 'gaussian')
-
 # distribución de Poisson
-def fit_poisson_distribution(data):
-    mu = np.mean(data)
-    return mu
-
-# prueba de chi-cuadrado
-def chi_square_test(data, distribution):
-    if distribution == 'gaussian':
-        mu = np.mean(data)
-        sigma = np.std(data)
-        # Calcular las frecuencias esperadas utilizando la función de densidad de probabilidad de la distribución normal
-        expected_counts, bins = np.histogram(data, bins=10, density=True)
-        expected_counts *= len(data)
-        observed_counts, _ = np.histogram(data, bins=bins)
-    elif distribution == 'poisson':
-        mu = np.mean(data)
-        expected_counts = poisson.pmf(np.arange(max(data) + 1), mu) * len(data)
-        observed_counts, _ = np.histogram(data, bins=max(data) + 1)
-
-    _, p_value = chisquare(observed_counts, expected_counts)
-    return p_value, observed_counts, expected_counts
-
-# Función para graficar la prueba de chi-cuadrado
-def plot_chi_square_test(p_value, observed_counts, expected_counts, distribution):
-    bins = np.arange(len(observed_counts) + 1)
-    fig = go.Figure()
-    fig.add_trace(go.Bar(x=bins[:-1], y=observed_counts, name='Observados'))
-    fig.add_trace(go.Scatter(x=bins[:-1], y=expected_counts, mode='lines', name='Esperados'))
-    fig.update_layout(title=f'Prueba de chi-cuadrado para distribución {distribution}',
-                      xaxis_title='Valor', yaxis_title='Frecuencia')
-    st.plotly_chart(fig)
-    st.write(f"Valor p: {p_value}")
-
-# fit de la distribución de poisson
 def plot_poisson_distribution(data):
     mu = np.mean(data)
     x = np.arange(0, max(data) + 1)
@@ -63,28 +25,18 @@ def plot_poisson_distribution(data):
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
 
+# función para calcular las frecuencias observadas y esperadas
+def calcular_frecuencias(data):
+    valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
+    tasa_promedio = np.mean(data)
+    frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
+    return valores_unicos, frecuencia_observada, frecuencia_esperada
 
-
-
-
-   # if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
-     #   p_value_poisson_data, observed_counts, expected_counts = chi_square_test(data, 'poisson')
-     #   st.write(f"Valor p para distribución de Poisson: {p_value_poisson_data}")
-      #  plot_chi_square_test(p_value_poisson_data, observed_counts, expected_counts, 'poisson')
-
-
-
-
-
-
-
-
-
-
-
-# Cargar los datos 1 y 2
-data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
-data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
+# función para mostrar la tabla de frecuencias
+def mostrar_tabla(data):
+    valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data)
+    tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
+    tabla = st.table(tabla_data)
 
 # Streamlit
 st.title('Análisis de Datos')
@@ -98,54 +50,8 @@ if selected_data == 'data1.csv':
     plot_gaussian_distribution(data1)
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
-
-
-
-def calcular_frecuencias(data):
-    # Calcular frecuencia observada
-    valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
-
-    # Calcular tasa promedio de eventos (lambda)
-    tasa_promedio = np.mean(data)
-
-    # Calcular frecuencia esperada utilizando distribución de Poisson
-    frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
-    
-    return valores_unicos, frecuencia_observada, frecuencia_esperada
-
-def main():
-    # Leer datos desde el archivo CSV
-    data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
-
-    # Calcular frecuencias
-    valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
-
-    # Mostrar tabla cuando se presione el botón
-   
- if st.button("Mostrar Tabla"):
-        # Crear tabla
-        tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
-        tabla = st.table(tabla_data)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    if st.button('Mostrar Tabla'):
+        mostrar_tabla(data1)
 
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
@@ -153,3 +59,5 @@ elif selected_data == 'data2.csv':
     plot_gaussian_distribution(data2)
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data2)
+    if st.button('Mostrar Tabla'):
+        mostrar_tabla(data2)
