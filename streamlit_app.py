@@ -60,18 +60,6 @@ def plot_poisson_distribution(data):
 def calcular_chi_cuadrado(f_obs, f_exp):
     return np.sum((f_obs - f_exp)**2 / f_exp)
 
-# Mostrar tabla de frecuencias
-st.header('Tabla de Frecuencias Data1')
-mostrar_tabla(data1)
-
-# Calcular y mostrar distribución de Poisson
-st.header('Distribución de Poisson Data1')
-plot_poisson_distribution(data1)
-
-# Calcular chi cuadrado y mostrar resultado
-valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
-chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
-st.write(f"Valor de chi cuadrado: {chi_cuadrado}")
 
 
 #-----------------------------------
@@ -99,3 +87,19 @@ elif selected_data == 'data2.csv':
     plot_poisson_distribution(data2)
     if st.button('Mostrar Tabla'):
         mostrar_tabla(data2)
+
+# Mostrar tabla de frecuencias
+st.header('Tabla de Frecuencias Data1')
+mostrar_tabla(data1)
+
+# Calcular y mostrar distribución de Poisson
+st.header('Distribución de Poisson Data1')
+plot_poisson_distribution(data1)
+
+# Calcular chi cuadrado y mostrar resultado
+valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
+chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
+st.write(f"Valor de chi cuadrado: {chi_cuadrado}")
+
+
+
