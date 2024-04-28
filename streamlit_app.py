@@ -67,6 +67,10 @@ def plot_poisson_distribution(data):
 
 
 
+   # if st.button('Realizar ajuste de chi-cuadrado para distribución de Poisson'):
+     #   p_value_poisson_data, observed_counts, expected_counts = chi_square_test(data, 'poisson')
+     #   st.write(f"Valor p para distribución de Poisson: {p_value_poisson_data}")
+      #  plot_chi_square_test(p_value_poisson_data, observed_counts, expected_counts, 'poisson')
 def calcular_frecuencias(data):
     # Calcular frecuencia observada
     valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
@@ -87,12 +91,7 @@ def main():
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
 
     # Mostrar tabla cuando se presione el botón
-    if st.button("Mostrar Tabla"):
-        # Crear tabla
-        tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
-        tabla = st.table(tabla_data)
-
-
+   
 
 
 
@@ -119,6 +118,15 @@ if selected_data == 'data1.csv':
     plot_gaussian_distribution(data1)
     st.subheader('Distribución de Poisson:')
     plot_poisson_distribution(data1)
+
+ if st.button("Mostrar Tabla"):
+        # Crear tabla
+        tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
+        tabla = st.table(tabla_data)
+
+
+
+
 
 elif selected_data == 'data2.csv':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
