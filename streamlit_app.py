@@ -5,8 +5,6 @@ import plotly.graph_objects as go
 from scipy.stats import norm, poisson, chisquare
 import json
 
-
-
 # URL de la imagen en tu repositorio
 cursor_image_url = "Pokemon-Pokeball-PNG-Download-Image.png"
 
@@ -22,8 +20,9 @@ cursor_css = f"""
 # Renderizar la imagen y aplicar el cursor personalizado
 st.markdown(cursor_css, unsafe_allow_html=True)
 
-
-
+# Cargar el gif
+with open('anime.json', 'r') as f:
+    anime_gif = json.load(f)
 
 # Función para calcular chi cuadrado
 def calcular_chi_cuadrado(f_obs, f_exp):
@@ -200,3 +199,7 @@ elif selected_option == 'Data2':
     st.plotly_chart(fig)
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         mostrar_tabla_y_chi(data2)
+
+# Botón para mostrar el gif "anime.json"
+if st.button("algo especial"):
+    st.json(anime_gif)
