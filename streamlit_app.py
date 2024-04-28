@@ -86,8 +86,6 @@ if selected_option == 'Reporte':
         )
         
         st.subheader('Marco Teórico')
-        # Contenido del Marco Teórico
-        # ...
         st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
         st.markdown(
             """
@@ -124,14 +122,12 @@ if selected_option == 'Reporte':
         - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
         """
     )
-
     st.subheader('Conclusiones')
     st.markdown(
         """
         - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
         """
     )
-
     st.subheader('Referencias')
     st.markdown(
         """
