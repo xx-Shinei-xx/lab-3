@@ -21,7 +21,7 @@ cursor_css = f"""
 st.markdown(cursor_css, unsafe_allow_html=True)
 
 # Cargar el gif
-with open('anime.json', 'r') as f:
+with open('https://github.com/xx-Shinei-xx/lab-3/blob/main/anime.json', 'r') as f:
     anime_gif = json.load(f)
 
 # Función para calcular chi cuadrado
