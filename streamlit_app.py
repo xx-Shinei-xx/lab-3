@@ -24,6 +24,27 @@ def mostrar_tabla_y_chi(data):
     chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
     st.write(f"Valor de chi cuadrado: {chi_cuadrado:.2f}")
 
+# Función para plotear la distribución de Gauss
+def plot_gaussian_distribution(data, title):
+    mu, sigma = np.mean(data), np.std(data)
+    x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+    y = norm.pdf(x, mu, sigma)
+    fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Distribución Gaussiana'))
+    fig.add_trace(go.Histogram(x=data, histnorm='probability density', name='Histograma Gaussiano'))
+    fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
+    return fig
+
+# Función para plotear la distribución de Poisson
+def plot_poisson_distribution(data, title):
+    mu = np.mean(data)
+    x = np.arange(0, max(data) + 1)
+    y = poisson.pmf(x, mu)
+    fit_y = poisson.pmf(x, mu)
+    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
+                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
+    fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Probabilidad')
+    return fig
+
 # Streamlit
 st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", layout="wide")
 
@@ -69,11 +90,15 @@ if selected_data == 'data1':
     st.subheader('Opciones:')
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
         data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
+        fig = plot_gaussian_distribution(data1, 'Distribución de Gauss - Data1')
+        st.plotly_chart(fig)
         mostrar_tabla_y_chi(data1)
         st.markdown("---")
 
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         data1 = np.genfromtxt('data1.csv', delimiter=',', skip_header=1, usecols=1)
+        fig = plot_poisson_distribution(data1, 'Distribución de Poisson - Data1')
+        st.plotly_chart(fig)
         mostrar_tabla_y_chi(data1)
         st.markdown("---")
 
@@ -92,20 +117,14 @@ elif selected_data == 'data2':
     st.subheader('Opciones:')
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Gaussiana)'):
         data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
+        fig = plot_gaussian_distribution(data2, 'Distribución de Gauss - Data2')
+        st.plotly_chart(fig)
         mostrar_tabla_y_chi(data2)
         st.markdown("---")
 
     if st.button('Mostrar Tabla y Valor de Chi Cuadrado (Poisson)'):
         data2 = np.genfromtxt('data2.csv', delimiter=',', skip_header=1, usecols=1)
+        fig = plot_poisson_distribution(data2, 'Distribución de Poisson - Data2')
+        st.plotly_chart(fig)
         mostrar_tabla_y_chi(data2)
         st.markdown("---")
-
-# Botones de navegación
-st.sidebar.markdown("---")
-st.sidebar.markdown("### Navegación")
-if st.sidebar.button("Ir al Marco Teórico"):
-    st.write("Aquí va el contenido del Marco Teórico.")
-if st.sidebar.button("Ver Gráficas y Tablas de Data1"):
-    st.write("Aquí van las gráficas y tablas del conjunto de datos 1.")
-if st.sidebar.button("Ver Gráficas y Tablas de Data2"):
-    st.write("Aquí van las gráficas y tablas del conjunto de datos 2.")
