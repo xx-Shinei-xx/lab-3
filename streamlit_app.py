@@ -54,7 +54,7 @@ def plot_poisson_distribution(data):
     fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
                           go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
-    st.plotly_chart(fig)
+   
 
 # Función para calcular chi cuadrado
 def calcular_chi_cuadrado(f_obs, f_exp):
@@ -87,6 +87,7 @@ elif selected_data == 'data2.csv':
     plot_poisson_distribution(data2)
     if st.button('Mostrar Tabla'):
         mostrar_tabla(data2)
+
 
 # Mostrar tabla de frecuencias
 st.header('Tabla de Frecuencias Data1')
