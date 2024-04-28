@@ -96,6 +96,45 @@ if selected_option == 'Reporte':
         """
     )
     st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
+      st.subheader('Diseño Experimental')
+    st.markdown(
+        """
+        Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
+        """
+    )
+    st.markdown(
+        """
+        - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
+        - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
+        """
+    )
+
+st.subheader('Discusión de Resultados')
+st.markdown(
+    """
+    - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
+    - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
+    """
+)
+
+st.subheader('Conclusiones')
+st.markdown(
+    """
+    - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
+    """
+)
+
+st.subheader('Referencias')
+st.markdown(
+    """
+    - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
+    - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
+    - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
+    - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
+    - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
+    - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+    """
+)
 
 elif selected_option == 'Data1':
     # Contenido para Data1
