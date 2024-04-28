@@ -22,6 +22,10 @@ cursor_css = f"""
 # Renderizar la imagen y aplicar el cursor personalizado
 st.markdown(cursor_css, unsafe_allow_html=True)
 
+# Contenido de la aplicación
+st.title("Cursor Personalizado")
+
+st.write("Mueve el cursor del mouse para ver el cambio.")
 
 
 
