@@ -46,18 +46,31 @@ def mostrar_tabla_y_chi(data):
     st.write(f"Valor de chi cuadrado: {chi_cuadrado:.2f}")
 
 # Función para plotear la distribución de Gauss
+import numpy as np
+import plotly.graph_objects as go
+from scipy.stats import norm
+
 def plot_gaussian_distribution(data, title):
     mu, sigma = np.mean(data), np.std(data)
     x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
     y = norm.pdf(x, mu, sigma)
+    
+    # Colormap arcoíris
     rainbow_colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF']  # Red, Orange, Yellow, Green, Blue, Indigo, Violet
-    cmap = go.colors.ListedColormap(rainbow_colors)
-    hist = go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(color='color'))
+    colorscale = [[i / (len(rainbow_colors) - 1), color] for i, color in enumerate(rainbow_colors)]
+    
+    # Crear el histograma con colores basados en el valor
+    hist = go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(color=data, colorscale=colorscale))
+    
+    # Crear la figura con el ajuste de Gauss
     fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Ajuste de Gauss'))
     fig.add_trace(hist)
-    fig.update_traces(marker=dict(color=data, colorscale=cmap))
+    
+    # Actualizar el diseño de la figura
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
+    
     return fig
+
 
 # Función para plotear la distribución de Poisson
 def plot_poisson_distribution(data, title):
