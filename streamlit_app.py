@@ -29,18 +29,52 @@ def plot_poisson_distribution(data):
     fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
     st.plotly_chart(fig)
 
-# función para calcular las frecuencias observadas y esperadas
+#-------------------
+
+
+# Función para calcular frecuencias observadas y esperadas
 def calcular_frecuencias(data):
-    valores_unicos, frecuencia_observada = np.unique(data, return_counts=True)
-    tasa_promedio = np.mean(data)
-    frecuencia_esperada = [poisson.pmf(valor, tasa_promedio) * len(data) for valor in valores_unicos]
+    valores_unicos, counts = np.unique(data, return_counts=True)
+    frecuencia_observada = counts
+    mu = np.mean(data)
+    frecuencia_esperada = poisson.pmf(valores_unicos, mu) * len(data)
     return valores_unicos, frecuencia_observada, frecuencia_esperada
 
-# función para mostrar la tabla de frecuencias
+# Función para mostrar la tabla de frecuencias
 def mostrar_tabla(data):
     valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data)
     tabla_data = {"Valor": valores_unicos, "Frecuencia Observada": frecuencia_observada, "Frecuencia Esperada": frecuencia_esperada}
     tabla = st.table(tabla_data)
+# Función para calcular y mostrar la distribución de Poisson
+def plot_poisson_distribution(data):
+    mu = np.mean(data)
+    x = np.arange(0, max(data) + 1)
+    y = poisson.pmf(x, mu)
+    fit_y = poisson.pmf(x, mu)
+    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
+                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
+    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
+    st.plotly_chart(fig)
+
+# Función para calcular chi cuadrado
+def calcular_chi_cuadrado(f_obs, f_exp):
+    return np.sum((f_obs - f_exp)**2 / f_exp)
+
+# Mostrar tabla de frecuencias
+st.header('Tabla de Frecuencias Data1')
+mostrar_tabla(data1)
+
+# Calcular y mostrar distribución de Poisson
+st.header('Distribución de Poisson Data1')
+plot_poisson_distribution(data1)
+
+# Calcular chi cuadrado y mostrar resultado
+valores_unicos, frecuencia_observada, frecuencia_esperada = calcular_frecuencias(data1)
+chi_cuadrado = calcular_chi_cuadrado(frecuencia_observada, frecuencia_esperada)
+st.write(f"Valor de chi cuadrado: {chi_cuadrado}")
+
+
+#-----------------------------------
 
 # Streamlit
 st.title('Análisis de Datos')
