@@ -41,7 +41,7 @@ def plot_poisson_distribution(data, title):
     y = poisson.pmf(x, mu)
     fit_y = poisson.pmf(x, mu)
     fig = go.Figure(data=[ go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2)),
-    go.Bar(x=x, y=y, name='Distribución de Poisson', marker=dict(color='blue')) ])
+    go.Bar(x=x, y=y, name='Distribución de Poisson', marker=dict(color='Greys')) ])
     fig.update_layout(title=title, xaxis_title='Valor', yaxis_title='Probabilidad')
     return fig
 
