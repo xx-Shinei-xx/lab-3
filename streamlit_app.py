@@ -49,8 +49,8 @@ def plot_poisson_distribution(data, title):
 st.set_page_config(page_title="Análisis de Datos", page_icon=":bar_chart:", layout="wide")
 
 # Título y subtítulo
-st.title('Análisis de Datos')
-st.write("Bienvenido al análisis estadístico de los conjuntos de datos.")
+st.title('Análisis de Datos ')
+st.write("Bienvenido al análisis de datos para el laboratorio 3.")
 st.markdown("---")
 
 # Sidebar
