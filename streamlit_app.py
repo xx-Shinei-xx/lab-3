@@ -18,6 +18,17 @@ def plot_gaussian_distribution(data):
     fig.update_layout(title='Distribución Gaussiana', xaxis_title='Valor', yaxis_title='Densidad de probabilidad')
     st.plotly_chart(fig)
 
+# distribución de Poisson
+def plot_poisson_distribution(data):
+    mu = np.mean(data)
+    x = np.arange(0, max(data) + 1)
+    y = poisson.pmf(x, mu)
+    fit_y = poisson.pmf(x, mu)
+    fig = go.Figure(data=[go.Bar(x=x, y=y, name='Distribución de Poisson'),
+                          go.Scatter(x=x, y=fit_y, mode='lines', name='Ajuste de Poisson', line=dict(color='red', width=2))])
+    fig.update_layout(title='Distribución de Poisson', xaxis_title='Valor', yaxis_title='Probabilidad')
+    st.plotly_chart(fig)
+
 # función para calcular las frecuencias observadas y esperadas, y el estadístico de chi-cuadrado
 def calcular_chi_cuadrado(data):
     mu, sigma = np.mean(data), np.std(data)
@@ -43,6 +54,8 @@ if selected_data == 'data1.csv':
     st.subheader('Distribuciones en el decaimiento solo con el aire')
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data1)
+    st.subheader('Distribución de Poisson:')
+    plot_poisson_distribution(data1)
     if st.button('Mostrar Tabla'):
         mostrar_tabla(data1)
 
@@ -50,5 +63,7 @@ elif selected_data == 'data2.csv':
     st.subheader('Distribuciones en el decaimiento del cesio-137')
     st.subheader('Distribución de Gauss:')
     plot_gaussian_distribution(data2)
+    st.subheader('Distribución de Poisson:')
+    plot_poisson_distribution(data2)
     if st.button('Mostrar Tabla'):
         mostrar_tabla(data2)
