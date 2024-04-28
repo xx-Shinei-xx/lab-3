@@ -61,87 +61,87 @@ selected_option = st.sidebar.radio('Seleccionar opción:', ('Reporte', 'Data1', 
 
 # Contenido principal
 if selected_option == 'Reporte':
-    col1, col2 = st.columns(2)
+   col1, col2 = st.columns(2)
 
-  with col1:
-        st.subheader('Resumen')
-        st.markdown(
-            """
-            En los procesos atómicos, se generan partículas con altas velocidades. El Cesio-137, un isótopo radioactivo, emite una cantidad de estas partículas de alta velocidad y energía, conocidas como 'partículas beta'. La medición de estas partículas es factible mediante un instrumento llamado contador Geiger, el cual cuantifica la cantidad de partículas que atraviesan el detector. Al realizar mediciones experimentales de la desintegración de un número determinado de partículas, podemos prever la cantidad de partículas que se desintegran mediante un ajuste de nuestros datos experimentales.
-            """
-        )
-        st.subheader('Objetivos')
-        st.subheader('Generales')
-        st.markdown(
-            """
-            - Llevar a cabo el análisis para cuantificar las partículas de alta velocidad generadas por el Cesio-137, así como realizar mediciones en condiciones ambientales normales.
-            """
-        )
-        st.subheader('Específicos')
-        st.markdown(
-            """
-            - Verificar qué tipo de distribución se ajusta de mejor manera a los datos tomados.
-            - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
-            """
-        )
-        
-        st.subheader('Marco Teórico')
-        st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
-            """
-        )
-        st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
-
-        st.write("<div class='big-title'>Distribución de Poisson</div>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
-            """
-        )
-        st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
-
-    with col2:
-        st.subheader('Diseño Experimental')
-        st.markdown(
-            """
-            Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
-            """
-        )
-        st.markdown(
-            """
-            - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
-            - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
-            """
-        )
-
-    st.subheader('Discusión de Resultados')
+with col1:
+    st.subheader('Resumen')
     st.markdown(
         """
-        - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
-        - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
+        En los procesos atómicos, se generan partículas con altas velocidades. El Cesio-137, un isótopo radioactivo, emite una cantidad de estas partículas de alta velocidad y energía, conocidas como 'partículas beta'. La medición de estas partículas es factible mediante un instrumento llamado contador Geiger, el cual cuantifica la cantidad de partículas que atraviesan el detector. Al realizar mediciones experimentales de la desintegración de un número determinado de partículas, podemos prever la cantidad de partículas que se desintegran mediante un ajuste de nuestros datos experimentales.
+        """
+    )
+    st.subheader('Objetivos')
+    st.subheader('Generales')
+    st.markdown(
+        """
+        - Llevar a cabo el análisis para cuantificar las partículas de alta velocidad generadas por el Cesio-137, así como realizar mediciones en condiciones ambientales normales.
+        """
+    )
+    st.subheader('Específicos')
+    st.markdown(
+        """
+        - Verificar qué tipo de distribución se ajusta de mejor manera a los datos tomados.
+        - Comprobar que existe una diferencia entre las mediciones usando el Cesio-137 y las mediciones en un ambiente normal.
         """
     )
     
-    st.subheader('Conclusiones')
+    st.subheader('Marco Teórico')
+    st.write("<div class='big-title'>Distribución Gaussiana</div>", unsafe_allow_html=True)
     st.markdown(
         """
-        - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
+        La distribución gaussiana es una distribución de probabilidad con forma de campana. Surge como una aproximación a la distribución binomial en un caso límite particular, donde el número de posibles observaciones distintas, n, tiende a infinito y la probabilidad de éxito para cada observación es significativa.
         """
     )
-    
-    st.subheader('Referencias')
+    st.latex(r'''P_G= \frac{1}{\sigma\sqrt(2\pi)} exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]''')
+
+    st.write("<div class='big-title'>Distribución de Poisson</div>", unsafe_allow_html=True)
     st.markdown(
         """
-        - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
-        - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
-        - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
-        - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
-        - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
-        - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+        La distribución de Poisson es una aproximación a la distribución binomial en situaciones donde el número promedio de éxitos es mucho menor que el número total de eventos posibles. Esta distribución se centra en el número promedio de eventos esperados en cada intervalo de tiempo, proporcionando una forma más simple de modelar la probabilidad en función de este parámetro.
         """
     )
+    st.latex(r'''P_B= \frac{1}{x!}\frac{n!}{(n-x)!}p^x(1-p)^{-x}(1-p)^n''')
+
+with col2:
+    st.subheader('Diseño Experimental')
+    st.markdown(
+        """
+        Para el experimento, se utilizó cesio-137, un contador Geiger y papel para registrar la cantidad de partículas que medía nuestra herramienta. El proceso es el siguiente:
+        """
+    )
+    st.markdown(
+        """
+        - Se conectó el contador Geiger a una fuente de poder. Esta fuente de poder tiene que calibrarse para poder cotabilizar de manera correcta el decaimiento.
+        - Se registró el número de partículas detectadas por el contador Geiger en dos escenarios: utilizando cesio-137 y en un entorno natural (el aire).
+        """
+    )
+
+st.subheader('Discusión de Resultados')
+st.markdown(
+    """
+    - La distribución Gaussiana parece ajustarse de mejor manera a los datos tomados en un medio natural.
+    - La distribución de Poisson se ajusta de manera correcta a los datos medidos con el Cesio-137.
+    """
+)
+
+st.subheader('Conclusiones')
+st.markdown(
+    """
+    - Existe una notable diferencia entre las mediciones de decaimiento entre los casos del Cesio-137 y el medio natural. Además, las elecciones de los ajustes fueron acertadas para el comportamiento que tenían las mediciones de datos.
+    """
+)
+
+st.subheader('Referencias')
+st.markdown(
+    """
+    - Taylor, John R. “An introduction to error analysis, The study of uncertainties in physical measurements”. Second edition. University science books. 1982.
+    - Bevington, P. R. (2003). "Data Reduction and Error Analysis for the Physical Sciences". McGraw-Hill Education.
+    - Taylor, J. R. (1997). "An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements" (2nd ed.). University Science Books.
+    - [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
+    - [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
+    - [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+    """
+)
 
 elif selected_option == 'Data1':
     st.subheader('Decaimiento solo con el aire')
