@@ -46,7 +46,6 @@ def mostrar_tabla_y_chi(data):
     st.write(f"Valor de chi cuadrado: {chi_cuadrado:.2f}")
 
 #ssssssssssss
-
 def plot_gaussian_distribution(data, title):
     mu, sigma = np.mean(data), np.std(data)
     x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
@@ -57,7 +56,7 @@ def plot_gaussian_distribution(data, title):
     colorscale = [[i / (len(rainbow_colors) - 1), color] for i, color in enumerate(rainbow_colors)]
     
     # Crear el histograma con colores basados en el valor
-    hist = go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(colorscale=colorscale, showscale=True))
+    hist = go.Histogram(x=data, histnorm='probability density', name='Distribución Gaussiana', marker=dict(color=data, colorscale=colorscale, showscale=True))
     
     # Crear la figura con el ajuste de Gauss
     fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Ajuste de Gauss'))
